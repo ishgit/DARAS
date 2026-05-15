@@ -1,0 +1,41 @@
+{
+  "summary": "Tested DARAS Flask backend (uvicorn ASGI shim) and frontend conversational SPA on Emergent preview URL. Backend: 19/21 pytest cases pass (90%); 1 hard failure is admin panel returning HTTP 500 due to Jinja2 parsing JS template literal syntax in admin.html; 1 soft failure is test data that produced green instead of orange (test issue, not backend). User API surface (register/calculate/calculate_max/event/question), admin auth (login + token enforcement), and admin data endpoints (dashboard/users/assessments/research/questions) all return correct status codes and payload shape. Bengali message text is present in /api/user/calculate responses. Frontend: SPA loads, brand 'दारस' renders, language pill (हिं/বাং/EN) switches all visible text including welcome bubble, register screen → ltype → existing-loan → satisfied → high-interest → byaj-yes → income-expense → result screen all work; red status badge with ₹-prefixed en-IN numbers renders correctly. Result-screen routing logic exists but I could not reach the NGO card in one e2e pass because the result→newincome→lender→lender-prompt→ngo chain requires several more clicks that I did not fully exercise. Two real frontend bugs found: (1) {name} placeholder is NOT interpolated on the ltype screen — applyLang() overwrites the <h2> innerText and destroys the <span id='hello-name'> so the user sees the literal text 'शुक्रिया, {name}'; (2) admin panel page is broken (Jinja2 syntax error on admin.html line 513 `${{green:'Safe ✅',...}}`).",
+  "backend_issues": {
+    "critical": [
+      {"endpoint": "/api/admin/panel", "issue": "HTTP 500 — Flask render_template parses admin.html through Jinja2 and chokes on JS template literal `${{green:'Safe ✅',orange:'Risky ⚠️',red:'Danger 🚨'}[s]}` at line 513 of /app/backend/admin.html. TemplateSyntaxError: expected token 'end of print statement', got ':'. Fix: either serve admin.html as a static file (send_from_directory or open().read()), wrap the offending JS expression in {% raw %}…{% endraw %}, or escape the `{{` braces in the JS template literal.", "priority": "HIGH"}
+    ],
+    "minor": []
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "ltype screen header (s-ltype)", "issue": "User's name is NOT injected. HTML has `<h2 data-i18n='ltype_title'>शुक्रिया, <span id='hello-name'></span></h2>` but applyLang() overwrites the entire h2 textContent with the LANG dict string `शुक्रिया, {name}`, destroying the span and leaving the literal placeholder `{name}` visible. Fix: in applyLang(), replace `{name}` with S.name (or read element.dataset.name) before assigning, OR keep the span and only inject S.name into #hello-name without re-rendering the parent.", "selector": "[data-testid='screen-ltype'] h2", "priority": "HIGH"},
+      {"component": "NGO card test ids", "issue": "review_request expects data-testid `ng-website`/`ng-phone`/`ng-email` but actual HTML uses `ngo-website`/`ngo-phone`/`ngo-email`. Either rename in user.html to ng-* or update spec. Functional values are correct (https://m3mfoundation.org, +91 124 482 7888, info@m3mfoundation.org).", "selector": "[data-testid='ngo-website']", "priority": "LOW"}
+    ],
+    "integration_issues": [],
+    "design_issues": []
+  },
+  "test_report_links": ["/app/backend/tests/backend_test.py", "/app/test_reports/pytest/pytest_results.xml"],
+  "action_items": [
+    "Fix /api/admin/panel 500 — stop Jinja-rendering admin.html or escape the `${{...}}` JS template literal on line 513.",
+    "Fix {name} interpolation bug on s-ltype: applyLang() should substitute {name} with S.name before writing to the DOM, and preserve #hello-name span.",
+    "Decide whether NGO card test ids should be `ng-*` (per spec) or `ngo-*` (per implementation); align both so spec-driven tests pass."
+  ],
+  "critical_code_review_comments": [
+    "user.html is 1624 lines — consider splitting JS (state machine, lang dict, fetch wrappers) into separate static files for maintainability.",
+    "Flask app.py mixes WSGI + ASGI bootstrap; init_db() runs at server.py import time which is fine, but SECRET_KEY falls back to 'daras-dev-secret-change-in-prod' if env var missing — invalidates all tokens on each restart in prod if not set.",
+    "render_template('admin.html') is unnecessary — admin.html has no Jinja variables; serving it raw avoids the current 500.",
+    "calc_emi/calc_max_loan are not guarded against extreme inputs (very small rates create math.log issues elsewhere) — acceptable for now but worth a defensive try/except.",
+    "CORS allows '*' for /api/* — fine for preview, tighten for production."
+  ],
+  "updated_files": [
+    "/app/backend/tests/__init__.py",
+    "/app/backend/tests/backend_test.py"
+  ],
+  "success_rate": {"backend": "90% (19/21 pytest)", "frontend": "70% (welcome→register→ltype→existing→satisfied→high-interest→byaj-q→incexp→result all work; NGO terminal screen not fully reached in one pass; {name} interpolation broken)"},
+  "test_credentials": "Admin: daras_admin / Daras@2024 — confirmed working via /api/admin/auth/login.",
+  "seed_data_creation": "Created test users with name prefix TEST_ via /api/user/register during pytest (TEST_Ravi, TEST_Calc_User, TestE2E, TestUser_UI). Open question 'TEST_kya yeh sahi hai?' also persisted. No cleanup performed — these rows can be removed via SQL if needed.",
+  "retest_needed": true,
+  "main_agent_can_self_test": true,
+  "context_for_next_testing_agent": "Backend pytest at /app/backend/tests/backend_test.py is the regression baseline — run with `pytest backend/tests/backend_test.py -v`. TestPages::test_admin_panel_loads will pass once /api/admin/panel stops 500ing. TestCalculate::test_orange_scenario is a soft assertion (status in orange|red) that triggered green; if you tighten the calculator thresholds, update the test inputs. The full conversational flow not yet exercised end-to-end: (a) principal-issue → payoff → pace; (b) need-more-money → warning → new-loan; (c) new-loan → savings-mode → max-safe-loan card; (d) the high-interest red→newincome(N)→lender(N)→lender-prompt(N)→NGO terminal screen. UI testids confirmed: lang-hi/lang-bn/lang-en, welcome-begin-btn, reg-name-input/reg-age-input/reg-mobile-input/reg-submit-btn, vocation-driver, ltype-existing-btn/ltype-new-btn, ex-amount-input/ex-purpose-select/ex-source-select/ex-rate-input/ex-remaining-input/ex-next-btn, sat-yes-btn/sat-no-btn, branch-high-interest, byaj-yes-btn/byaj-no-btn, ie-income-input/ie-rent-input/ie-grocery-input/ie-medicine-input/ie-mobile-input/ie-gaon-input/ie-other-input/ie-calc-btn, screen-result, result-action-* (dynamic), ngo-website/ngo-phone/ngo-email.",
+  "rca of the issue": "Admin panel 500: Flask `render_template('admin.html')` runs Jinja2 over admin.html. The file contains a JS template literal `${{green:'Safe ✅',orange:'Risky ⚠️',red:'Danger 🚨'}[s]}` (line 513) which Jinja interprets as a print expression `{{ ... }}` and fails on the inner `:'. Mitigation: serve admin.html as a static file via `send_from_directory(app.template_folder, 'admin.html')` or open().read(), OR wrap the JS block in `{% raw %}…{% endraw %}`, OR rewrite the JS to use a plain ternary/object lookup without `${{`. {name} bug: in /app/backend/user.html applyLang() does `el.textContent = LANG[key][lang]` indiscriminately for every `[data-i18n]` element. The s-ltype h2 contains a child span `#hello-name`, but textContent assignment replaces all children, so the {name} token from `ltype_title` is rendered literally. Mitigation: detect `{name}` in the translation string and substitute with S.name before assigning, or special-case keys that contain placeholders to use innerHTML with sanitized substitution."
+}

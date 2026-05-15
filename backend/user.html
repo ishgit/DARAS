@@ -1,0 +1,1623 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="#FBF7F2"/>
+<title>दारस DARAS — आपका वित्तीय मित्र</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700&family=Hind:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --cream:#FBF7F2; --paper:#FFFFFF; --paper-soft:#FCF8F1;
+  --ink:#292524; --ink-soft:#57534E; --ink-faint:#A8A29E;
+  --terra:#B4532A; --terra-dark:#8C3F1F; --terra-soft:#FFF1E4;
+  --teal:#0F766E; --teal-dark:#0B5D56; --teal-soft:#E6F4F2;
+  --gold:#B45309; --gold-soft:#FEF3C7;
+  --green:#15803D; --green-soft:#DCFCE7;
+  --orange:#D97706; --orange-soft:#FFEDD5;
+  --red:#B91C1C; --red-soft:#FEE2E2;
+  --line:#E7E0D5; --line-soft:#F0EAD9;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--cream);color:var(--ink);line-height:1.6;min-height:100vh}
+body{font-family:'Manrope','Hind',sans-serif;font-feature-settings:"ss01" on}
+html[lang="hi"] body{font-family:'Hind','Manrope',sans-serif}
+html[lang="bn"] body{font-family:'Noto Sans Bengali','Manrope',sans-serif}
+html[lang="en"] body{font-family:'Manrope',sans-serif}
+
+.bg-deco{position:fixed;inset:0;pointer-events:none;z-index:-1;overflow:hidden}
+.bg-deco::before,.bg-deco::after{content:"";position:absolute;border-radius:50%;filter:blur(80px);opacity:.4}
+.bg-deco::before{top:-10%;right:-10%;width:380px;height:380px;background:radial-gradient(circle,#FFE1C7,transparent 70%)}
+.bg-deco::after{bottom:-10%;left:-10%;width:380px;height:380px;background:radial-gradient(circle,#D6EBE8,transparent 70%)}
+
+.app{max-width:740px;margin:0 auto;padding:14px 18px 120px;min-height:100vh;position:relative}
+
+/* Sticky top bar */
+.topbar{position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;margin:-14px -18px 18px;backdrop-filter:blur(14px);background:rgba(251,247,242,.78);border-bottom:1px solid rgba(231,224,213,.6)}
+.brand{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:600;font-size:20px;color:var(--terra);letter-spacing:-0.02em}
+.brand-mark{width:30px;height:30px;border-radius:50%;background:var(--terra);position:relative;box-shadow:0 4px 10px rgba(180,83,42,.25)}
+.brand-mark::after{content:"";position:absolute;inset:7px;border-radius:50%;background:var(--gold)}
+.brand-mark::before{content:"";position:absolute;inset:-3px;border-radius:50%;border:1.5px dashed rgba(180,83,42,.35)}
+.brand small{display:block;font-family:'Manrope',sans-serif;font-size:11px;color:var(--ink-soft);font-weight:500;letter-spacing:.04em;text-transform:uppercase;margin-top:-2px}
+html[lang="hi"] .brand small{font-family:'Hind',sans-serif}
+html[lang="bn"] .brand small{font-family:'Noto Sans Bengali',sans-serif}
+
+.lang-switch{display:flex;gap:4px;padding:4px;background:var(--paper);border:1px solid var(--line);border-radius:999px;box-shadow:0 2px 6px rgba(40,30,15,.05)}
+.lang-btn{padding:6px 12px;font-size:12px;font-weight:600;border:0;background:transparent;cursor:pointer;border-radius:999px;color:var(--ink-soft);transition:background-color .2s,color .2s;font-family:inherit;letter-spacing:.02em}
+.lang-btn.on{background:var(--terra);color:white;box-shadow:0 2px 6px rgba(180,83,42,.3)}
+.lang-btn:hover:not(.on){background:var(--terra-soft);color:var(--terra-dark)}
+
+/* Progress */
+.progress-row{display:flex;align-items:center;gap:10px;margin:6px 4px 14px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;background:var(--paper);border:1px solid var(--line);border-radius:999px;font-size:11px;color:var(--ink-soft);font-weight:700;letter-spacing:.06em;text-transform:uppercase}
+.chip .dot{width:6px;height:6px;border-radius:50%;background:var(--teal)}
+.back-btn{display:inline-flex;align-items:center;gap:6px;padding:6px 12px;background:transparent;border:0;color:var(--ink-soft);font-size:13px;font-weight:600;cursor:pointer;border-radius:999px;font-family:inherit;transition:background .2s,color .2s}
+.back-btn[hidden]{display:none}
+.back-btn:hover{background:var(--paper);color:var(--ink)}
+
+/* Bubble cards */
+.bubble{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:28px 26px;box-shadow:0 6px 18px rgba(40,30,15,.04);margin-bottom:18px;position:relative}
+.bubble.warm{background:linear-gradient(180deg,#FFFCF6,#FFF4DD);border-color:#EAD3A4}
+.bubble.danger{background:linear-gradient(180deg,#FFF4F4,#FEE2E2);border-color:#FCA5A5}
+.bubble.good{background:linear-gradient(180deg,#F2FDF5,#DCFCE7);border-color:#86EFAC}
+.bubble.teal{background:linear-gradient(180deg,#F1FAF9,#D6EFEC);border-color:#5EEAD4}
+
+.bubble h1{font-family:'Fraunces',serif;font-weight:600;font-size:34px;line-height:1.15;color:var(--ink);letter-spacing:-0.02em;margin-bottom:12px}
+html[lang="hi"] .bubble h1,html[lang="bn"] .bubble h1{font-family:inherit;font-weight:700;font-size:30px}
+.bubble h2{font-family:'Fraunces',serif;font-weight:600;font-size:24px;line-height:1.25;color:var(--ink);margin-bottom:10px}
+html[lang="hi"] .bubble h2,html[lang="bn"] .bubble h2{font-family:inherit;font-weight:700;font-size:22px}
+.bubble p{color:var(--ink-soft);font-size:16px;margin-bottom:10px}
+.bubble p.lead{font-size:18px;color:var(--ink);line-height:1.55}
+.bubble p:last-child{margin-bottom:0}
+
+/* Inputs */
+.field{margin:14px 0}
+.field label{display:block;font-size:12px;font-weight:700;color:var(--ink-soft);margin-bottom:6px;letter-spacing:.06em;text-transform:uppercase}
+.field input,.field select,.field textarea{width:100%;padding:14px 16px;font-size:17px;background:var(--cream);border:1.5px solid var(--line);border-radius:14px;color:var(--ink);font-family:inherit;transition:border-color .2s,background .2s,box-shadow .2s}
+.field input:focus,.field select:focus,.field textarea:focus{outline:0;border-color:var(--terra);background:var(--paper);box-shadow:0 0 0 4px var(--terra-soft)}
+.field .help{font-size:12px;color:var(--ink-faint);margin-top:4px}
+.field-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px}
+
+.rupee{position:relative}
+.rupee::before{content:"₹";position:absolute;left:16px;top:50%;transform:translateY(-50%);color:var(--ink-soft);font-weight:700;pointer-events:none}
+.rupee input{padding-left:34px}
+
+/* Buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;font-size:16px;font-weight:600;border:0;border-radius:999px;cursor:pointer;font-family:inherit;transition:transform .15s ease,background-color .2s,box-shadow .2s;text-decoration:none}
+.btn-primary{background:var(--terra);color:white;box-shadow:0 6px 16px rgba(180,83,42,.28)}
+.btn-primary:hover{background:var(--terra-dark);transform:translateY(-1px);box-shadow:0 10px 22px rgba(180,83,42,.32)}
+.btn-ghost{background:var(--paper);color:var(--ink);border:1.5px solid var(--line)}
+.btn-ghost:hover{background:var(--cream);border-color:var(--ink-soft);transform:translateY(-1px)}
+.btn-teal{background:var(--teal);color:white;box-shadow:0 6px 16px rgba(15,118,110,.28)}
+.btn-teal:hover{background:var(--teal-dark);transform:translateY(-1px)}
+.btn-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}
+.btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
+
+/* Option grid */
+.opt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:14px}
+.opt-card{background:var(--paper);border:1.5px solid var(--line);border-radius:18px;padding:16px 12px;cursor:pointer;text-align:center;transition:border-color .2s,background .2s,transform .15s,box-shadow .2s;display:flex;flex-direction:column;align-items:center;gap:8px;font-weight:600;color:var(--ink);font-size:14px;font-family:inherit;width:100%}
+.opt-card:hover{border-color:var(--terra);transform:translateY(-2px);box-shadow:0 6px 14px rgba(180,83,42,.1)}
+.opt-card.selected{border-color:var(--terra);background:var(--terra-soft)}
+.opt-card .ic{width:42px;height:42px;color:var(--terra);display:flex;align-items:center;justify-content:center;background:var(--terra-soft);border-radius:14px;flex-shrink:0}
+.opt-card .ic svg{width:24px;height:24px}
+
+/* List options (full width) */
+.opt-list{display:flex;flex-direction:column;gap:10px;margin-top:14px}
+.opt-row{display:flex;align-items:center;gap:14px;padding:14px 16px;background:var(--paper);border:1.5px solid var(--line);border-radius:16px;cursor:pointer;transition:all .2s;text-align:left;font-family:inherit;width:100%;color:var(--ink);font-size:15px;font-weight:600}
+.opt-row:hover{border-color:var(--terra);background:var(--terra-soft);transform:translateX(2px)}
+.opt-row.selected{border-color:var(--terra);background:var(--terra-soft)}
+.opt-row .ic{width:36px;height:36px;background:var(--terra-soft);color:var(--terra);border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.opt-row .ic svg{width:20px;height:20px}
+.opt-row .title{font-weight:700;font-size:15px;color:var(--ink);display:block}
+.opt-row .sub{font-size:12px;color:var(--ink-soft);font-weight:500;display:block;margin-top:1px}
+.opt-row .body{flex:1;min-width:0}
+
+/* Yes/No pill row */
+.yn-row{display:flex;gap:14px;margin-top:18px}
+.yn-btn{flex:1;padding:24px 16px;border-radius:20px;font-size:18px;font-weight:700;background:var(--paper);border:2px solid var(--line);cursor:pointer;color:var(--ink);font-family:inherit;transition:all .2s}
+.yn-btn .em{display:block;font-size:30px;margin-bottom:4px;line-height:1}
+.yn-btn.yes:hover{border-color:var(--green);background:var(--green-soft);color:var(--green);transform:translateY(-2px)}
+.yn-btn.no:hover{border-color:var(--red);background:var(--red-soft);color:var(--red);transform:translateY(-2px)}
+
+/* Status / result */
+.status-badge{display:inline-flex;align-items:center;gap:8px;padding:8px 16px;border-radius:999px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.status-badge.green{background:var(--green-soft);color:var(--green)}
+.status-badge.orange{background:var(--orange-soft);color:var(--orange)}
+.status-badge.red{background:var(--red-soft);color:var(--red)}
+.status-badge::before{content:"";width:8px;height:8px;border-radius:50%;background:currentColor}
+
+.result-num{font-family:'Fraunces',serif;font-size:38px;font-weight:600;color:var(--ink);margin:12px 0;line-height:1}
+.money-list{margin-top:18px;background:var(--paper-soft);border-radius:14px;padding:6px 16px}
+.money-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px dashed var(--line);font-size:15px}
+.money-row:last-child{border:0}
+.money-row .k{color:var(--ink-soft)}
+.money-row .v{font-weight:700;color:var(--ink);font-variant-numeric:tabular-nums}
+.money-row .v.red{color:var(--red)}
+.money-row .v.green{color:var(--green)}
+.money-row .v.orange{color:var(--orange)}
+
+/* Callouts */
+.callout-warn{background:linear-gradient(135deg,#FEF3C7,#FDE68A);border:2px solid #F59E0B;border-radius:20px;padding:20px;margin:16px 0;color:#78350F;font-weight:600;display:flex;gap:14px;align-items:flex-start}
+.callout-warn .ic{flex-shrink:0;width:36px;height:36px;background:#F59E0B;color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:20px;font-family:'Fraunces',serif}
+.callout-warn .title{font-family:'Fraunces',serif;font-weight:700;font-size:17px;color:#78350F;margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em}
+html[lang="hi"] .callout-warn .title,html[lang="bn"] .callout-warn .title{font-family:inherit}
+
+.callout-info{background:var(--teal-soft);border:1.5px solid #5EEAD4;border-radius:18px;padding:16px 18px;margin:14px 0;color:var(--teal-dark);font-size:14px;display:flex;gap:12px;align-items:flex-start}
+.callout-info .ic{flex-shrink:0;color:var(--teal)}
+
+.ngo-card{background:linear-gradient(180deg,#F0FDF4,#DCFCE7);border:2px solid var(--teal);border-radius:22px;padding:24px;margin:18px 0}
+.ngo-card h3{color:var(--teal-dark);margin-bottom:6px;font-family:'Fraunces',serif;font-size:22px;font-weight:700}
+html[lang="hi"] .ngo-card h3,html[lang="bn"] .ngo-card h3{font-family:inherit}
+.ngo-card .ngo-lines{margin-top:14px;display:flex;flex-direction:column;gap:8px}
+.ngo-card .ngo-lines a{color:var(--teal-dark);font-weight:700;text-decoration:none;display:inline-flex;gap:8px;align-items:center}
+.ngo-card .ngo-lines a:hover{text-decoration:underline}
+
+/* Screens */
+.screen{display:none}
+.screen.on{display:block;animation:fadein .4s ease both}
+@keyframes fadein{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* Footer / disclaimer */
+.footer{text-align:center;margin-top:48px;padding-top:24px;border-top:1px dashed var(--line);color:var(--ink-soft);font-size:12px;line-height:1.6}
+.footer .small-disc{max-width:520px;margin:6px auto;font-style:italic}
+
+/* Decorative top illustration */
+.illus{display:flex;justify-content:center;margin:-6px 0 12px;color:var(--terra)}
+.illus svg{width:120px;height:auto}
+
+@media (max-width:520px){
+  .bubble h1{font-size:28px}
+  html[lang="hi"] .bubble h1,html[lang="bn"] .bubble h1{font-size:26px}
+  .bubble{padding:22px 18px;border-radius:20px}
+  .opt-grid{grid-template-columns:repeat(2,1fr)}
+  .topbar{padding:10px 14px;margin:-14px -18px 14px}
+  .brand{font-size:17px}
+  .brand small{font-size:10px}
+  .yn-btn{font-size:16px;padding:18px 12px}
+  .yn-btn .em{font-size:26px}
+}
+</style>
+</head>
+<body>
+<div class="bg-deco" aria-hidden="true"></div>
+
+<div class="app" data-testid="daras-app">
+
+  <!-- Top bar -->
+  <header class="topbar" data-testid="top-bar">
+    <div class="brand">
+      <span class="brand-mark" aria-hidden="true"></span>
+      <span>
+        <span data-i18n="brand">दारस</span>
+        <small data-i18n="brand_tag">आपका वित्तीय मित्र</small>
+      </span>
+    </div>
+    <div class="lang-switch" role="tablist" aria-label="Language">
+      <button class="lang-btn on" data-lang="hi" data-testid="lang-hi">हिं</button>
+      <button class="lang-btn" data-lang="bn" data-testid="lang-bn">বাং</button>
+      <button class="lang-btn" data-lang="en" data-testid="lang-en">EN</button>
+    </div>
+  </header>
+
+  <div class="progress-row">
+    <button class="back-btn" id="back-btn" data-testid="back-btn" hidden>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
+      <span data-i18n="nav_back">वापस</span>
+    </button>
+    <span class="chip" id="progress-chip" data-testid="progress-chip"><span class="dot"></span><span data-i18n="step_welcome">शुरुआत</span></span>
+  </div>
+
+  <!-- ─── 1. WELCOME ─────────────────────────────── -->
+  <section class="screen on" id="s-welcome" data-testid="screen-welcome">
+    <div class="bubble warm">
+      <div class="illus" aria-hidden="true">
+        <svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
+          <ellipse cx="100" cy="125" rx="60" ry="6" fill="#000" opacity=".06"/>
+          <path d="M100 35 C 80 35, 70 60, 80 80 L 120 80 C 130 60, 120 35, 100 35 Z" fill="#B4532A"/>
+          <ellipse cx="100" cy="80" rx="22" ry="6" fill="#8C3F1F"/>
+          <rect x="92" y="80" width="16" height="22" rx="2" fill="#8C3F1F"/>
+          <path d="M100 25 C 96 18, 95 12, 100 8 C 105 12, 104 18, 100 25 Z" fill="#FBBF24"/>
+          <circle cx="100" cy="22" r="3" fill="#FEF3C7"/>
+        </svg>
+      </div>
+      <h1 data-i18n="welcome_title">नमस्ते 🙏</h1>
+      <p class="lead" data-i18n="welcome_promise"></p>
+      <div class="btn-row">
+        <button class="btn btn-primary" data-go="s-register" data-testid="welcome-begin-btn">
+          <span data-i18n="welcome_begin">आगे बढ़ें</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="callout-info">
+      <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      <div data-i18n="welcome_privacy"></div>
+    </div>
+  </section>
+
+  <!-- ─── 2. REGISTER ─────────────────────────────── -->
+  <section class="screen" id="s-register" data-testid="screen-register">
+    <div class="bubble">
+      <h2 data-i18n="reg_title">अपना परिचय दें</h2>
+      <p data-i18n="reg_sub">सिर्फ नाम और मोबाइल काफी है। बाकी आप जब चाहें तब बताएँ।</p>
+
+      <div class="field">
+        <label data-i18n="reg_name">नाम</label>
+        <input type="text" id="in-name" data-i18n-placeholder="reg_name_ph" placeholder="आपका पूरा नाम" data-testid="reg-name-input"/>
+      </div>
+      <div class="field-grid">
+        <div class="field">
+          <label data-i18n="reg_age">उम्र</label>
+          <input type="number" id="in-age" min="14" max="99" data-i18n-placeholder="reg_age_ph" placeholder="वर्षों में" data-testid="reg-age-input"/>
+        </div>
+        <div class="field">
+          <label data-i18n="reg_mobile">मोबाइल</label>
+          <input type="tel" id="in-mobile" maxlength="10" data-i18n-placeholder="reg_mobile_ph" placeholder="10 अंक" data-testid="reg-mobile-input"/>
+        </div>
+      </div>
+
+      <div class="field" style="margin-top:18px">
+        <label data-i18n="reg_vocation">आप क्या काम करते हैं?</label>
+        <div class="opt-grid" id="vocation-grid"></div>
+      </div>
+      <div class="field" id="vocation-custom-wrap" style="display:none">
+        <label data-i18n="reg_voc_custom">कौन-सा काम? (बताएँ)</label>
+        <input type="text" id="in-vocation-custom" data-testid="reg-vocation-custom-input"/>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btn-register" data-testid="reg-submit-btn">
+          <span data-i18n="reg_continue">आगे बढ़ें</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 3. LOAN TYPE ─────────────────────────────── -->
+  <section class="screen" id="s-ltype" data-testid="screen-ltype">
+    <div class="bubble">
+      <h2 data-i18n="ltype_title">शुक्रिया, <span id="hello-name"></span></h2>
+      <p class="lead" data-i18n="ltype_trust">हम पर भरोसा दिखाने के लिए धन्यवाद। अब बताइए —</p>
+      <h2 style="margin-top:18px" data-i18n="ltype_question">आपका लोन पहले से है, या नया लोन चाहिए?</h2>
+      <div class="yn-row">
+        <button class="yn-btn yes" data-set-ltype="existing" data-testid="ltype-existing-btn">
+          <span class="em">📋</span><span data-i18n="ltype_existing">पुराना लोन है</span>
+        </button>
+        <button class="yn-btn no" data-set-ltype="new" data-testid="ltype-new-btn">
+          <span class="em">✨</span><span data-i18n="ltype_new">नया लोन चाहिए</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 4. EXISTING DETAILS ─────────────────────────────── -->
+  <section class="screen" id="s-existing" data-testid="screen-existing">
+    <div class="bubble">
+      <h2 data-i18n="ex_title">आपका मौजूदा लोन</h2>
+      <p data-i18n="ex_sub">पाँच छोटे सवाल। फिर हम बात करते हैं कि आप कितना संतुष्ट हैं।</p>
+
+      <div class="field rupee">
+        <label data-i18n="ex_amount">कुल लोन कितना है?</label>
+        <input type="number" id="ex-amount" min="0" data-i18n-placeholder="ex_amount_ph" placeholder="50000" data-testid="ex-amount-input"/>
+      </div>
+
+      <div class="field">
+        <label data-i18n="ex_purpose">किसलिए लिया है?</label>
+        <select id="ex-purpose" data-testid="ex-purpose-select"></select>
+      </div>
+
+      <div class="field">
+        <label data-i18n="ex_source">किससे लिया है?</label>
+        <select id="ex-source" data-testid="ex-source-select"></select>
+        <div class="help" id="source-help" data-i18n="ex_source_help"></div>
+      </div>
+
+      <div class="field-grid">
+        <div class="field">
+          <label data-i18n="ex_rate">ब्याज दर (% सालाना)</label>
+          <input type="number" id="ex-rate" min="0" step="0.5" data-i18n-placeholder="ex_rate_ph" placeholder="जैसे: 18" data-testid="ex-rate-input"/>
+        </div>
+        <div class="field rupee">
+          <label data-i18n="ex_remaining">कितना बाकी है?</label>
+          <input type="number" id="ex-remaining" min="0" data-i18n-placeholder="ex_remaining_ph" placeholder="कितना चुकाना बाकी" data-testid="ex-remaining-input"/>
+        </div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" data-go="s-satisfied" id="btn-existing-next" data-testid="ex-next-btn">
+          <span data-i18n="reg_continue">आगे बढ़ें</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 5. SATISFIED GATE ─────────────────────────────── -->
+  <section class="screen" id="s-satisfied" data-testid="screen-satisfied">
+    <div class="bubble warm">
+      <h2 data-i18n="sat_title">क्या आप अपने मौजूदा लोन से संतुष्ट हैं?</h2>
+      <p class="lead" data-i18n="sat_sub">कोई भी जवाब सही है। बस सच्चाई से बताइए — मैं आपकी मदद के लिए हूँ।</p>
+      <div class="yn-row">
+        <button class="yn-btn yes" data-go="s-helpopen" data-testid="sat-yes-btn">
+          <span class="em">😊</span><span data-i18n="sat_yes">हाँ, संतुष्ट हूँ</span>
+        </button>
+        <button class="yn-btn no" data-go="s-unhappy" data-testid="sat-no-btn">
+          <span class="em">😕</span><span data-i18n="sat_no">नहीं, समस्या है</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 6. SATISFIED → ANY OPEN QUESTION ─────────────────────────────── -->
+  <section class="screen" id="s-helpopen" data-testid="screen-helpopen">
+    <div class="bubble good">
+      <h2 data-i18n="open_title">क्या मैं और कोई मदद कर सकता हूँ?</h2>
+      <p data-i18n="open_sub">कोई भी सवाल लिखें — पैसों, बैंक, ब्याज, बचत — कुछ भी। हम कोशिश करेंगे।</p>
+      <div class="field">
+        <textarea id="open-q" rows="4" data-i18n-placeholder="open_ph" placeholder="आप क्या जानना चाहते हैं?" data-testid="open-question-textarea"></textarea>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btn-open-submit" data-testid="open-submit-btn">
+          <span data-i18n="open_submit">भेजें</span>
+        </button>
+        <button class="btn btn-ghost" data-go="s-endgrace" data-testid="open-skip-btn">
+          <span data-i18n="open_skip">अभी छोड़ें</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 7. END GRACEFUL ─────────────────────────────── -->
+  <section class="screen" id="s-endgrace" data-testid="screen-endgrace">
+    <div class="bubble good">
+      <h2 data-i18n="end_title">सुन कर बहुत खुशी हुई 🙏</h2>
+      <p class="lead" data-i18n="end_body">हम पर भरोसा दिखाने के लिए बहुत शुक्रिया। मैं आपका दोस्त हूँ — कभी भी मदद चाहिए, बिना झिझक इस ऐप पर आइए।</p>
+      <div class="btn-row">
+        <button class="btn btn-ghost" data-go="s-welcome" data-testid="end-restart-btn">
+          <span data-i18n="end_restart">शुरू से शुरू करें</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 8. UNHAPPY → CHOOSE REASON ─────────────────────────────── -->
+  <section class="screen" id="s-unhappy" data-testid="screen-unhappy">
+    <div class="bubble">
+      <h2 data-i18n="un_title">किस बात से नाखुश हैं?</h2>
+      <p data-i18n="un_sub">एक चुनिए — हम उसी पर बात करते हैं।</p>
+      <div class="opt-list">
+        <button class="opt-row" data-set-branch="high_interest" data-testid="branch-high-interest">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 1 1 0 7H6"/></svg></span>
+          <span class="body">
+            <span class="title" data-i18n="un_high">ज़्यादा ब्याज देना पड़ रहा है</span>
+            <span class="sub" data-i18n="un_high_sub">Higher interest rate</span>
+          </span>
+        </button>
+        <button class="opt-row" data-set-branch="cant_pay_emi" data-testid="branch-cant-pay">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg></span>
+          <span class="body">
+            <span class="title" data-i18n="un_emi">किस्त/EMI भर नहीं पा रहा</span>
+            <span class="sub" data-i18n="un_emi_sub">Cannot service EMI</span>
+          </span>
+        </button>
+        <button class="opt-row" data-set-branch="principal_issue" data-testid="branch-principal">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18M7 14l4-4 4 4 5-5"/></svg></span>
+          <span class="body">
+            <span class="title" data-i18n="un_prin">ब्याज तो दे रहा, मूल खत्म नहीं हो रहा</span>
+            <span class="sub" data-i18n="un_prin_sub">Servicing interest but principal stuck</span>
+          </span>
+        </button>
+        <button class="opt-row" data-set-branch="need_more_money" data-testid="branch-need-more">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span>
+          <span class="body">
+            <span class="title" data-i18n="un_more">और पैसों की ज़रूरत है</span>
+            <span class="sub" data-i18n="un_more_sub">Need more money</span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 9. HIGH-INTEREST PROBE ─────────────────────────────── -->
+  <section class="screen" id="s-byaj-q" data-testid="screen-byaj-q">
+    <div class="bubble">
+      <h2 data-i18n="byaj_q_title">क्या आप ब्याज भी नहीं भर पा रहे?</h2>
+      <p class="lead" data-i18n="byaj_q_sub">इस मुश्किल में मैं आपकी मदद करता हूँ। एक छोटे कैलकुलेटर से समझते हैं कि ऐसा क्यों हो रहा है।</p>
+      <div class="yn-row">
+        <button class="yn-btn no" data-set-byaj="no" data-testid="byaj-no-btn">
+          <span class="em">🙂</span><span data-i18n="byaj_q_no">नहीं, ब्याज तो दे देता हूँ</span>
+        </button>
+        <button class="yn-btn yes" data-set-byaj="yes" data-testid="byaj-yes-btn">
+          <span class="em">😟</span><span data-i18n="byaj_q_yes">हाँ, ब्याज भी मुश्किल है</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 10. INCOME + EXPENSES (LOOP 1 input) ─────────────────────────────── -->
+  <section class="screen" id="s-incexp" data-testid="screen-incexp">
+    <div class="bubble">
+      <h2 data-i18n="ie_title">आपकी आमदनी और खर्च</h2>
+      <p data-i18n="ie_sub">हर महीने का अनुमान बताइए। सही जवाब से ही सही सलाह मिलेगी।</p>
+
+      <div class="field rupee">
+        <label data-i18n="ie_income">महीने की आमदनी (कुल)</label>
+        <input type="number" id="ie-income" min="0" data-testid="ie-income-input"/>
+      </div>
+
+      <h2 style="font-size:18px;margin-top:18px;margin-bottom:6px" data-i18n="ie_exp_title">खर्च (हर महीने)</h2>
+      <div class="field-grid">
+        <div class="field rupee"><label data-i18n="ie_rent">किराया / मकान</label><input type="number" id="ie-rent" min="0" data-testid="ie-rent-input"/></div>
+        <div class="field rupee"><label data-i18n="ie_grocery">राशन / सामान</label><input type="number" id="ie-grocery" min="0" data-testid="ie-grocery-input"/></div>
+        <div class="field rupee"><label data-i18n="ie_medicine">दवाई / इलाज</label><input type="number" id="ie-medicine" min="0" data-testid="ie-medicine-input"/></div>
+        <div class="field rupee"><label data-i18n="ie_education">पढ़ाई / स्कूल</label><input type="number" id="ie-education" min="0" data-testid="ie-education-input"/></div>
+        <div class="field rupee"><label data-i18n="ie_mobile">मोबाइल / बिजली</label><input type="number" id="ie-mobile-bill" min="0" data-testid="ie-mobile-input"/></div>
+        <div class="field rupee"><label data-i18n="ie_gaon">गाँव भेजना</label><input type="number" id="ie-gaon" min="0" data-testid="ie-gaon-input"/></div>
+      </div>
+      <div class="field rupee">
+        <label data-i18n="ie_other">और कोई खर्च</label>
+        <input type="number" id="ie-other" min="0" data-testid="ie-other-input"/>
+      </div>
+
+      <div class="field">
+        <label data-i18n="ie_tenure">कितने महीने में चुकाना चाहते हैं?</label>
+        <input type="number" id="ie-tenure" min="1" max="240" value="12" data-testid="ie-tenure-input"/>
+        <div class="help" data-i18n="ie_tenure_help">सामान्यतः 6–60 महीने।</div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btn-calc" data-testid="ie-calc-btn">
+          <span data-i18n="ie_calc">हिसाब लगाएँ</span>
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 11. RESULT ─────────────────────────────── -->
+  <section class="screen" id="s-result" data-testid="screen-result">
+    <div class="bubble" id="result-bubble">
+      <span class="status-badge" id="result-badge"></span>
+      <h2 id="result-title" style="margin-top:14px"></h2>
+      <p class="lead" id="result-message"></p>
+
+      <div class="money-list">
+        <div class="money-row"><span class="k" data-i18n="r_income">आमदनी</span><span class="v" id="r-income"></span></div>
+        <div class="money-row"><span class="k" data-i18n="r_expense">खर्च</span><span class="v" id="r-expense"></span></div>
+        <div class="money-row"><span class="k" data-i18n="r_savings">बचत</span><span class="v" id="r-savings"></span></div>
+        <div class="money-row"><span class="k" data-i18n="r_emi">अनुमानित EMI</span><span class="v" id="r-emi"></span></div>
+        <div class="money-row"><span class="k" data-i18n="r_interest">कुल ब्याज</span><span class="v" id="r-interest"></span></div>
+        <div class="money-row"><span class="k" data-i18n="r_payable">कुल चुकाना</span><span class="v" id="r-payable"></span></div>
+        <div class="money-row"><span class="k" data-i18n="r_safe">सुरक्षित अधिकतम लोन</span><span class="v green" id="r-safe"></span></div>
+      </div>
+
+      <div class="btn-row" id="result-actions"></div>
+    </div>
+  </section>
+
+  <!-- ─── 12. AFTER GREEN (high-interest, can pay) ─────────────────────────────── -->
+  <section class="screen" id="s-after-green" data-testid="screen-after-green">
+    <div class="bubble">
+      <h2 data-i18n="ag_title">अच्छी बात है — आप ब्याज दे सकते हैं</h2>
+      <p class="lead" data-i18n="ag_sub">तो फिर ब्याज क्यों नहीं दिया? क्या पैसों की कहीं और ज़रूरत है?</p>
+      <div class="yn-row">
+        <button class="yn-btn yes" data-go-after-green="yes" data-testid="ag-yes-btn">
+          <span class="em">💡</span><span data-i18n="ag_yes">हाँ, नया लोन चाहिए</span>
+        </button>
+        <button class="yn-btn no" data-go-after-green="no" data-testid="ag-no-btn">
+          <span class="em">❓</span><span data-i18n="ag_no">कुछ और बात है</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 13. AFTER RED/ORANGE → NEW INCOME? ─────────────────────────────── -->
+  <section class="screen" id="s-newincome" data-testid="screen-newincome">
+    <div class="bubble warm">
+      <h2 data-i18n="ni_title">अब आप समझे — ऐसे में पैसे चुकाना मुश्किल है</h2>
+      <p class="lead" data-i18n="ni_sub">बताइए — क्या आपके पास कोई नई आमदनी का तरीका है? (कोई नया काम, साथ का काम, मेहनताना)</p>
+      <div class="yn-row">
+        <button class="yn-btn yes" data-go-newincome="yes" data-testid="ni-yes-btn">
+          <span class="em">✅</span><span data-i18n="ni_yes">हाँ, है</span>
+        </button>
+        <button class="yn-btn no" data-go-newincome="no" data-testid="ni-no-btn">
+          <span class="em">😞</span><span data-i18n="ni_no">नहीं, कोई और रास्ता नहीं</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 14. LENDER SPOKEN ─────────────────────────────── -->
+  <section class="screen" id="s-lender" data-testid="screen-lender">
+    <div class="bubble">
+      <h2 data-i18n="ld_title">क्या जिनसे पैसे लिए थे, उनसे बात की?</h2>
+      <p data-i18n="ld_sub">कभी-कभी पुराने रिश्ते से ही समाधान निकल आता है।</p>
+      <div class="yn-row">
+        <button class="yn-btn yes" data-go-lender="yes" data-testid="ld-yes-btn">
+          <span class="em">📞</span><span data-i18n="ld_yes">हाँ, बात की है</span>
+        </button>
+        <button class="yn-btn no" data-go-lender="no" data-testid="ld-no-btn">
+          <span class="em">🙅</span><span data-i18n="ld_no">अभी तक नहीं</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 15. LENDER PROMPT (no → talk first) ─────────────────────────────── -->
+  <section class="screen" id="s-lender-prompt" data-testid="screen-lender-prompt">
+    <div class="bubble warm">
+      <h2 data-i18n="lp_title">पहले उनसे बात कीजिए</h2>
+      <p class="lead" data-i18n="lp_body">पहले जिनसे पैसे लिए थे, उनसे अपनी तकलीफ बताइए। उनसे विकल्प पूछिए — किस्त छोटी हो सकती है, समय बढ़ सकता है। अगर बात न बने, तब किसी NGO से मिलिए।</p>
+      <div class="btn-row">
+        <button class="btn btn-primary" data-go="s-ngo" data-testid="lp-ngo-btn">
+          <span data-i18n="lp_ngo_btn">NGO का संपर्क देखें</span>
+        </button>
+        <button class="btn btn-ghost" data-go="s-endgrace" data-testid="lp-skip-btn">
+          <span data-i18n="lp_skip">समझ गया</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 16. NGO REFERRAL ─────────────────────────────── -->
+  <section class="screen" id="s-ngo" data-testid="screen-ngo">
+    <div class="bubble teal">
+      <h2 data-i18n="ngo_title">अकेले मत जूझिए — मदद उपलब्ध है</h2>
+      <p class="lead" data-i18n="ngo_body">M3M फ़ाउंडेशन ज़रूरतमंद परिवारों की वित्तीय और आजीविका में मदद करता है। इनसे जल्द संपर्क कीजिए।</p>
+      <div class="ngo-card">
+        <h3 data-i18n="ngo_name">M3M Foundation</h3>
+        <p style="color:var(--ink-soft);font-size:14px" data-i18n="ngo_sub">CSR arm of M3M India — financial inclusion, livelihood, women empowerment</p>
+        <div class="ngo-lines">
+          <a href="https://m3mfoundation.org" target="_blank" rel="noopener" data-testid="ngo-website">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>
+            m3mfoundation.org
+          </a>
+          <a href="tel:+911244827888" data-testid="ngo-phone">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.95.36 1.88.7 2.77a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.31-1.27a2 2 0 0 1 2.11-.45c.89.34 1.82.57 2.77.7A2 2 0 0 1 22 16.92z"/></svg>
+            +91 124 482 7888
+          </a>
+          <a href="mailto:info@m3mfoundation.org" data-testid="ngo-email">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            info@m3mfoundation.org
+          </a>
+        </div>
+      </div>
+      <div class="callout-info">
+        <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        <div data-i18n="ngo_note">यह जानकारी सिर्फ़ सूचना के लिए है। संपर्क संख्या बदल सकती है।</div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-ghost" data-go="s-endgrace" data-testid="ngo-end-btn">
+          <span data-i18n="end_restart_grace">शुक्रिया, समझ गया</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 17. WARNING NOTE (RED → can't take more) ─────────────────────────────── -->
+  <section class="screen" id="s-warning" data-testid="screen-warning">
+    <div class="bubble danger">
+      <div class="callout-warn">
+        <div class="ic">!</div>
+        <div>
+          <div class="title" data-i18n="warn_title">पैसा उठाने का सबसे पहला उसूल</div>
+          <div data-i18n="warn_body">अगर ब्याज तक भी नहीं दे पाएँगे तो उधार मत लीजिए। आप फँस जाएँगे।</div>
+        </div>
+      </div>
+      <p class="lead" data-i18n="warn_now">अभी आपकी आमदनी में और लोन लेना सही नहीं होगा।</p>
+      <div class="btn-row">
+        <button class="btn btn-teal" data-go="s-ngo" data-testid="warn-ngo-btn">
+          <span data-i18n="warn_ngo">मदद के लिए NGO देखें</span>
+        </button>
+        <button class="btn btn-ghost" data-go="s-endgrace" data-testid="warn-end-btn">
+          <span data-i18n="warn_end">समझ गया</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 18. PAYOFF MONTHS RESULT (principal issue) ─────────────────────────────── -->
+  <section class="screen" id="s-payoff" data-testid="screen-payoff">
+    <div class="bubble">
+      <span class="status-badge" id="payoff-badge"></span>
+      <h2 style="margin-top:14px" data-i18n="po_title">आपकी मौजूदा बचत से चुकाने में लगेगा</h2>
+      <div class="result-num" id="payoff-num">—</div>
+      <p class="lead" id="payoff-msg"></p>
+      <h2 style="font-size:20px;margin-top:18px" data-i18n="po_ok">क्या यह समय-सीमा आपके लिए सही है?</h2>
+      <div class="yn-row">
+        <button class="yn-btn yes" data-go-payoff="yes" data-testid="po-yes-btn">
+          <span class="em">👍</span><span data-i18n="po_yes">हाँ, ठीक है</span>
+        </button>
+        <button class="yn-btn no" data-go-payoff="no" data-testid="po-no-btn">
+          <span class="em">⏱️</span><span data-i18n="po_no">नहीं, बदलना चाहता हूँ</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 19. PAYOFF PACE ─────────────────────────────── -->
+  <section class="screen" id="s-payoff-pace" data-testid="screen-payoff-pace">
+    <div class="bubble">
+      <h2 data-i18n="pp_title">क्या आप जल्दी चुकाना चाहते हैं या देर से?</h2>
+      <div class="yn-row">
+        <button class="yn-btn yes" data-go-pace="fast" data-testid="pp-fast-btn">
+          <span class="em">⚡</span><span data-i18n="pp_fast">जल्दी चुकाना</span>
+        </button>
+        <button class="yn-btn no" data-go-pace="slow" data-testid="pp-slow-btn">
+          <span class="em">🐢</span><span data-i18n="pp_slow">देर से चुकाना</span>
+        </button>
+      </div>
+      <div class="field" style="margin-top:18px">
+        <label data-i18n="pp_months">नया समय (महीने)</label>
+        <input type="number" id="pace-months" min="1" max="240" value="24" data-testid="pp-months-input"/>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btn-pace-calc" data-testid="pp-calc-btn">
+          <span data-i18n="pp_calc">फिर से हिसाब लगाएँ</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 20. NEW LOAN — details ─────────────────────────────── -->
+  <section class="screen" id="s-new" data-testid="screen-new">
+    <div class="bubble">
+      <h2 data-i18n="nl_title">नया लोन — कुछ बातें</h2>
+      <p data-i18n="nl_sub">सही जगह से सही लोन लें — यही पहली समझदारी है।</p>
+
+      <div class="field rupee">
+        <label data-i18n="nl_amount">कितना लोन चाहिए?</label>
+        <input type="number" id="nl-amount" min="0" data-testid="nl-amount-input"/>
+      </div>
+      <div class="field">
+        <label data-i18n="nl_purpose">किसलिए चाहिए?</label>
+        <select id="nl-purpose" data-testid="nl-purpose-select"></select>
+      </div>
+      <div class="field">
+        <label data-i18n="nl_spoken">अब तक किससे बात की?</label>
+        <select id="nl-spoken" data-testid="nl-spoken-select"></select>
+      </div>
+
+      <div id="nl-recommend-box" class="callout-info" style="display:none">
+        <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4.5 2 7-6.5-4.5-6.5 4.5 2-7L2 9h7z"/></svg>
+        <div id="nl-recommend-text"></div>
+      </div>
+
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btn-new-next" data-testid="nl-next-btn">
+          <span data-i18n="reg_continue">आगे बढ़ें</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 21. NEW LOAN — calc mode ─────────────────────────────── -->
+  <section class="screen" id="s-new-mode" data-testid="screen-new-mode">
+    <div class="bubble">
+      <h2 data-i18n="nm_title">देखते हैं आप कितना लोन आराम से ले सकते हैं</h2>
+      <p data-i18n="nm_sub">दो तरीक़े से जाँचते हैं — एक चुनिए।</p>
+      <div class="opt-list">
+        <button class="opt-row" data-go-mode="amount" data-testid="nm-amount-btn">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 12h18M3 6h18M3 18h18"/></svg></span>
+          <span class="body">
+            <span class="title" data-i18n="nm_amount_title">रकम + ब्याज + समय → क्या मैं चुका पाऊँगा?</span>
+            <span class="sub" data-i18n="nm_amount_sub">Check feasibility for a specific amount</span>
+          </span>
+        </button>
+        <button class="opt-row" data-go-mode="savings" data-testid="nm-savings-btn">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>
+          <span class="body">
+            <span class="title" data-i18n="nm_savings_title">मेरी बचत के हिसाब से अधिकतम कितना लोन?</span>
+            <span class="sub" data-i18n="nm_savings_sub">Max safe loan from your savings</span>
+          </span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 22. NEW LOAN — savings mode input ─────────────────────────────── -->
+  <section class="screen" id="s-new-savings" data-testid="screen-new-savings">
+    <div class="bubble">
+      <h2 data-i18n="ns_title">अपनी बचत बताइए</h2>
+      <p data-i18n="ns_sub">हर महीने जो बच जाता है, उसी से हम सुरक्षित अधिकतम लोन निकालेंगे।</p>
+      <div class="field rupee">
+        <label data-i18n="ns_savings">महीने की बचत</label>
+        <input type="number" id="ns-savings" min="0" data-testid="ns-savings-input"/>
+      </div>
+      <div class="field-grid">
+        <div class="field">
+          <label data-i18n="ns_rate">ब्याज दर (% सालाना)</label>
+          <input type="number" id="ns-rate" min="0" step="0.5" value="14" data-testid="ns-rate-input"/>
+        </div>
+        <div class="field">
+          <label data-i18n="ns_months">कितने महीने में चुकाना है?</label>
+          <input type="number" id="ns-months" min="1" max="240" value="24" data-testid="ns-months-input"/>
+        </div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" id="btn-ns-calc" data-testid="ns-calc-btn">
+          <span data-i18n="ns_calc">अधिकतम लोन देखें</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 23. NEW LOAN — savings result ─────────────────────────────── -->
+  <section class="screen" id="s-new-savings-result" data-testid="screen-new-savings-result">
+    <div class="bubble good">
+      <span class="status-badge green" data-i18n="r_safe_badge">सुरक्षित सीमा</span>
+      <h2 style="margin-top:14px" data-i18n="nsr_title">आपकी बचत से अधिकतम सुरक्षित लोन</h2>
+      <div class="result-num" id="nsr-num">₹—</div>
+      <p class="lead" id="nsr-emi"></p>
+      <div class="callout-info">
+        <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
+        <div data-i18n="nsr_note">यह केवल सलाह है। आपातकाल के लिए बचत का कुछ हिस्सा अलग रखें।</div>
+      </div>
+      <div class="btn-row">
+        <button class="btn btn-primary" data-go="s-direct" data-testid="nsr-talk-btn">
+          <span data-i18n="dc_talk">सीधे बात कीजिए</span>
+        </button>
+        <button class="btn btn-ghost" data-go="s-endgrace" data-testid="nsr-end-btn">
+          <span data-i18n="end_restart_grace">शुक्रिया, समझ गया</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- ─── 24. DIRECT CONTACT (M3M / WhatsApp) ─────────────────────────────── -->
+  <section class="screen" id="s-direct" data-testid="screen-direct">
+    <div class="bubble teal">
+      <h2 data-i18n="dc_title">क्या मैं सीधे आपकी मदद कर सकता हूँ?</h2>
+      <p class="lead" data-i18n="dc_body">अगर आप चाहें, हम सीधे बात कर सकते हैं — एक काउंसलर आपकी समस्या समझेगा और बैंक/NGO के साथ रास्ता निकालेगा।</p>
+      <div class="callout-info">
+        <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4.5 2 7-6.5-4.5-6.5 4.5 2-7L2 9h7z"/></svg>
+        <div data-i18n="dc_token">टोकन के तौर पर ₹100 — अगर हम आपकी समस्या हल नहीं कर पाए, तो पैसा वापस। यह सिर्फ़ इसलिए ताकि सच्ची ज़रूरत वाले लोग ही संपर्क करें।</div>
+      </div>
+      <div class="btn-row">
+        <a class="btn btn-teal" href="https://wa.me/911244827888?text=Namaste%2C%20DARAS%20app%20se%20baat%20karni%20hai" target="_blank" rel="noopener" data-testid="dc-whatsapp-btn">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.16 5.335 5.495 0 12.05 0c3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99 0-3.951-.5-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+          WhatsApp
+        </a>
+        <button class="btn btn-ghost" data-go="s-endgrace" data-testid="dc-skip-btn">
+          <span data-i18n="dc_skip">बाद में</span>
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <div class="footer">
+    <div data-i18n="ft_brand">दारस DARAS — आपका वित्तीय मित्र</div>
+    <div class="small-disc" data-i18n="ft_disc">यह ऐप केवल जानकारी और दिशा-निर्देश के लिए है। किसी भी वित्तीय निर्णय से पहले अपने सलाहकार से ज़रूर मिलें।</div>
+  </div>
+
+</div>
+
+<script>
+/* ============================================================
+   DARAS — Multilingual conversational state machine
+   ============================================================ */
+
+/* ---------- LANGUAGE DICTIONARY ---------- */
+const LANG = {
+  brand:           {hi:"दारस", bn:"দারস", en:"DARAS"},
+  brand_tag:       {hi:"आपका वित्तीय मित्र", bn:"আপনার আর্থিক বন্ধু", en:"Your Financial Companion"},
+  nav_back:        {hi:"वापस", bn:"ফিরে যান", en:"Back"},
+
+  step_welcome:    {hi:"शुरुआत", bn:"শুরু", en:"Welcome"},
+  step_register:   {hi:"परिचय", bn:"পরিচয়", en:"About you"},
+  step_ltype:      {hi:"लोन का प्रकार", bn:"ঋণের ধরন", en:"Loan type"},
+  step_existing:   {hi:"मौजूदा लोन", bn:"বর্তমান ঋণ", en:"Existing loan"},
+  step_satisfied:  {hi:"संतुष्टि", bn:"সন্তুষ্টি", en:"Satisfaction"},
+  step_unhappy:    {hi:"समस्या", bn:"সমস্যা", en:"Concern"},
+  step_calc:       {hi:"हिसाब", bn:"হিসাব", en:"Assessment"},
+  step_result:     {hi:"नतीजा", bn:"ফলাফল", en:"Result"},
+  step_new:        {hi:"नया लोन", bn:"নতুন ঋণ", en:"New loan"},
+  step_ngo:        {hi:"मदद", bn:"সাহায্য", en:"Help"},
+  step_end:        {hi:"शुक्रिया", bn:"ধন্যবাদ", en:"Thank you"},
+
+  welcome_title:   {hi:"नमस्ते 🙏", bn:"নমস্কার 🙏", en:"Namaste 🙏"},
+  welcome_promise: {hi:"मैं वादा करता हूँ — पारदर्शिता से, बिना किसी फ़ायदे के, आपको सही वित्तीय सलाह दूँगा। आपका नाम, नंबर सुरक्षित रहेगा।",
+                    bn:"আমি প্রতিশ্রুতি দিচ্ছি — স্বচ্ছভাবে, কোনো স্বার্থ ছাড়াই, আপনাকে সঠিক আর্থিক পরামর্শ দেব। আপনার নাম, নম্বর সুরক্ষিত থাকবে।",
+                    en:"I promise — transparently and without any agenda, I will guide you with honest financial advice. Your name and number stay private."},
+  welcome_privacy: {hi:"सिर्फ़ नाम और मोबाइल। आगे की जानकारी आप जब चाहें तभी।",
+                    bn:"শুধু নাম এবং মোবাইল। বাকি তথ্য আপনি ইচ্ছে হলেই দেবেন।",
+                    en:"Just name & mobile. Share more only when you wish to."},
+  welcome_begin:   {hi:"आगे बढ़ें", bn:"শুরু করুন", en:"Let's begin"},
+
+  reg_title:       {hi:"अपना परिचय दें", bn:"আপনার পরিচয় দিন", en:"Tell us about yourself"},
+  reg_sub:         {hi:"सिर्फ़ नाम और मोबाइल काफ़ी है। बाकी आप जब चाहें तब बताएँ।",
+                    bn:"শুধু নাম এবং মোবাইল যথেষ্ট। বাকি যখন ইচ্ছে তখন বলুন।",
+                    en:"Just name and mobile is enough. Share the rest whenever you wish."},
+  reg_name:        {hi:"नाम", bn:"নাম", en:"Name"},
+  reg_name_ph:     {hi:"आपका पूरा नाम", bn:"আপনার পুরো নাম", en:"Your full name"},
+  reg_age:         {hi:"उम्र", bn:"বয়স", en:"Age"},
+  reg_age_ph:      {hi:"वर्षों में", bn:"বছরে", en:"In years"},
+  reg_mobile:      {hi:"मोबाइल", bn:"মোবাইল", en:"Mobile"},
+  reg_mobile_ph:   {hi:"10 अंक", bn:"১০ অঙ্ক", en:"10 digits"},
+  reg_vocation:    {hi:"आप क्या काम करते हैं?", bn:"আপনি কী কাজ করেন?", en:"What is your work?"},
+  reg_voc_custom:  {hi:"कौन-सा काम? (बताएँ)", bn:"কী কাজ? (বলুন)", en:"Specify your work"},
+  reg_continue:    {hi:"आगे बढ़ें", bn:"এগিয়ে যান", en:"Continue"},
+
+  voc_labour_s:    {hi:"मिस्त्री / कारीगर", bn:"মিস্ত্রি / কারিগর", en:"Skilled labour"},
+  voc_labour_u:    {hi:"मज़दूरी", bn:"মজুরি", en:"Unskilled labour"},
+  voc_thekedaar:   {hi:"ठेकेदार", bn:"ঠিকাদার", en:"Contractor"},
+  voc_security:    {hi:"चौकीदार / सुरक्षा", bn:"দারোয়ান / সিকিউরিটি", en:"Watchman / Security"},
+  voc_maid:        {hi:"घरेलू सहायिका", bn:"গৃহকর্মী", en:"House maid"},
+  voc_business:    {hi:"अपना धंधा", bn:"নিজের ব্যবসা", en:"Own business"},
+  voc_driver:      {hi:"ड्राइवर / कंडक्टर", bn:"ড্রাইভার / কন্ডাক্টর", en:"Driver / Conductor"},
+  voc_other:       {hi:"और (बताएँ)", bn:"অন্য (বলুন)", en:"Other"},
+
+  ltype_title:     {hi:"शुक्रिया, {name}", bn:"ধন্যবাদ, {name}", en:"Thank you, {name}"},
+  ltype_trust:     {hi:"हम पर भरोसा दिखाने के लिए धन्यवाद। अब बताइए —",
+                    bn:"আমাদের উপর ভরসা রাখার জন্য ধন্যবাদ। এখন বলুন —",
+                    en:"Thanks for trusting us. Now tell me —"},
+  ltype_question:  {hi:"आपका लोन पहले से है, या नया लोन चाहिए?",
+                    bn:"আপনার ঋণ আগে থেকেই আছে, নাকি নতুন ঋণ দরকার?",
+                    en:"Do you have an existing loan, or need a new one?"},
+  ltype_existing:  {hi:"पुराना लोन है", bn:"পুরোনো ঋণ আছে", en:"I have a loan"},
+  ltype_new:       {hi:"नया लोन चाहिए", bn:"নতুন ঋণ দরকার", en:"Need a new loan"},
+
+  ex_title:        {hi:"आपका मौजूदा लोन", bn:"আপনার বর্তমান ঋণ", en:"Your existing loan"},
+  ex_sub:          {hi:"पाँच छोटे सवाल। फिर हम बात करते हैं कि आप कितना संतुष्ट हैं।",
+                    bn:"পাঁচটি ছোট প্রশ্ন। তারপর কথা বলব আপনি কতটা সন্তুষ্ট।",
+                    en:"Five short questions. Then we'll talk about how satisfied you are."},
+  ex_amount:       {hi:"कुल लोन कितना है?", bn:"মোট ঋণ কত?", en:"Total loan amount"},
+  ex_amount_ph:    {hi:"जैसे: 50000", bn:"যেমন: ৫০০০০", en:"e.g. 50000"},
+  ex_purpose:      {hi:"किसलिए लिया है?", bn:"কীসের জন্য নিয়েছিলেন?", en:"Why did you take it?"},
+  ex_source:       {hi:"किससे लिया है?", bn:"কার কাছ থেকে নিয়েছেন?", en:"From whom?"},
+  ex_source_help:  {hi:"स्रोत के हिसाब से ब्याज और जोखिम बदलते हैं।",
+                    bn:"উৎসের উপর সুদ ও ঝুঁকি নির্ভর করে।",
+                    en:"Interest and risk depend heavily on the source."},
+  ex_rate:         {hi:"ब्याज दर (% सालाना)", bn:"সুদের হার (% বার্ষিক)", en:"Interest rate (% p.a.)"},
+  ex_rate_ph:      {hi:"जैसे: 18", bn:"যেমন: ১৮", en:"e.g. 18"},
+  ex_remaining:    {hi:"कितना बाकी है?", bn:"কত বাকি আছে?", en:"How much is remaining?"},
+  ex_remaining_ph: {hi:"कितना चुकाना बाकी", bn:"কত শোধ বাকি", en:"Amount still owed"},
+
+  purp_shaadi:     {hi:"शादी", bn:"বিয়ে", en:"Wedding"},
+  purp_padai:      {hi:"पढ़ाई", bn:"পড়াশোনা", en:"Education"},
+  purp_property:   {hi:"नई संपत्ति", bn:"নতুন সম্পত্তি", en:"New property"},
+  purp_gaon:       {hi:"गाँव भेजना", bn:"গ্রামে পাঠানো", en:"Send to village"},
+  purp_medical:    {hi:"बीमारी / इलाज", bn:"অসুখ / চিকিৎসা", en:"Medical"},
+  purp_business:   {hi:"धंधा / दुकान", bn:"ব্যবসা / দোকান", en:"Business"},
+  purp_vehicle:    {hi:"वाहन (बाइक/स्कूटर)", bn:"যান (বাইক/স্কুটি)", en:"Vehicle"},
+  purp_other:      {hi:"और कोई कारण", bn:"অন্য কারণ", en:"Other"},
+
+  src_informal:    {hi:"दोस्त / परिवार", bn:"বন্ধু / পরিবার", en:"Friends & family"},
+  src_sahukaar:    {hi:"साहूकार / जमींदार", bn:"সহুকার / জমিদার", en:"Moneylender"},
+  src_unsecured:   {hi:"असुरक्षित लोन (बहुत ज़्यादा ब्याज)", bn:"অসুরক্ষিত ঋণ (অনেক বেশি সুদ)", en:"Unsecured loan (very high rate)"},
+  src_secured:     {hi:"गिरवी रखकर (बिना ठीक कागज़)", bn:"গচ্ছিত রেখে (ঠিক কাগজ ছাড়া)", en:"Secured (improper paperwork)"},
+  src_personal:    {hi:"बैंक से पर्सनल लोन", bn:"ব্যাঙ্ক থেকে পার্সোনাল লোন", en:"Bank personal loan"},
+  src_cc:          {hi:"क्रेडिट कार्ड", bn:"ক্রেডিট কার্ড", en:"Credit card"},
+  src_microfin:    {hi:"माइक्रो-फ़ाइनेंस / बैंक", bn:"মাইক্রো-ফাইন্যান্স / ব্যাঙ্ক", en:"Microfinance / Bank"},
+  src_msme:        {hi:"MSME / स्टार्ट-अप लोन", bn:"MSME / স্টার্ট-আপ ঋণ", en:"MSME / Startup"},
+  src_gold:        {hi:"सोना गिरवी (Muthoot वग़ैरह)", bn:"সোনা গচ্ছিত (Muthoot ইত্যাদি)", en:"Gold loan (Muthoot etc.)"},
+  src_employer:    {hi:"मालिक / कंपनी से", bn:"মালিক / কোম্পানি থেকে", en:"From employer"},
+  src_education:   {hi:"शिक्षा लोन", bn:"শিক্ষা ঋণ", en:"Education loan"},
+  src_other:       {hi:"और (बताएँ)", bn:"অন্য (বলুন)", en:"Other"},
+
+  sat_title:       {hi:"क्या आप अपने मौजूदा लोन से संतुष्ट हैं?",
+                    bn:"আপনি কি আপনার বর্তমান ঋণে সন্তুষ্ট?",
+                    en:"Are you satisfied with your current loan?"},
+  sat_sub:         {hi:"कोई भी जवाब सही है। बस सच्चाई से बताइए — मैं आपकी मदद के लिए हूँ।",
+                    bn:"যে কোনো উত্তরই ঠিক। শুধু সত্যি বলুন — আমি আপনার সাহায্যে আছি।",
+                    en:"Any answer is fine. Just be honest — I'm here to help."},
+  sat_yes:         {hi:"हाँ, संतुष्ट हूँ", bn:"হ্যাঁ, সন্তুষ্ট", en:"Yes, satisfied"},
+  sat_no:          {hi:"नहीं, समस्या है", bn:"না, সমস্যা আছে", en:"No, I have a concern"},
+
+  open_title:      {hi:"क्या मैं और कोई मदद कर सकता हूँ?",
+                    bn:"আমি কি আরও কিছু সাহায্য করতে পারি?",
+                    en:"Can I help with anything else?"},
+  open_sub:        {hi:"कोई भी सवाल लिखें — पैसों, बैंक, ब्याज, बचत — कुछ भी।",
+                    bn:"যেকোনো প্রশ্ন লিখুন — টাকা, ব্যাঙ্ক, সুদ, সঞ্চয় — যা কিছু।",
+                    en:"Ask anything — money, bank, interest, savings — anything."},
+  open_ph:         {hi:"आप क्या जानना चाहते हैं?", bn:"আপনি কী জানতে চান?", en:"What would you like to know?"},
+  open_submit:     {hi:"भेजें", bn:"পাঠান", en:"Send"},
+  open_skip:       {hi:"अभी छोड़ें", bn:"এখন ছাড়ুন", en:"Skip for now"},
+
+  end_title:       {hi:"सुन कर बहुत खुशी हुई 🙏", bn:"শুনে অনেক আনন্দ হলো 🙏", en:"So glad to hear that 🙏"},
+  end_body:        {hi:"हम पर भरोसा दिखाने के लिए बहुत शुक्रिया। मैं आपका दोस्त हूँ — कभी भी मदद चाहिए, बिना झिझक इस ऐप पर आइए।",
+                    bn:"আমাদের উপর ভরসা রাখার জন্য অনেক ধন্যবাদ। আমি আপনার বন্ধু — কখনো সাহায্য লাগলে নির্দ্বিধায় এই অ্যাপে আসুন।",
+                    en:"Thank you for trusting us. I'm your friend — anytime you need help, come back without hesitation."},
+  end_restart:     {hi:"शुरू से शुरू करें", bn:"আবার শুরু করুন", en:"Start over"},
+  end_restart_grace:{hi:"शुक्रिया, समझ गया", bn:"ধন্যবাদ, বুঝলাম", en:"Thanks, got it"},
+
+  un_title:        {hi:"किस बात से नाखुश हैं?", bn:"কী নিয়ে অসন্তুষ্ট?", en:"What's bothering you?"},
+  un_sub:          {hi:"एक चुनिए — हम उसी पर बात करते हैं।", bn:"একটি বেছে নিন — সেটা নিয়ে কথা বলব।", en:"Pick one — we'll talk about that."},
+  un_high:         {hi:"ज़्यादा ब्याज देना पड़ रहा है", bn:"অনেক সুদ দিতে হচ্ছে", en:"Interest is too high"},
+  un_high_sub:     {hi:"Higher interest rate", bn:"Higher interest rate", en:"Higher interest rate"},
+  un_emi:          {hi:"किस्त/EMI भर नहीं पा रहा", bn:"কিস্তি/EMI দিতে পারছি না", en:"Cannot pay EMI"},
+  un_emi_sub:      {hi:"Cannot service EMI", bn:"Cannot service EMI", en:"Cannot service EMI"},
+  un_prin:         {hi:"ब्याज तो दे रहा, मूल खत्म नहीं हो रहा", bn:"সুদ দিচ্ছি, কিন্তু আসল শেষ হচ্ছে না", en:"Paying interest but principal stuck"},
+  un_prin_sub:     {hi:"Servicing interest but principal stuck", bn:"Servicing interest but principal stuck", en:"Servicing interest but principal stuck"},
+  un_more:         {hi:"और पैसों की ज़रूरत है", bn:"আরও টাকার দরকার", en:"Need more money"},
+  un_more_sub:     {hi:"Need more money", bn:"Need more money", en:"Need more money"},
+
+  byaj_q_title:    {hi:"क्या आप ब्याज भी नहीं भर पा रहे?",
+                    bn:"আপনি কি সুদও দিতে পারছেন না?",
+                    en:"Are you unable to even pay the interest?"},
+  byaj_q_sub:      {hi:"इस मुश्किल में मैं आपकी मदद करता हूँ। एक छोटे कैलकुलेटर से समझते हैं कि ऐसा क्यों हो रहा है।",
+                    bn:"এই মুশকিলে আমি আপনার সাহায্য করি। একটা ছোট হিসাব করে বুঝি কেন এমন হচ্ছে।",
+                    en:"Let me help you with this. Let's use a small calculator to understand why."},
+  byaj_q_no:       {hi:"नहीं, ब्याज तो दे देता हूँ", bn:"না, সুদ তো দিয়ে দিই", en:"No, I do pay interest"},
+  byaj_q_yes:      {hi:"हाँ, ब्याज भी मुश्किल है", bn:"হ্যাঁ, সুদও কঠিন", en:"Yes, even interest is hard"},
+
+  ie_title:        {hi:"आपकी आमदनी और खर्च", bn:"আপনার আয় ও খরচ", en:"Your income & expenses"},
+  ie_sub:          {hi:"हर महीने का अनुमान बताइए। सही जवाब से ही सही सलाह मिलेगी।",
+                    bn:"প্রতি মাসের আনুমানিক বলুন। সঠিক উত্তরেই সঠিক পরামর্শ পাবেন।",
+                    en:"Approximate monthly figures. Honest answers give honest advice."},
+  ie_income:       {hi:"महीने की आमदनी (कुल)", bn:"মাসের আয় (মোট)", en:"Monthly income (total)"},
+  ie_exp_title:    {hi:"खर्च (हर महीने)", bn:"খরচ (প্রতি মাস)", en:"Expenses (monthly)"},
+  ie_rent:         {hi:"किराया / मकान", bn:"ভাড়া / বাড়ি", en:"Rent / Home"},
+  ie_grocery:      {hi:"राशन / सामान", bn:"রেশন / জিনিসপত্র", en:"Groceries"},
+  ie_medicine:     {hi:"दवाई / इलाज", bn:"ওষুধ / চিকিৎসা", en:"Medicine"},
+  ie_education:    {hi:"पढ़ाई / स्कूल", bn:"পড়াশোনা / স্কুল", en:"Education"},
+  ie_mobile:       {hi:"मोबाइल / बिजली", bn:"মোবাইল / বিদ্যুৎ", en:"Mobile / Utilities"},
+  ie_gaon:         {hi:"गाँव भेजना", bn:"গ্রামে পাঠানো", en:"Send to village"},
+  ie_other:        {hi:"और कोई खर्च", bn:"অন্য খরচ", en:"Other expenses"},
+  ie_tenure:       {hi:"कितने महीने में चुकाना चाहते हैं?",
+                    bn:"কত মাসে শোধ করতে চান?",
+                    en:"In how many months would you repay?"},
+  ie_tenure_help:  {hi:"सामान्यतः 6–60 महीने।", bn:"সাধারণত ৬–৬০ মাস।", en:"Usually 6–60 months."},
+  ie_calc:         {hi:"हिसाब लगाएँ", bn:"হিসাব করুন", en:"Calculate"},
+
+  r_income:        {hi:"आमदनी", bn:"আয়", en:"Income"},
+  r_expense:       {hi:"खर्च", bn:"খরচ", en:"Expenses"},
+  r_savings:       {hi:"बचत", bn:"সঞ্চয়", en:"Savings"},
+  r_emi:           {hi:"अनुमानित EMI", bn:"আনুমানিক EMI", en:"Est. EMI"},
+  r_interest:      {hi:"कुल ब्याज", bn:"মোট সুদ", en:"Total interest"},
+  r_payable:       {hi:"कुल चुकाना", bn:"মোট শোধ", en:"Total payable"},
+  r_safe:          {hi:"सुरक्षित अधिकतम लोन", bn:"নিরাপদ সর্বোচ্চ ঋণ", en:"Max safe loan"},
+  r_safe_badge:    {hi:"सुरक्षित सीमा", bn:"নিরাপদ সীমা", en:"Safe limit"},
+
+  status_green:    {hi:"सुरक्षित", bn:"নিরাপদ", en:"Safe"},
+  status_orange:   {hi:"सावधान", bn:"সাবধান", en:"Caution"},
+  status_red:      {hi:"ख़तरा", bn:"বিপদ", en:"Danger"},
+
+  act_new_loan:    {hi:"नया लोन देखें", bn:"নতুন ঋণ দেখুন", en:"Explore new loan"},
+  act_again:       {hi:"फिर से जाँचें", bn:"আবার চেক করুন", en:"Re-check"},
+  act_what_now:    {hi:"अब क्या करूँ?", bn:"এখন কী করব?", en:"What now?"},
+
+  ag_title:        {hi:"अच्छी बात है — आप ब्याज दे सकते हैं",
+                    bn:"ভালো কথা — আপনি সুদ দিতে পারেন",
+                    en:"Good news — you can pay the interest"},
+  ag_sub:          {hi:"तो फिर ब्याज क्यों नहीं दिया? क्या पैसों की कहीं और ज़रूरत है?",
+                    bn:"তাহলে সুদ কেন দেননি? টাকা কি অন্য কোথাও দরকার?",
+                    en:"Then why wasn't interest paid? Is money needed elsewhere?"},
+  ag_yes:          {hi:"हाँ, नया लोन चाहिए", bn:"হ্যাঁ, নতুন ঋণ দরকার", en:"Yes, need a new loan"},
+  ag_no:           {hi:"कुछ और बात है", bn:"অন্য কিছু আছে", en:"Something else"},
+
+  ni_title:        {hi:"अब आप समझे — ऐसे में पैसे चुकाना मुश्किल है",
+                    bn:"এখন বুঝলেন — এভাবে টাকা শোধ করা কঠিন",
+                    en:"Now you see — it's hard to repay this way"},
+  ni_sub:          {hi:"बताइए — क्या आपके पास कोई नई आमदनी का तरीका है? (कोई नया काम, साथ का काम)",
+                    bn:"বলুন — আপনার কি নতুন আয়ের পথ আছে? (নতুন কাজ, পার্ট-টাইম কাজ)",
+                    en:"Tell me — is there any new source of income? (extra work, side job)"},
+  ni_yes:          {hi:"हाँ, है", bn:"হ্যাঁ, আছে", en:"Yes, there is"},
+  ni_no:           {hi:"नहीं, कोई और रास्ता नहीं", bn:"না, অন্য কোনো উপায় নেই", en:"No, no other way"},
+
+  ld_title:        {hi:"क्या जिनसे पैसे लिए थे, उनसे बात की?",
+                    bn:"যাঁর কাছ থেকে টাকা নিয়েছিলেন, তাঁর সঙ্গে কথা বলেছেন?",
+                    en:"Have you spoken to whoever lent you the money?"},
+  ld_sub:          {hi:"कभी-कभी पुराने रिश्ते से ही समाधान निकल आता है।",
+                    bn:"কখনো পুরানো সম্পর্ক থেকেই সমাধান বেরিয়ে আসে।",
+                    en:"Often, old relationships find a way out."},
+  ld_yes:          {hi:"हाँ, बात की है", bn:"হ্যাঁ, কথা বলেছি", en:"Yes, I have"},
+  ld_no:           {hi:"अभी तक नहीं", bn:"এখনো না", en:"Not yet"},
+
+  lp_title:        {hi:"पहले उनसे बात कीजिए", bn:"আগে তাঁর সঙ্গে কথা বলুন", en:"Talk to them first"},
+  lp_body:         {hi:"पहले जिनसे पैसे लिए थे, उनसे अपनी तकलीफ बताइए। उनसे विकल्प पूछिए — किस्त छोटी हो सकती है, समय बढ़ सकता है। अगर बात न बने, तब किसी NGO से मिलिए।",
+                    bn:"আগে যাঁর থেকে টাকা নিয়েছিলেন তাঁকে আপনার অসুবিধা বলুন। বিকল্প জিজ্ঞেস করুন — কিস্তি ছোট হতে পারে, সময় বাড়তে পারে। কথা না হলে কোনো NGO-র কাছে যান।",
+                    en:"First, talk to your lender about your trouble. Ask for options — smaller EMI, longer tenure. If they refuse, then visit an NGO."},
+  lp_ngo_btn:      {hi:"NGO का संपर्क देखें", bn:"NGO-র যোগাযোগ দেখুন", en:"See NGO contact"},
+  lp_skip:         {hi:"समझ गया", bn:"বুঝলাম", en:"Got it"},
+
+  ngo_title:       {hi:"अकेले मत जूझिए — मदद उपलब्ध है",
+                    bn:"একা লড়বেন না — সাহায্য আছে",
+                    en:"Don't struggle alone — help is available"},
+  ngo_body:        {hi:"M3M फ़ाउंडेशन ज़रूरतमंद परिवारों की वित्तीय और आजीविका में मदद करता है। इनसे जल्द संपर्क कीजिए।",
+                    bn:"M3M ফাউন্ডেশন প্রয়োজনগ্রস্ত পরিবারের আর্থিক ও জীবিকায় সাহায্য করে। দ্রুত যোগাযোগ করুন।",
+                    en:"M3M Foundation supports families in financial distress with livelihood and counsel. Reach out soon."},
+  ngo_name:        {hi:"M3M फ़ाउंडेशन", bn:"M3M ফাউন্ডেশন", en:"M3M Foundation"},
+  ngo_sub:         {hi:"M3M India का CSR — वित्तीय समावेशन, आजीविका, महिला सशक्तिकरण",
+                    bn:"M3M India-র CSR — আর্থিক অন্তর্ভুক্তি, জীবিকা, নারী ক্ষমতায়ন",
+                    en:"CSR of M3M India — financial inclusion, livelihood, women empowerment"},
+  ngo_note:        {hi:"यह जानकारी सिर्फ़ सूचना के लिए है। संपर्क संख्या बदल सकती है।",
+                    bn:"এই তথ্য শুধু জ্ঞাপনের জন্য। যোগাযোগ নম্বর পরিবর্তন হতে পারে।",
+                    en:"This is informational only. Contact details may change."},
+
+  warn_title:      {hi:"पैसा उठाने का सबसे पहला उसूल", bn:"টাকা ধার নেওয়ার প্রথম নিয়ম", en:"First rule of borrowing"},
+  warn_body:       {hi:"अगर ब्याज तक भी नहीं दे पाएँगे तो उधार मत लीजिए। आप फँस जाएँगे।",
+                    bn:"যদি সুদই দিতে না পারেন, তাহলে ঋণ নেবেন না। আপনি ফেঁসে যাবেন।",
+                    en:"If you can't even pay interest, don't borrow. You will get trapped."},
+  warn_now:        {hi:"अभी आपकी आमदनी में और लोन लेना सही नहीं होगा।",
+                    bn:"এই মুহূর্তে আপনার আয়ে আরও ঋণ নেওয়া ঠিক হবে না।",
+                    en:"At your current income, taking more loan is not advisable."},
+  warn_ngo:        {hi:"मदद के लिए NGO देखें", bn:"সাহায্যের জন্য NGO দেখুন", en:"See NGO for help"},
+  warn_end:        {hi:"समझ गया", bn:"বুঝলাম", en:"Got it"},
+
+  po_title:        {hi:"आपकी मौजूदा बचत से चुकाने में लगेगा",
+                    bn:"আপনার বর্তমান সঞ্চয় থেকে শোধ করতে লাগবে",
+                    en:"With your current savings, repayment will take"},
+  po_ok:           {hi:"क्या यह समय-सीमा आपके लिए सही है?",
+                    bn:"এই সময়সীমা কি আপনার জন্য ঠিক?",
+                    en:"Is this timeline okay for you?"},
+  po_yes:          {hi:"हाँ, ठीक है", bn:"হ্যাঁ, ঠিক", en:"Yes, that's fine"},
+  po_no:           {hi:"नहीं, बदलना चाहता हूँ", bn:"না, পরিবর্তন করতে চাই", en:"No, want to change"},
+  po_months:       {hi:"{n} महीने (~ {y} साल)", bn:"{n} মাস (~ {y} বছর)", en:"{n} months (~{y} yrs)"},
+  po_cant:         {hi:"मौजूदा बचत से ब्याज भी पूरा नहीं हो रहा।",
+                    bn:"বর্তমান সঞ্চয়ে সুদও পুরো হচ্ছে না।",
+                    en:"Your current savings can't even cover the interest."},
+  po_safe:         {hi:"बहुत बढ़िया — आप सुरक्षित हैं। आपके सुरक्षित भविष्य की कामना के साथ, इस ऐप पर आने के लिए धन्यवाद।",
+                    bn:"খুব ভালো — আপনি নিরাপদ। আপনার সুরক্ষিত ভবিষ্যতের কামনায়, এই অ্যাপে আসার জন্য ধন্যবাদ।",
+                    en:"Excellent — you are safe. Thank you for using this app — wishing you a secure future."},
+
+  pp_title:        {hi:"क्या आप जल्दी चुकाना चाहते हैं या देर से?",
+                    bn:"আপনি কি দ্রুত শোধ করতে চান, না কি ধীরে?",
+                    en:"Want to repay quickly or slowly?"},
+  pp_fast:         {hi:"जल्दी चुकाना", bn:"দ্রুত শোধ", en:"Repay fast"},
+  pp_slow:         {hi:"देर से चुकाना", bn:"ধীরে শোধ", en:"Repay slow"},
+  pp_months:       {hi:"नया समय (महीने)", bn:"নতুন সময় (মাস)", en:"New tenure (months)"},
+  pp_calc:         {hi:"फिर से हिसाब लगाएँ", bn:"আবার হিসাব করুন", en:"Re-calculate"},
+
+  nl_title:        {hi:"नया लोन — कुछ बातें", bn:"নতুন ঋণ — কিছু কথা", en:"New loan — some questions"},
+  nl_sub:          {hi:"सही जगह से सही लोन लें — यही पहली समझदारी है।",
+                    bn:"সঠিক জায়গা থেকে সঠিক ঋণ নিন — এটাই প্রথম বুদ্ধিমত্তা।",
+                    en:"Right loan from the right source — that's the first wisdom."},
+  nl_amount:       {hi:"कितना लोन चाहिए?", bn:"কত ঋণ দরকার?", en:"How much do you need?"},
+  nl_purpose:      {hi:"किसलिए चाहिए?", bn:"কীসের জন্য?", en:"What for?"},
+  nl_spoken:       {hi:"अब तक किससे बात की?", bn:"এখন পর্যন্ত কার সঙ্গে কথা বলেছেন?", en:"Whom have you spoken to so far?"},
+
+  sp_none:         {hi:"अभी किसी से नहीं", bn:"এখনো কারও সঙ্গে না", en:"No one yet"},
+  sp_family:       {hi:"परिवार / दोस्त", bn:"পরিবার / বন্ধু", en:"Family & friends"},
+  sp_bank:         {hi:"बैंक", bn:"ব্যাঙ্ক", en:"Bank"},
+  sp_sahukaar:     {hi:"साहूकार / जमींदार", bn:"সহুকার / জমিদার", en:"Moneylender"},
+  sp_other:        {hi:"और किसी से", bn:"অন্য কারও সঙ্গে", en:"Someone else"},
+
+  nm_title:        {hi:"देखते हैं आप कितना लोन आराम से ले सकते हैं",
+                    bn:"দেখি আপনি কত ঋণ আরামে নিতে পারেন",
+                    en:"Let's see how much loan you can comfortably take"},
+  nm_sub:          {hi:"दो तरीक़े से जाँचते हैं — एक चुनिए।",
+                    bn:"দুইভাবে চেক করি — একটি বেছে নিন।",
+                    en:"Two ways to check — pick one."},
+  nm_amount_title: {hi:"रकम + ब्याज + समय → क्या मैं चुका पाऊँगा?",
+                    bn:"টাকা + সুদ + সময় → আমি কি শোধ করতে পারব?",
+                    en:"Amount + rate + tenure → Can I repay?"},
+  nm_amount_sub:   {hi:"Check feasibility for a specific amount", bn:"Check feasibility for a specific amount", en:"Check feasibility for a specific amount"},
+  nm_savings_title:{hi:"मेरी बचत के हिसाब से अधिकतम कितना लोन?",
+                    bn:"আমার সঞ্চয় অনুযায়ী সর্বোচ্চ কত ঋণ?",
+                    en:"Based on my savings, what's the max safe loan?"},
+  nm_savings_sub:  {hi:"Max safe loan from your savings", bn:"Max safe loan from your savings", en:"Max safe loan from your savings"},
+
+  ns_title:        {hi:"अपनी बचत बताइए", bn:"আপনার সঞ্চয় বলুন", en:"Tell me your savings"},
+  ns_sub:          {hi:"हर महीने जो बच जाता है, उसी से हम सुरक्षित अधिकतम लोन निकालेंगे।",
+                    bn:"প্রতি মাসে যা বাঁচে, তা থেকেই নিরাপদ সর্বোচ্চ ঋণ বের করব।",
+                    en:"From your monthly surplus, we'll find your max safe loan."},
+  ns_savings:      {hi:"महीने की बचत", bn:"মাসের সঞ্চয়", en:"Monthly savings"},
+  ns_rate:         {hi:"ब्याज दर (% सालाना)", bn:"সুদের হার (% বার্ষিক)", en:"Interest rate (% p.a.)"},
+  ns_months:       {hi:"कितने महीने में चुकाना है?", bn:"কত মাসে শোধ?", en:"Repayment tenure (months)"},
+  ns_calc:         {hi:"अधिकतम लोन देखें", bn:"সর্বোচ্চ ঋণ দেখুন", en:"Show max loan"},
+
+  nsr_title:       {hi:"आपकी बचत से अधिकतम सुरक्षित लोन",
+                    bn:"আপনার সঞ্চয় থেকে সর্বোচ্চ নিরাপদ ঋণ",
+                    en:"Your max safe loan"},
+  nsr_emi:         {hi:"लगभग EMI: ₹{emi} प्रति महीना",
+                    bn:"আনুমানিক EMI: ₹{emi} প্রতি মাস",
+                    en:"Approx EMI: ₹{emi} / month"},
+  nsr_note:        {hi:"यह केवल सलाह है। आपातकाल के लिए बचत का कुछ हिस्सा अलग रखें।",
+                    bn:"এটি কেবল পরামর্শ। জরুরি অবস্থার জন্য সঞ্চয়ের কিছু অংশ আলাদা রাখুন।",
+                    en:"Advice only. Keep some savings aside for emergencies."},
+
+  dc_title:        {hi:"क्या मैं सीधे आपकी मदद कर सकता हूँ?",
+                    bn:"আমি কি সরাসরি আপনাকে সাহায্য করতে পারি?",
+                    en:"Can I help you directly?"},
+  dc_body:         {hi:"अगर आप चाहें, हम सीधे बात कर सकते हैं — एक काउंसलर आपकी समस्या समझेगा और बैंक/NGO के साथ रास्ता निकालेगा।",
+                    bn:"আপনি চাইলে আমরা সরাসরি কথা বলতে পারি — একজন কাউন্সেলর আপনার সমস্যা বুঝে ব্যাঙ্ক/NGO-র সঙ্গে পথ বের করবেন।",
+                    en:"If you wish, we can talk directly — a counsellor will understand and find a way with banks/NGOs."},
+  dc_token:        {hi:"टोकन के तौर पर ₹100 — अगर हम आपकी समस्या हल नहीं कर पाए, तो पैसा वापस। यह सिर्फ़ इसलिए ताकि सच्ची ज़रूरत वाले लोग ही संपर्क करें।",
+                    bn:"টোকেন হিসেবে ₹১০০ — যদি আমরা আপনার সমস্যা সমাধান করতে না পারি, টাকা ফেরত। শুধু এই কারণে যাতে সত্যিকারের প্রয়োজনের লোকেরাই যোগাযোগ করেন।",
+                    en:"₹100 as a token — if we can't solve your problem, money refunded. This ensures only genuine cases reach out."},
+  dc_talk:         {hi:"सीधे बात कीजिए", bn:"সরাসরি কথা বলুন", en:"Talk directly"},
+  dc_skip:         {hi:"बाद में", bn:"পরে", en:"Later"},
+
+  ft_brand:        {hi:"दारस DARAS — आपका वित्तीय मित्र", bn:"দারস DARAS — আপনার আর্থিক বন্ধু", en:"DARAS — Your financial companion"},
+  ft_disc:         {hi:"यह ऐप केवल जानकारी और दिशा-निर्देश के लिए है। किसी भी वित्तीय निर्णय से पहले अपने सलाहकार से ज़रूर मिलें।",
+                    bn:"এই অ্যাপ শুধুমাত্র তথ্য ও দিকনির্দেশের জন্য। যেকোনো আর্থিক সিদ্ধান্তের আগে আপনার পরামর্শদাতার সঙ্গে দেখা করুন।",
+                    en:"For information & guidance only. Please consult a qualified advisor before any financial decision."},
+
+  err_name:        {hi:"कृपया नाम लिखें", bn:"অনুগ্রহ করে নাম লিখুন", en:"Please enter your name"},
+  err_voc:         {hi:"कृपया अपना काम चुनें", bn:"অনুগ্রহ করে আপনার কাজ বেছে নিন", en:"Please pick your work"},
+  err_income:      {hi:"आमदनी ज़रूरी है", bn:"আয় প্রয়োজন", en:"Income is required"},
+  err_amount:      {hi:"रकम भरें", bn:"টাকার পরিমাণ দিন", en:"Please enter amount"},
+  saved:           {hi:"धन्यवाद — आपका सवाल हम तक पहुँच गया है।",
+                    bn:"ধন্যবাদ — আপনার প্রশ্ন আমাদের কাছে পৌঁছেছে।",
+                    en:"Thanks — your question has reached us."},
+
+  rec_education:   {hi:"पढ़ाई के लिए हमेशा शिक्षा-लोन (Education Loan) सबसे सही — ब्याज कम, समय ज़्यादा। पर्सनल या असुरक्षित लोन से बचें।",
+                    bn:"পড়াশোনার জন্য সবসময় শিক্ষা-ঋণ (Education Loan) সেরা — সুদ কম, সময় বেশি। ব্যক্তিগত বা অসুরক্ষিত ঋণ এড়িয়ে চলুন।",
+                    en:"For education, an Education Loan is best — lower interest, longer tenure. Avoid personal or informal loans."},
+  rec_property:    {hi:"संपत्ति के लिए बैंक/NBFC से लोन सबसे सुरक्षित। साहूकार से बचें — कागज़ धोखा हो सकता है।",
+                    bn:"সম্পত্তির জন্য ব্যাঙ্ক/NBFC ঋণ সবচেয়ে নিরাপদ। সহুকার এড়িয়ে চলুন — কাগজে প্রতারণা হতে পারে।",
+                    en:"For property, a Bank/NBFC loan is safest. Avoid moneylenders — paperwork fraud is common."},
+  rec_business:    {hi:"धंधे के लिए MSME / स्टार्ट-अप लोन देखिए — कम ब्याज, सरकारी सहायता।",
+                    bn:"ব্যবসার জন্য MSME / স্টার্ট-আপ ঋণ দেখুন — কম সুদ, সরকারি সাহায্য।",
+                    en:"For business, look at MSME / Startup loans — lower interest, government support."},
+  rec_vehicle:     {hi:"बाइक/स्कूटर — अगर मालिक से मिले तो सबसे बढ़िया (दोनों को फ़ायदा)। वरना बैंक/NBFC से।",
+                    bn:"বাইক/স্কুটি — মালিকের কাছ থেকে পেলে সবচেয়ে ভালো (উভয়ের জন্য লাভ)। নইলে ব্যাঙ্ক/NBFC থেকে।",
+                    en:"Vehicle — best from your employer (mutual benefit). Else from Bank/NBFC."},
+  rec_medical:     {hi:"बीमारी में पर्सनल लोन / मेडिकल इमरजेंसी लोन देखिए। साहूकार से बिल्कुल मत लें।",
+                    bn:"অসুখে পার্সোনাল ঋণ / মেডিকেল ইমার্জেন্সি ঋণ দেখুন। সহুকারের কাছ থেকে একদম নেবেন না।",
+                    en:"For medical, look at Personal/Medical-Emergency loans. Never take from moneylenders."},
+  rec_gold:        {hi:"अगर सोना है तो विश्वसनीय जगह (Muthoot, Manappuram) से ही गोल्ड लोन लें।",
+                    bn:"সোনা থাকলে নির্ভরযোগ্য জায়গা (Muthoot, Manappuram) থেকেই গোল্ড লোন নিন।",
+                    en:"If you have gold, take a Gold Loan only from trusted players (Muthoot, Manappuram)."},
+  rec_default:     {hi:"बैंक से बात कीजिए — सबसे पारदर्शी और ब्याज भी कम। साहूकार से बचें।",
+                    bn:"ব্যাঙ্কের সঙ্গে কথা বলুন — সবচেয়ে স্বচ্ছ এবং সুদও কম। সহুকার এড়িয়ে চলুন।",
+                    en:"Speak to a bank — most transparent and lower interest. Avoid moneylenders."},
+};
+
+/* ---------- VOCATIONS ---------- */
+const VOCATIONS = [
+  {k:"labour_skilled",   ic:"🛠️", l:"voc_labour_s"},
+  {k:"labour_unskilled", ic:"💪", l:"voc_labour_u"},
+  {k:"thekedaar",        ic:"📋", l:"voc_thekedaar"},
+  {k:"security",         ic:"🛡️", l:"voc_security"},
+  {k:"house_maid",       ic:"🧹", l:"voc_maid"},
+  {k:"business",         ic:"🏪", l:"voc_business"},
+  {k:"driver",           ic:"🚗", l:"voc_driver"},
+  {k:"other",            ic:"✏️", l:"voc_other"},
+];
+
+const PURPOSES = ["shaadi","padai","property","gaon","medical","business","vehicle","other"];
+const SOURCES  = ["informal","sahukaar","unsecured","secured","personal","cc","microfin","msme","gold","employer","education","other"];
+const SPOKEN   = ["none","family","bank","sahukaar","other"];
+
+/* ---------- STATE ---------- */
+const S = {
+  lang: (localStorage.getItem("daras-lang") || "hi"),
+  userId: null, sessionId: null,
+  name: "", age: null, mobile: "", vocation: "", vocationCustom: "",
+  loanType: null, // 'existing' | 'new'
+  existing: { amount: 0, purpose: "", source: "", rate: 0, remaining: 0 },
+  branch: null,
+  income: 0, expenses: {}, tenure: 12,
+  lastResult: null, paceMonths: 24,
+  newLoan: { amount: 0, purpose: "", spoken: "" },
+  history: ["s-welcome"],
+};
+window.S = S; // dev introspection
+
+/* ---------- I18N ---------- */
+function t(key, vars){
+  let v = (LANG[key] && LANG[key][S.lang]) || (LANG[key] && LANG[key].en) || key;
+  if (vars) Object.keys(vars).forEach(k => { v = v.replace(new RegExp("\\{"+k+"\\}","g"), vars[k]); });
+  return v;
+}
+function applyLang(){
+  document.documentElement.lang = S.lang;
+  document.querySelectorAll("[data-i18n]").forEach(el => {
+    const k = el.getAttribute("data-i18n");
+    if (LANG[k]) el.textContent = t(k);
+  });
+  document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
+    const k = el.getAttribute("data-i18n-placeholder");
+    if (LANG[k]) el.placeholder = t(k);
+  });
+  document.querySelectorAll(".lang-btn").forEach(b => b.classList.toggle("on", b.dataset.lang === S.lang));
+  // Re-render dynamic bits
+  populateVocations(); populateSelects(); refreshHelloName();
+  if (S.lastResult) renderResult(S.lastResult);
+}
+
+/* ---------- NAV ---------- */
+const STEP_FOR = {
+  "s-welcome":"step_welcome","s-register":"step_register","s-ltype":"step_ltype",
+  "s-existing":"step_existing","s-satisfied":"step_satisfied","s-helpopen":"step_satisfied",
+  "s-endgrace":"step_end","s-unhappy":"step_unhappy","s-byaj-q":"step_unhappy",
+  "s-incexp":"step_calc","s-result":"step_result","s-after-green":"step_result",
+  "s-newincome":"step_result","s-lender":"step_ngo","s-lender-prompt":"step_ngo",
+  "s-ngo":"step_ngo","s-warning":"step_ngo","s-payoff":"step_result",
+  "s-payoff-pace":"step_calc","s-new":"step_new","s-new-mode":"step_new",
+  "s-new-savings":"step_calc","s-new-savings-result":"step_result","s-direct":"step_end"
+};
+
+function go(id, opts={}){
+  document.querySelectorAll(".screen").forEach(s => s.classList.remove("on"));
+  const target = document.getElementById(id);
+  if (!target) return;
+  target.classList.add("on");
+  if (!opts.replace) S.history.push(id);
+  window.scrollTo({top:0, behavior:"smooth"});
+  const chip = document.getElementById("progress-chip").querySelector("span:last-child");
+  chip.textContent = t(STEP_FOR[id] || "step_welcome");
+  document.getElementById("back-btn").hidden = S.history.length <= 1 || id === "s-welcome";
+  // telemetry
+  logEvent("screen_view", {screen:id, lang:S.lang});
+}
+function goBack(){
+  if (S.history.length <= 1) return;
+  S.history.pop();
+  const prev = S.history[S.history.length-1];
+  go(prev, {replace:true});
+}
+
+/* ---------- TELEMETRY ---------- */
+function logEvent(event, meta){
+  fetch("/api/user/event", {
+    method:"POST", headers:{"Content-Type":"application/json"},
+    body: JSON.stringify({user_id: S.userId, event, meta: meta||{}})
+  }).catch(()=>{});
+}
+
+/* ---------- POPULATE DROPDOWNS ---------- */
+function populateVocations(){
+  const grid = document.getElementById("vocation-grid");
+  if (!grid) return;
+  grid.innerHTML = "";
+  VOCATIONS.forEach(v => {
+    const b = document.createElement("button");
+    b.type = "button";
+    b.className = "opt-card" + (S.vocation === v.k ? " selected" : "");
+    b.setAttribute("data-testid", "vocation-" + v.k);
+    b.innerHTML = `<span class="ic">${v.ic}</span><span>${t(v.l)}</span>`;
+    b.addEventListener("click", () => {
+      S.vocation = v.k;
+      document.getElementById("vocation-custom-wrap").style.display = (v.k === "other" || v.k === "business") ? "block" : "none";
+      populateVocations();
+    });
+    grid.appendChild(b);
+  });
+}
+function populateSelects(){
+  fillSel("ex-purpose", PURPOSES.map(p => ({v:p, l:"purp_"+p})));
+  fillSel("nl-purpose", PURPOSES.map(p => ({v:p, l:"purp_"+p})));
+  fillSel("ex-source",  SOURCES.map(p => ({v:p, l:"src_"+p})));
+  fillSel("nl-spoken",  SPOKEN.map(p => ({v:p, l:"sp_"+p})));
+}
+function fillSel(id, opts){
+  const sel = document.getElementById(id); if (!sel) return;
+  const prev = sel.value;
+  sel.innerHTML = "";
+  opts.forEach(o => {
+    const op = document.createElement("option");
+    op.value = o.v; op.textContent = t(o.l);
+    sel.appendChild(op);
+  });
+  if (prev) sel.value = prev;
+}
+function refreshHelloName(){
+  const el = document.getElementById("hello-name");
+  if (el && S.name) el.textContent = S.name;
+}
+
+/* ---------- WIRE-UP ---------- */
+document.querySelectorAll(".lang-btn").forEach(b => b.addEventListener("click", () => {
+  S.lang = b.dataset.lang; localStorage.setItem("daras-lang", S.lang); applyLang();
+  logEvent("lang_change", {lang:S.lang});
+}));
+document.querySelectorAll("[data-go]").forEach(el => el.addEventListener("click", e => {
+  go(el.getAttribute("data-go"));
+}));
+document.getElementById("back-btn").addEventListener("click", goBack);
+
+/* ---------- 1. WELCOME → REGISTER (handled by [data-go]) ---------- */
+
+/* ---------- 2. REGISTER ---------- */
+document.getElementById("btn-register").addEventListener("click", async () => {
+  const name = document.getElementById("in-name").value.trim();
+  if (!name) { alert(t("err_name")); return; }
+  if (!S.vocation) { alert(t("err_voc")); return; }
+  S.name = name;
+  S.age = parseInt(document.getElementById("in-age").value || 0) || null;
+  S.mobile = document.getElementById("in-mobile").value.trim();
+  S.vocationCustom = document.getElementById("in-vocation-custom").value.trim();
+
+  try {
+    const r = await fetch("/api/user/register", {
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({
+        name: S.name, age: S.age, mobile: S.mobile,
+        vocation: S.vocation, vocation_custom: S.vocationCustom,
+        language: S.lang
+      })
+    });
+    const d = await r.json();
+    if (d.success) { S.userId = d.user_id; S.sessionId = d.session_id; }
+  } catch(e){}
+  go("s-ltype");
+});
+
+/* ---------- 3. LOAN TYPE ---------- */
+document.querySelectorAll("[data-set-ltype]").forEach(b => b.addEventListener("click", () => {
+  S.loanType = b.getAttribute("data-set-ltype");
+  logEvent("loan_type", {type:S.loanType});
+  if (S.loanType === "existing") go("s-existing"); else go("s-new");
+}));
+
+/* ---------- 4. EXISTING DETAILS ---------- */
+document.getElementById("btn-existing-next").addEventListener("click", () => {
+  S.existing.amount   = parseFloat(document.getElementById("ex-amount").value || 0);
+  S.existing.purpose  = document.getElementById("ex-purpose").value;
+  S.existing.source   = document.getElementById("ex-source").value;
+  S.existing.rate     = parseFloat(document.getElementById("ex-rate").value || 0);
+  S.existing.remaining= parseFloat(document.getElementById("ex-remaining").value || S.existing.amount);
+  if (!S.existing.amount) { alert(t("err_amount")); return; }
+  logEvent("existing_filled", {amount:S.existing.amount, source:S.existing.source, rate:S.existing.rate});
+  go("s-satisfied");
+});
+
+/* ---------- 5. SATISFIED (handled by [data-go]) ---------- */
+
+/* ---------- 6. OPEN QUESTION ---------- */
+document.getElementById("btn-open-submit").addEventListener("click", async () => {
+  const q = document.getElementById("open-q").value.trim();
+  if (!q) { go("s-endgrace"); return; }
+  try {
+    await fetch("/api/user/question", {
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({ user_id: S.userId, question: q, context: {branch:S.branch, lang:S.lang} })
+    });
+  } catch(e){}
+  alert(t("saved"));
+  go("s-endgrace");
+});
+
+/* ---------- 8. UNHAPPY → BRANCH ---------- */
+document.querySelectorAll("[data-set-branch]").forEach(b => b.addEventListener("click", () => {
+  S.branch = b.getAttribute("data-set-branch");
+  logEvent("branch", {branch:S.branch});
+  if (S.branch === "high_interest") go("s-byaj-q");
+  else if (S.branch === "cant_pay_emi") go("s-incexp");
+  else if (S.branch === "principal_issue") go("s-incexp");
+  else if (S.branch === "need_more_money") {
+    // First check current loan health
+    if (S.existing.amount > 0) go("s-incexp"); else go("s-new");
+  }
+}));
+
+/* ---------- 9. BYAJ-Q ---------- */
+document.querySelectorAll("[data-set-byaj]").forEach(b => b.addEventListener("click", () => {
+  const v = b.getAttribute("data-set-byaj");
+  logEvent("byaj_q", {ans:v});
+  go("s-incexp");
+}));
+
+/* ---------- 10. INCEXP → CALCULATE ---------- */
+document.getElementById("btn-calc").addEventListener("click", async () => {
+  S.income = parseFloat(document.getElementById("ie-income").value || 0);
+  if (!S.income) { alert(t("err_income")); return; }
+  S.expenses = {
+    rent:        parseFloat(document.getElementById("ie-rent").value || 0),
+    grocery:     parseFloat(document.getElementById("ie-grocery").value || 0),
+    medicine:    parseFloat(document.getElementById("ie-medicine").value || 0),
+    education:   parseFloat(document.getElementById("ie-education").value || 0),
+    mobile_bill: parseFloat(document.getElementById("ie-mobile-bill").value || 0),
+    gaon:        parseFloat(document.getElementById("ie-gaon").value || 0),
+    other_expenses: parseFloat(document.getElementById("ie-other").value || 0),
+  };
+  S.tenure = parseInt(document.getElementById("ie-tenure").value || 12);
+  await runCalculate();
+});
+
+async function runCalculate(){
+  const payload = {
+    user_id: S.userId,
+    loan_type: S.loanType,
+    loan_amount: S.existing.amount || S.newLoan.amount,
+    loan_purpose: S.existing.purpose || S.newLoan.purpose,
+    loan_source: S.existing.source || S.newLoan.spoken,
+    interest_rate: S.existing.rate || 14,
+    tenure_months: S.tenure,
+    loan_remaining: S.existing.remaining || S.existing.amount || S.newLoan.amount,
+    income: S.income, ...S.expenses,
+    vocation: S.vocation,
+  };
+  try {
+    const r = await fetch("/api/user/calculate", {
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify(payload),
+    });
+    const d = await r.json();
+    S.lastResult = d;
+    if (S.branch === "principal_issue") renderPayoff(d); else renderResultAndShow(d);
+  } catch(e){ alert("Network error"); }
+}
+
+/* ---------- RESULT RENDERING ---------- */
+function renderResultAndShow(d){
+  renderResult(d);
+  go("s-result");
+}
+function renderResult(d){
+  const bubble = document.getElementById("result-bubble");
+  bubble.classList.remove("danger","good","warm");
+  if (d.status === "green") bubble.classList.add("good");
+  else if (d.status === "red") bubble.classList.add("danger");
+  else bubble.classList.add("warm");
+
+  const badge = document.getElementById("result-badge");
+  badge.className = "status-badge " + d.status;
+  badge.textContent = t("status_" + d.status);
+
+  document.getElementById("result-title").textContent = t("step_result");
+  const msg = S.lang === "hi" ? d.message_hi : S.lang === "bn" ? d.message_bn : d.message_en;
+  document.getElementById("result-message").textContent = msg;
+
+  document.getElementById("r-income").textContent   = inr(d.income);
+  document.getElementById("r-expense").textContent  = inr(d.expenses_total);
+  const sv = document.getElementById("r-savings");
+  sv.textContent = inr(d.monthly_savings);
+  sv.className = "v " + (d.monthly_savings > 0 ? "green" : "red");
+  document.getElementById("r-emi").textContent      = inr(d.emi);
+  document.getElementById("r-interest").textContent = inr(d.total_interest);
+  document.getElementById("r-payable").textContent  = inr(d.total_payable);
+  document.getElementById("r-safe").textContent     = inr(d.max_safe_loan);
+
+  // Actions depend on branch + status
+  const acts = document.getElementById("result-actions");
+  acts.innerHTML = "";
+  if (S.branch === "high_interest" || S.branch === "cant_pay_emi") {
+    if (d.status === "green") {
+      acts.appendChild(mkBtn("ag_yes-go", t("ag_title"), "primary", () => go("s-after-green")));
+    } else {
+      acts.appendChild(mkBtn("redo-loop", t("ni_title").slice(0,40)+"…", "primary", () => go("s-newincome")));
+    }
+  } else if (S.branch === "need_more_money") {
+    if (d.status === "red" || d.status === "orange") {
+      acts.appendChild(mkBtn("warn-go", t("warn_now"), "primary", () => go("s-warning")));
+    } else {
+      acts.appendChild(mkBtn("new-loan-go", t("act_new_loan"), "primary", () => go("s-new")));
+    }
+  } else {
+    acts.appendChild(mkBtn("again", t("act_again"), "ghost", () => go("s-incexp")));
+    acts.appendChild(mkBtn("end", t("end_restart_grace"), "primary", () => go("s-endgrace")));
+  }
+}
+function mkBtn(testid, label, kind, fn){
+  const b = document.createElement("button");
+  b.className = "btn " + (kind === "primary" ? "btn-primary" : kind === "teal" ? "btn-teal" : "btn-ghost");
+  b.setAttribute("data-testid", "result-action-" + testid);
+  b.textContent = label;
+  b.addEventListener("click", fn);
+  return b;
+}
+
+/* ---------- PAYOFF RENDERING (principal issue) ---------- */
+function renderPayoff(d){
+  const months = d.payoff_months_at_surplus;
+  const badge = document.getElementById("payoff-badge");
+  const num   = document.getElementById("payoff-num");
+  const msg   = document.getElementById("payoff-msg");
+  if (months < 0) {
+    badge.className = "status-badge red";
+    badge.textContent = t("status_red");
+    num.textContent = "—";
+    msg.textContent = t("po_cant");
+  } else if (months === 0) {
+    badge.className = "status-badge green";
+    badge.textContent = t("status_green");
+    num.textContent = "0";
+    msg.textContent = t("po_safe");
+  } else {
+    const yrs = (months/12).toFixed(1);
+    badge.className = "status-badge " + (months > S.tenure * 2 ? "orange" : "green");
+    badge.textContent = t(months > S.tenure * 2 ? "status_orange" : "status_green");
+    num.textContent = t("po_months", {n: months, y: yrs});
+    msg.textContent = months > S.tenure * 2 ? t("ni_title") : t("po_safe");
+  }
+  go("s-payoff");
+}
+
+/* ---------- 12. AFTER-GREEN ---------- */
+document.querySelectorAll("[data-go-after-green]").forEach(b => b.addEventListener("click", () => {
+  const v = b.getAttribute("data-go-after-green");
+  logEvent("after_green", {ans:v});
+  if (v === "yes") go("s-new"); else go("s-helpopen");
+}));
+
+/* ---------- 13. NEWINCOME ---------- */
+document.querySelectorAll("[data-go-newincome]").forEach(b => b.addEventListener("click", () => {
+  const v = b.getAttribute("data-go-newincome");
+  logEvent("new_income", {ans:v});
+  if (v === "yes") {
+    alert(S.lang === "hi" ? "अपनी नई आमदनी जोड़कर फिर हिसाब लगाएँ।" :
+          S.lang === "bn" ? "নতুন আয় যোগ করে আবার হিসাব করুন।" :
+                            "Add your new income and re-calculate.");
+    go("s-incexp");
+  } else {
+    go("s-lender");
+  }
+}));
+
+/* ---------- 14. LENDER ---------- */
+document.querySelectorAll("[data-go-lender]").forEach(b => b.addEventListener("click", () => {
+  const v = b.getAttribute("data-go-lender");
+  logEvent("lender_spoken", {ans:v});
+  if (v === "yes") go("s-ngo"); else go("s-lender-prompt");
+}));
+
+/* ---------- 18-19. PAYOFF / PACE ---------- */
+document.querySelectorAll("[data-go-payoff]").forEach(b => b.addEventListener("click", () => {
+  const v = b.getAttribute("data-go-payoff");
+  logEvent("payoff_ok", {ans:v});
+  if (v === "yes") go("s-helpopen"); else go("s-payoff-pace");
+}));
+document.querySelectorAll("[data-go-pace]").forEach(b => b.addEventListener("click", () => {
+  const v = b.getAttribute("data-go-pace");
+  logEvent("pace", {ans:v});
+  document.getElementById("pace-months").value = v === "fast" ? 12 : 36;
+}));
+document.getElementById("btn-pace-calc").addEventListener("click", () => {
+  S.tenure = parseInt(document.getElementById("pace-months").value || 24);
+  S.branch = "cant_pay_emi"; // route to standard result flow
+  runCalculate();
+});
+
+/* ---------- 20. NEW LOAN ---------- */
+document.getElementById("nl-purpose").addEventListener("change", updateRecommendation);
+function updateRecommendation(){
+  const p = document.getElementById("nl-purpose").value;
+  const map = {
+    padai:"rec_education", property:"rec_property", business:"rec_business",
+    vehicle:"rec_vehicle", medical:"rec_medical"
+  };
+  const k = map[p] || "rec_default";
+  document.getElementById("nl-recommend-text").textContent = t(k);
+  document.getElementById("nl-recommend-box").style.display = "flex";
+}
+document.getElementById("btn-new-next").addEventListener("click", () => {
+  S.newLoan.amount = parseFloat(document.getElementById("nl-amount").value || 0);
+  S.newLoan.purpose = document.getElementById("nl-purpose").value;
+  S.newLoan.spoken  = document.getElementById("nl-spoken").value;
+  if (!S.newLoan.amount) { alert(t("err_amount")); return; }
+  logEvent("new_loan_details", {...S.newLoan});
+  go("s-new-mode");
+});
+
+/* ---------- 21-22. NEW LOAN MODE ---------- */
+document.querySelectorAll("[data-go-mode]").forEach(b => b.addEventListener("click", () => {
+  const m = b.getAttribute("data-go-mode");
+  S.calcMode = m;
+  logEvent("calc_mode", {mode:m});
+  if (m === "amount") {
+    S.loanType = "new";
+    S.existing = { amount: S.newLoan.amount, purpose: S.newLoan.purpose, source: S.newLoan.spoken, rate: 14, remaining: S.newLoan.amount };
+    S.branch = null;
+    go("s-incexp");
+  } else {
+    go("s-new-savings");
+  }
+}));
+
+/* ---------- 23. NS-CALC ---------- */
+document.getElementById("btn-ns-calc").addEventListener("click", async () => {
+  const savings = parseFloat(document.getElementById("ns-savings").value || 0);
+  const rate    = parseFloat(document.getElementById("ns-rate").value || 14);
+  const months  = parseInt(document.getElementById("ns-months").value || 24);
+  try {
+    const r = await fetch("/api/user/calculate_max", {
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({ monthly_savings: savings, interest_rate: rate, tenure_months: months })
+    });
+    const d = await r.json();
+    document.getElementById("nsr-num").textContent = inr(d.max_safe_loan);
+    document.getElementById("nsr-emi").textContent = t("nsr_emi", {emi: Math.round(savings).toLocaleString("en-IN")});
+    logEvent("ns_calc", {max:d.max_safe_loan, savings});
+    go("s-new-savings-result");
+  } catch(e){ alert("Network error"); }
+});
+
+/* ---------- UTILS ---------- */
+function inr(n){
+  const v = Math.round(Number(n)||0);
+  return "₹" + v.toLocaleString("en-IN");
+}
+
+/* ---------- INIT ---------- */
+applyLang();
+go("s-welcome", {replace:true});
+S.history = ["s-welcome"];
+</script>
+</body>
+</html>
