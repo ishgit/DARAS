@@ -10,7 +10,7 @@ Flask backend:
                    → /api/admin/panel  (Emergent preview)
 """
 
-from flask import Flask, request, jsonify, render_template, g, Response
+from flask import Flask, request, jsonify, render_template, send_from_directory, g, Response
 from flask_cors import CORS
 import sqlite3, hashlib, hmac, uuid, os, json, math, csv, io
 from datetime import datetime, timedelta
@@ -274,7 +274,9 @@ def user_panel():
 @app.route("/admin/")
 @app.route("/api/admin/panel")
 def admin_panel():
-    return render_template("admin.html")
+    # Serve as raw static file — admin.html contains JS template-literal
+    # syntax like ${{ ... }} which Jinja would try to parse.
+    return send_from_directory(os.path.dirname(__file__), "admin.html")
 
 # ── Public User API ───────────────────────────────────────────────────────────
 @app.route("/api/user/register", methods=["POST"])

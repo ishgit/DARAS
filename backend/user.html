@@ -278,7 +278,7 @@ html[lang="hi"] .ngo-card h3,html[lang="bn"] .ngo-card h3{font-family:inherit}
   <!-- ─── 3. LOAN TYPE ─────────────────────────────── -->
   <section class="screen" id="s-ltype" data-testid="screen-ltype">
     <div class="bubble">
-      <h2 data-i18n="ltype_title">शुक्रिया, <span id="hello-name"></span></h2>
+      <h2 data-i18n="ltype_title">शुक्रिया</h2>
       <p class="lead" data-i18n="ltype_trust">हम पर भरोसा दिखाने के लिए धन्यवाद। अब बताइए —</p>
       <h2 style="margin-top:18px" data-i18n="ltype_question">आपका लोन पहले से है, या नया लोन चाहिए?</h2>
       <div class="yn-row">
@@ -1196,17 +1196,18 @@ function t(key, vars){
 }
 function applyLang(){
   document.documentElement.lang = S.lang;
+  const vars = { name: S.name || "" };
   document.querySelectorAll("[data-i18n]").forEach(el => {
     const k = el.getAttribute("data-i18n");
-    if (LANG[k]) el.textContent = t(k);
+    if (LANG[k]) el.textContent = t(k, vars);
   });
   document.querySelectorAll("[data-i18n-placeholder]").forEach(el => {
     const k = el.getAttribute("data-i18n-placeholder");
-    if (LANG[k]) el.placeholder = t(k);
+    if (LANG[k]) el.placeholder = t(k, vars);
   });
   document.querySelectorAll(".lang-btn").forEach(b => b.classList.toggle("on", b.dataset.lang === S.lang));
   // Re-render dynamic bits
-  populateVocations(); populateSelects(); refreshHelloName();
+  populateVocations(); populateSelects();
   if (S.lastResult) renderResult(S.lastResult);
 }
 
@@ -1286,10 +1287,6 @@ function fillSel(id, opts){
   });
   if (prev) sel.value = prev;
 }
-function refreshHelloName(){
-  const el = document.getElementById("hello-name");
-  if (el && S.name) el.textContent = S.name;
-}
 
 /* ---------- WIRE-UP ---------- */
 document.querySelectorAll(".lang-btn").forEach(b => b.addEventListener("click", () => {
@@ -1325,6 +1322,7 @@ document.getElementById("btn-register").addEventListener("click", async () => {
     const d = await r.json();
     if (d.success) { S.userId = d.user_id; S.sessionId = d.session_id; }
   } catch(e){}
+  applyLang(); // re-render so {name} substitutes in ltype_title
   go("s-ltype");
 });
 
