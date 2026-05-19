@@ -139,6 +139,20 @@ def init_db():
 
     conn.commit()
 
+    # Migration: add resolved_by to open_questions (safe to run repeatedly)
+    try:
+        conn.execute("ALTER TABLE open_questions ADD COLUMN resolved_by TEXT")
+        conn.commit()
+    except Exception:
+        pass
+
+    # Migration: add is_current flag to loan_assessments (safe to run repeatedly)
+    try:
+        conn.execute("ALTER TABLE loan_assessments ADD COLUMN is_current INTEGER DEFAULT 1")
+        conn.commit()
+    except Exception:
+        pass
+
     if not conn.execute("SELECT id FROM admin_users LIMIT 1").fetchone():
         conn.execute(
             "INSERT INTO admin_users (username,password_hash,full_name,role) VALUES (?,?,?,?)",
@@ -281,25 +295,72 @@ def admin_panel():
 # ── Public User API ───────────────────────────────────────────────────────────
 @app.route("/api/user/register", methods=["POST"])
 def user_register():
-    d   = request.get_json(force=True)
-    sid = str(uuid.uuid4())
-    name = (d.get("name") or "").strip()
+    d        = request.get_json(force=True)
+    name     = (d.get("name") or "").strip()
     if not name:
         return jsonify({"error":"Naam zaroori hai"}), 400
-    db = get_db()
+    db       = get_db()
+    mobile   = (d.get("mobile") or "").strip()
+    language = d.get("language", "hi")
+    vocation = d.get("vocation", "other")
+    voc_custom = d.get("vocation_custom", "")
+    age      = d.get("age")
+
+    # START OVER: update existing user record, keep same user_id
+    existing_uid = d.get("existing_user_id")
+    if existing_uid:
+        db.execute(
+            "UPDATE users SET name=?,age=?,vocation=?,vocation_custom=?,language=?,last_active=datetime('now','localtime') WHERE id=?",
+            (name, age, vocation, voc_custom, language, existing_uid)
+        )
+        db.commit()
+        row = db.execute("SELECT id,session_id FROM users WHERE id=?", (existing_uid,)).fetchone()
+        db.execute("INSERT INTO app_events (user_id,event,meta) VALUES (?,?,?)",
+                   (existing_uid, "start_over", json.dumps({"vocation":vocation,"lang":language})))
+        db.commit()
+        return jsonify({"success":True,"user_id":row["id"],"session_id":row["session_id"]})
+
+    # Duplicate mobile check — return existing record for frontend to handle
+    if mobile and len(mobile) >= 6:
+        existing = db.execute(
+            "SELECT * FROM users WHERE mobile=? ORDER BY created_at DESC LIMIT 1",
+            (mobile,)
+        ).fetchone()
+        if existing:
+            last = db.execute(
+                "SELECT * FROM loan_assessments WHERE user_id=? ORDER BY created_at DESC LIMIT 1",
+                (existing["id"],)
+            ).fetchone()
+            return jsonify({
+                "exists": True,
+                "user": {
+                    "id":              existing["id"],
+                    "session_id":      existing["session_id"],
+                    "name":            existing["name"],
+                    "age":             existing["age"],
+                    "mobile":          existing["mobile"],
+                    "vocation":        existing["vocation"],
+                    "vocation_custom": existing["vocation_custom"] or "",
+                    "language":        existing["language"] or "hi",
+                },
+                "last_assessment": dict(last) if last else None,
+            })
+
+    # New user INSERT
+    sid = str(uuid.uuid4())
     try:
         db.execute("""
             INSERT INTO users
               (session_id,name,age,mobile,vocation,vocation_custom,city,state,language,ip_address,user_agent)
             VALUES (?,?,?,?,?,?,?,?,?,?,?)
-        """, (sid, name, d.get("age"), d.get("mobile",""),
-              d.get("vocation","other"), d.get("vocation_custom",""),
-              d.get("city",""), d.get("state",""), d.get("language","hi"),
+        """, (sid, name, age, mobile,
+              vocation, voc_custom,
+              d.get("city",""), d.get("state",""), language,
               request.remote_addr, request.headers.get("User-Agent","")[:255]))
         db.commit()
         uid = db.execute("SELECT id FROM users WHERE session_id=?", (sid,)).fetchone()["id"]
         db.execute("INSERT INTO app_events (user_id,event,meta) VALUES (?,?,?)",
-                   (uid,"register",json.dumps({"vocation":d.get("vocation"),"lang":d.get("language","hi")})))
+                   (uid,"register",json.dumps({"vocation":vocation,"lang":language})))
         db.commit()
         return jsonify({"success":True,"session_id":sid,"user_id":uid})
     except sqlite3.IntegrityError as e:
@@ -338,6 +399,8 @@ def user_calculate():
 
     db = get_db(); uid = d.get("user_id")
     try:
+        if uid:
+            db.execute("UPDATE loan_assessments SET is_current=0 WHERE user_id=?", (uid,))
         db.execute("""
             INSERT INTO loan_assessments
               (user_id,loan_type,loan_amount,loan_purpose,loan_source,
@@ -387,6 +450,41 @@ def log_event():
                (d.get("user_id"), d.get("event","page_view"), json.dumps(d.get("meta",{}))))
     db.commit()
     return jsonify({"ok":True})
+
+@app.route("/api/user/lookup", methods=["POST"])
+def user_lookup():
+    d      = request.get_json(force=True)
+    mobile = (d.get("mobile") or "").strip()
+    if len(mobile) < 6:
+        return jsonify({"found": False})
+    db   = get_db()
+    user = db.execute(
+        "SELECT * FROM users WHERE mobile=? ORDER BY created_at DESC LIMIT 1",
+        (mobile,)
+    ).fetchone()
+    if not user:
+        return jsonify({"found": False})
+    last = db.execute(
+        "SELECT * FROM loan_assessments WHERE user_id=? ORDER BY created_at DESC LIMIT 1",
+        (user["id"],)
+    ).fetchone()
+    db.execute("INSERT INTO app_events (user_id,event,meta) VALUES (?,?,?)",
+               (user["id"], "return_lookup", json.dumps({"mobile_tail": mobile[-4:]})))
+    db.commit()
+    return jsonify({
+        "found": True,
+        "user": {
+            "id":              user["id"],
+            "session_id":      user["session_id"],
+            "name":            user["name"],
+            "age":             user["age"],
+            "mobile":          user["mobile"],
+            "vocation":        user["vocation"],
+            "vocation_custom": user["vocation_custom"] or "",
+            "language":        user["language"] or "hi",
+        },
+        "last_assessment": dict(last) if last else None,
+    })
 
 @app.route("/api/user/question", methods=["POST"])
 def log_question():
@@ -443,19 +541,24 @@ def admin_dashboard():
     today = datetime.now().strftime("%Y-%m-%d")
 
     total_users   = db.execute("SELECT COUNT(*) FROM users").fetchone()[0]
-    total_assess  = db.execute("SELECT COUNT(*) FROM loan_assessments").fetchone()[0]
+    total_assess  = db.execute("SELECT COUNT(*) FROM loan_assessments WHERE is_current=1").fetchone()[0]
     users_today   = db.execute("SELECT COUNT(*) FROM users WHERE created_at LIKE ?", (today+"%",)).fetchone()[0]
-    assess_today  = db.execute("SELECT COUNT(*) FROM loan_assessments WHERE created_at LIKE ?", (today+"%",)).fetchone()[0]
+    assess_today  = db.execute("SELECT COUNT(*) FROM loan_assessments WHERE is_current=1 AND created_at LIKE ?", (today+"%",)).fetchone()[0]
 
-    status_rows = db.execute("SELECT status,COUNT(*) as cnt FROM loan_assessments GROUP BY status").fetchall()
+    status_rows = db.execute("SELECT status,COUNT(*) as cnt FROM loan_assessments WHERE is_current=1 GROUP BY status").fetchall()
     status_dist = {r["status"]:r["cnt"] for r in status_rows}
     red_cnt = status_dist.get("red",0)
     danger_pct = round(red_cnt/total_assess*100,1) if total_assess else 0
 
-    avg_income = db.execute("SELECT AVG(income) FROM loan_assessments WHERE income>0").fetchone()[0] or 0
-    avg_loan   = db.execute("SELECT AVG(loan_amount) FROM loan_assessments WHERE loan_amount>0").fetchone()[0] or 0
-    avg_lti    = db.execute("SELECT AVG(loan_to_income) FROM loan_assessments").fetchone()[0] or 0
-    avg_rate   = db.execute("SELECT AVG(interest_rate) FROM loan_assessments WHERE interest_rate>0").fetchone()[0] or 0
+    visitor_count     = db.execute("SELECT COUNT(*) FROM app_events WHERE event='visit'").fetchone()[0]
+    oq_count          = db.execute("SELECT COUNT(*) FROM open_questions").fetchone()[0]
+    qualify_count     = status_dist.get("green",0) + status_dist.get("orange",0)
+    not_qualify_count = status_dist.get("red",0)
+
+    avg_income = db.execute("SELECT AVG(income) FROM loan_assessments WHERE is_current=1 AND income>0").fetchone()[0] or 0
+    avg_loan   = db.execute("SELECT AVG(loan_amount) FROM loan_assessments WHERE is_current=1 AND loan_amount>0").fetchone()[0] or 0
+    avg_lti    = db.execute("SELECT AVG(loan_to_income) FROM loan_assessments WHERE is_current=1").fetchone()[0] or 0
+    avg_rate   = db.execute("SELECT AVG(interest_rate) FROM loan_assessments WHERE is_current=1 AND interest_rate>0").fetchone()[0] or 0
 
     trend = db.execute("""
         SELECT DATE(created_at) as day, COUNT(*) as cnt FROM users
@@ -466,12 +569,17 @@ def admin_dashboard():
     recent = db.execute("""
         SELECT u.name, u.vocation, la.income, la.loan_amount, la.status, la.created_at
         FROM loan_assessments la JOIN users u ON u.id=la.user_id
+        WHERE la.is_current=1
         ORDER BY la.created_at DESC LIMIT 10
     """).fetchall()
 
     return jsonify({
         "total_users":total_users,"total_assessments":total_assess,
         "users_today":users_today,"assessments_today":assess_today,
+        "visitor_count":visitor_count,
+        "open_questions_count":oq_count,
+        "qualify_count":qualify_count,
+        "not_qualify_count":not_qualify_count,
         "status_distribution":status_dist,
         "avg_income":round(avg_income),"avg_loan":round(avg_loan),
         "avg_loan_to_income":round(avg_lti,2),"avg_interest_rate":round(avg_rate,1),
@@ -491,7 +599,7 @@ def admin_research():
                AVG(la.income) as avg_income, AVG(la.loan_amount) as avg_loan,
                AVG(la.loan_to_income) as avg_lti, AVG(la.interest_rate) as avg_rate,
                SUM(CASE WHEN la.status='red' THEN 1 ELSE 0 END) as danger_cnt
-        FROM users u LEFT JOIN loan_assessments la ON la.user_id=u.id
+        FROM users u LEFT JOIN loan_assessments la ON la.user_id=u.id AND la.is_current=1
         WHERE u.vocation IS NOT NULL GROUP BY u.vocation ORDER BY users DESC
     """).fetchall()
 
@@ -505,7 +613,7 @@ def admin_research():
           COUNT(*) as cnt, AVG(loan_amount) as avg_loan,
           AVG(loan_to_income) as avg_lti, AVG(interest_rate) as avg_rate,
           SUM(CASE WHEN status='red' THEN 1 ELSE 0 END) as danger_cnt
-        FROM loan_assessments WHERE income>0
+        FROM loan_assessments WHERE income>0 AND is_current=1
         GROUP BY slab ORDER BY cnt DESC
     """).fetchall()
 
@@ -513,14 +621,14 @@ def admin_research():
         SELECT loan_source, COUNT(*) as cnt, AVG(interest_rate) as avg_rate,
                AVG(loan_amount) as avg_loan,
                SUM(CASE WHEN status='red' THEN 1 ELSE 0 END) as danger_cnt
-        FROM loan_assessments WHERE loan_source!=''
+        FROM loan_assessments WHERE loan_source!='' AND is_current=1
         GROUP BY loan_source ORDER BY cnt DESC
     """).fetchall()
 
     purp = db.execute("""
         SELECT loan_purpose, COUNT(*) as cnt, AVG(loan_amount) as avg_loan,
                SUM(CASE WHEN status='red' THEN 1 ELSE 0 END) as danger_cnt
-        FROM loan_assessments WHERE loan_purpose!=''
+        FROM loan_assessments WHERE loan_purpose!='' AND is_current=1
         GROUP BY loan_purpose ORDER BY cnt DESC
     """).fetchall()
 
@@ -531,7 +639,7 @@ def admin_research():
                WHEN interest_rate<=36 THEN '25-36% (High)'
                ELSE '36%+ (Sahukaar)' END as bucket,
           COUNT(*) as cnt, AVG(loan_to_income) as avg_lti
-        FROM loan_assessments WHERE interest_rate>0
+        FROM loan_assessments WHERE interest_rate>0 AND is_current=1
         GROUP BY bucket ORDER BY cnt DESC
     """).fetchall()
 
@@ -541,16 +649,79 @@ def admin_research():
                AVG(education/income)*100 as education_pct,
                AVG(gaon/income)*100 as gaon_pct,
                AVG(monthly_savings/income)*100 as savings_pct
-        FROM loan_assessments WHERE income>0
+        FROM loan_assessments WHERE income>0 AND is_current=1
     """).fetchone()
 
+    # Vocation × Source matrix — "devil prevalent in a vocation"
+    voc_src = db.execute("""
+        SELECT u.vocation, la.loan_source, COUNT(*) as cnt,
+               SUM(CASE WHEN la.status='red' THEN 1 ELSE 0 END) as danger_cnt,
+               AVG(la.interest_rate) as avg_rate
+        FROM loan_assessments la JOIN users u ON u.id=la.user_id
+        WHERE la.loan_source != '' AND la.is_current=1
+        GROUP BY u.vocation, la.loan_source
+        ORDER BY u.vocation, cnt DESC
+    """).fetchall()
+
+    # Income Slab × Source matrix — "devil in an income class"
+    slab_src = db.execute("""
+        SELECT
+          CASE WHEN income<10000 THEN 'below_10k'
+               WHEN income<20000 THEN '10k_20k'
+               WHEN income<35000 THEN '20k_35k'
+               WHEN income<50000 THEN '35k_50k'
+               ELSE 'above_50k' END as slab,
+          loan_source, COUNT(*) as cnt,
+          SUM(CASE WHEN status='red' THEN 1 ELSE 0 END) as danger_cnt,
+          AVG(interest_rate) as avg_rate
+        FROM loan_assessments
+        WHERE loan_source != '' AND income > 0 AND is_current=1
+        GROUP BY slab, loan_source
+        ORDER BY slab, cnt DESC
+    """).fetchall()
+
+    # Loan exposure (LTI) distribution
+    lti_dist = db.execute("""
+        SELECT
+          CASE WHEN loan_to_income <= 1 THEN '0-1x (Low)'
+               WHEN loan_to_income <= 2 THEN '1-2x (Moderate)'
+               WHEN loan_to_income <= 3 THEN '2-3x (High)'
+               WHEN loan_to_income <= 5 THEN '3-5x (Risky)'
+               ELSE '5x+ (Critical)' END as bucket,
+          COUNT(*) as cnt,
+          SUM(CASE WHEN status='red' THEN 1 ELSE 0 END) as danger_cnt,
+          AVG(interest_rate) as avg_rate
+        FROM loan_assessments
+        WHERE loan_to_income > 0 AND is_current=1
+        GROUP BY bucket ORDER BY cnt DESC
+    """).fetchall()
+
+    # Vocation × Income slab × Source × Problem distribution (top patterns)
+    vis_matrix = db.execute("""
+        SELECT u.vocation,
+               CASE WHEN la.income<10000 THEN 'below_10k'
+                    WHEN la.income<20000 THEN '10k_20k'
+                    WHEN la.income<35000 THEN '20k_35k'
+                    WHEN la.income<50000 THEN '35k_50k'
+                    ELSE 'above_50k' END as slab,
+               la.loan_source, la.status, COUNT(*) as cnt
+        FROM loan_assessments la JOIN users u ON u.id=la.user_id
+        WHERE la.loan_source != '' AND la.income > 0 AND la.is_current=1
+        GROUP BY u.vocation, slab, la.loan_source, la.status
+        ORDER BY cnt DESC LIMIT 60
+    """).fetchall()
+
     return jsonify({
-        "vocation_breakdown":    [dict(r) for r in voc],
-        "income_slab_breakdown": [dict(r) for r in slab],
-        "loan_source_breakdown": [dict(r) for r in src],
-        "purpose_breakdown":     [dict(r) for r in purp],
-        "interest_rate_buckets": [dict(r) for r in rate_bkts],
-        "expense_burden_avg":    dict(exp_avg) if exp_avg else {},
+        "vocation_breakdown":        [dict(r) for r in voc],
+        "income_slab_breakdown":     [dict(r) for r in slab],
+        "loan_source_breakdown":     [dict(r) for r in src],
+        "purpose_breakdown":         [dict(r) for r in purp],
+        "interest_rate_buckets":     [dict(r) for r in rate_bkts],
+        "expense_burden_avg":        dict(exp_avg) if exp_avg else {},
+        "voc_source_matrix":         [dict(r) for r in voc_src],
+        "slab_source_matrix":        [dict(r) for r in slab_src],
+        "lti_distribution":          [dict(r) for r in lti_dist],
+        "voc_income_source_matrix":  [dict(r) for r in vis_matrix],
     })
 
 @app.route("/api/admin/users", methods=["GET"])

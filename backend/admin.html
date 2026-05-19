@@ -85,7 +85,7 @@ h1,h2,h3,.num-big,.tab-btn{font-family:'Baloo 2',cursive}
 .page-sub{font-size:13px;color:var(--muted);margin-bottom:22px}
 
 /* ── KPI Cards ── */
-.kpi-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:22px}
+.kpi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-bottom:22px}
 .kpi{background:#fff;border-radius:var(--r);padding:18px;box-shadow:var(--sh);
   display:flex;align-items:flex-start;gap:12px;position:relative;overflow:hidden}
 .kpi::before{content:'';position:absolute;right:-10px;top:-10px;
@@ -243,6 +243,9 @@ tr:last-child td{border-bottom:none}
       <button class="sbn" id="nav-research" onclick="showPage('research','nav-research');loadResearch()">
         <span class="ic">🔬</span> Research
       </button>
+      <button class="sbn" id="nav-qns" onclick="showPage('qns','nav-qns');loadQuestions()">
+        <span class="ic">❓</span> Questions
+      </button>
       <button class="sbn" id="nav-admins" onclick="showPage('admins','nav-admins');loadAdmins()">
         <span class="ic">🔑</span> Admin Users
       </button>
@@ -262,10 +265,12 @@ tr:last-child td{border-bottom:none}
       <div class="page-sub">Real-time overview of DARAS app usage and research data</div>
 
       <div class="kpi-grid" id="kpi-grid">
-        <div class="kpi saffron"><span class="kpi-icon">👥</span><div><div class="kpi-val" id="k-users">–</div><div class="kpi-label">Total Registered Users</div><div class="kpi-delta up" id="k-users-t">Today: –</div></div></div>
+        <div class="kpi saffron"><span class="kpi-icon">👁️</span><div><div class="kpi-val" id="k-visitors">–</div><div class="kpi-label">Total Visitors (Overall Reach)</div><div class="kpi-delta" id="k-conv-rate">Conversion: –</div></div></div>
+        <div class="kpi navy"><span class="kpi-icon">👥</span><div><div class="kpi-val" id="k-users">–</div><div class="kpi-label">Registrations (Targeted Reach)</div><div class="kpi-delta up" id="k-users-t">Today: –</div></div></div>
         <div class="kpi green"><span class="kpi-icon">🧮</span><div><div class="kpi-val" id="k-assess">–</div><div class="kpi-label">Total Assessments</div><div class="kpi-delta up" id="k-assess-t">Today: –</div></div></div>
-        <div class="kpi red"><span class="kpi-icon">🚨</span><div><div class="kpi-val" id="k-danger">–</div><div class="kpi-label">In Danger Zone</div><div class="kpi-delta" id="k-danger-lti">Avg LTI: –</div></div></div>
-        <div class="kpi navy"><span class="kpi-icon">💰</span><div><div class="kpi-val" id="k-avginc">–</div><div class="kpi-label">Avg Monthly Income</div><div class="kpi-delta" id="k-avgloan">Avg Loan: –</div></div></div>
+        <div class="kpi green"><span class="kpi-icon">✅</span><div><div class="kpi-val" id="k-qualify">–</div><div class="kpi-label">Qualify to Resolve</div><div class="kpi-delta up" id="k-qualify-pct">–</div></div></div>
+        <div class="kpi red"><span class="kpi-icon">🚨</span><div><div class="kpi-val" id="k-notqualify">–</div><div class="kpi-label">Grassroots Problem (Red)</div><div class="kpi-delta dn" id="k-danger-lti">Avg LTI: –</div></div></div>
+        <div class="kpi saffron"><span class="kpi-icon">❓</span><div><div class="kpi-val" id="k-questions">–</div><div class="kpi-label">Open Questions Asked</div><div class="kpi-delta" id="k-avginc">Avg Inc: –</div></div></div>
       </div>
 
       <div class="g2">
@@ -371,6 +376,34 @@ tr:last-child td{border-bottom:none}
       <div class="page-title">Research Panel 🔬</div>
       <div class="page-sub">Deep analytics for micro-finance research on India's labour class financial conditions</div>
       <div id="research-content"><div class="loader">Loading research data...</div></div>
+    </div>
+
+    <!-- ══ QUESTIONS ══ -->
+    <div class="page" id="page-qns">
+      <div class="page-title">Open Questions ❓</div>
+      <div class="page-sub">Questions asked by users during the session — for PPT and AI integration</div>
+      <div class="g3" style="margin-bottom:18px">
+        <div class="card"><div class="card-body" style="text-align:center;padding:20px">
+          <div class="kpi-val" id="qn-total" style="font-family:'Baloo 2',cursive;font-size:28px;font-weight:800">–</div>
+          <div class="kpi-label" style="margin-top:4px">Total Questions</div>
+        </div></div>
+        <div class="card"><div class="card-body" style="text-align:center;padding:20px">
+          <div class="kpi-val" id="qn-ppt" style="font-family:'Baloo 2',cursive;font-size:28px;font-weight:800;color:var(--green)">–</div>
+          <div class="kpi-label" style="margin-top:4px">Addressed by PPT</div>
+        </div></div>
+        <div class="card"><div class="card-body" style="text-align:center;padding:20px">
+          <div class="kpi-val" id="qn-ai" style="font-family:'Baloo 2',cursive;font-size:28px;font-weight:800;color:var(--saffron)">–</div>
+          <div class="kpi-label" style="margin-top:4px">Addressed by AI (Claude/GPT)</div>
+        </div></div>
+      </div>
+      <div class="card">
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>#</th><th>Question</th><th>User</th><th>Vocation</th><th>Asked At</th><th>Status</th></tr></thead>
+            <tbody id="qns-tbody"><tr><td colspan="6" class="loader">Loading...</td></tr></tbody>
+          </table>
+        </div>
+      </div>
     </div>
 
     <!-- ══ ADMINS ══ -->
@@ -494,14 +527,21 @@ function badge(s){
 async function loadDashboard(){
   try{
     const d=await api('GET','/api/admin/dashboard');
+    const vis = d.visitor_count || 0;
+    document.getElementById('k-visitors').textContent=fmtN(vis);
+    const convRate = vis ? Math.round(d.total_users/vis*100) : 0;
+    document.getElementById('k-conv-rate').textContent='Conversion: '+convRate+'%';
     document.getElementById('k-users').textContent=fmtN(d.total_users);
     document.getElementById('k-users-t').textContent='Today: '+d.users_today;
     document.getElementById('k-assess').textContent=fmtN(d.total_assessments);
     document.getElementById('k-assess-t').textContent='Today: '+d.assessments_today;
-    document.getElementById('k-danger').textContent=d.danger_pct+'%';
+    document.getElementById('k-qualify').textContent=fmtN(d.qualify_count||0);
+    const totA = d.total_assessments||1;
+    document.getElementById('k-qualify-pct').textContent=Math.round((d.qualify_count||0)/totA*100)+'% of assessments';
+    document.getElementById('k-notqualify').textContent=fmtN(d.not_qualify_count||0);
     document.getElementById('k-danger-lti').textContent='Avg LTI: '+d.avg_loan_to_income+'x';
-    document.getElementById('k-avginc').textContent=fmt(d.avg_income);
-    document.getElementById('k-avgloan').textContent='Avg Loan: '+fmt(d.avg_loan);
+    document.getElementById('k-questions').textContent=fmtN(d.open_questions_count||0);
+    document.getElementById('k-avginc').textContent='Avg Inc: '+fmt(d.avg_income);
 
     // Status dist
     const sd=d.status_distribution||{};
@@ -767,6 +807,144 @@ async function loadResearch(){
         <button class="export-btn" onclick="exportCSV()">⬇️ Export Full Dataset (CSV)</button>
         <span style="font-size:12px;color:var(--muted)">Contains all user assessments for academic analysis</span>
       </div>
+
+      <!-- ── LTI / Loan Exposure Ratio ── -->
+      <div class="g2" style="margin-top:18px">
+        <div class="card">
+          <div class="card-hd"><h3>Loan Exposure Ratio (LTI Distribution)</h3><span style="font-size:12px;color:var(--muted)">Loan ÷ Monthly Income</span></div>
+          <div class="card-body">
+            ${(d.lti_distribution||[]).map(r=>{
+              const max=Math.max(...(d.lti_distribution||[]).map(x=>x.cnt||0),1);
+              const pct=Math.round((r.cnt||0)/max*100);
+              const dpct=r.cnt?Math.round(r.danger_cnt/r.cnt*100):0;
+              const isCrit=r.bucket.includes('5x+');
+              return `<div class="rbar-row">
+                <span class="rbar-label">${isCrit?'🚨 ':''}${r.bucket}</span>
+                <div class="rbar-track"><div class="rbar-fill ${isCrit?'red':dpct>50?'orange':''}" style="width:${pct}%"></div></div>
+                <span class="rbar-num">${r.cnt||0}</span>
+                <span class="rbar-sub">${dpct?`🚨 ${dpct}%`:''}</span>
+              </div>`;
+            }).join('')||'<div class="empty">No data</div>'}
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card-hd"><h3>Qualify vs Grassroots Problem</h3></div>
+          <div class="card-body">
+            ${['green','orange','red'].map(s=>{
+              const labels={green:'✅ Qualify (Safe)',orange:'⚠️ Borderline',red:'🚨 Grassroots Problem'};
+              const cnt=(d.vocation_breakdown||[]).reduce((sum,v)=>sum+(v['danger_cnt']||0),0);
+              const totalAss=(d.vocation_breakdown||[]).reduce((sum,v)=>sum+(v.assessments||0),0)||1;
+              const sd={'green':0,'orange':0,'red':0};
+              (d.vocation_breakdown||[]).forEach(v=>{
+                sd.red+=(v.danger_cnt||0);
+              });
+              sd.green=Math.max(0,totalAss-sd.red);
+              const val=sd[s]||0;
+              const pct=Math.round(val/totalAss*100);
+              return `<div class="status-row">
+                <div class="status-dot ${s}"></div>
+                <span class="status-label">${labels[s]}</span>
+                <div class="status-bar-track"><div class="status-bar-fill ${s}" style="width:${pct}%"></div></div>
+                <span class="status-count">${val}</span>
+              </div>`;
+            }).join('')}
+            <div style="font-size:11px;color:var(--muted);margin-top:10px">Note: Grassroots = Red status (no savings / debt trap)</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ── Devil in Each Vocation ── -->
+      <div class="card" style="margin-top:18px">
+        <div class="card-hd"><h3>Source-wise Distribution — Devil Prevalent in Each Vocation</h3><span style="font-size:12px;color:var(--muted)">Which lender traps each profession</span></div>
+        <div class="card-body">
+          ${(()=>{
+            const vocMap={};
+            (d.voc_source_matrix||[]).forEach(r=>{
+              if(!vocMap[r.vocation])vocMap[r.vocation]=[];
+              vocMap[r.vocation].push(r);
+            });
+            return Object.entries(vocMap).map(([voc,rows])=>{
+              const devil=rows[0];
+              const devilPct=devil.cnt?Math.round(devil.danger_cnt/devil.cnt*100):0;
+              return `<div style="margin-bottom:14px;border:1px solid var(--border);border-radius:var(--rs);padding:12px">
+                <div style="font-weight:700;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center">
+                  <span>${VOC_LABELS[voc]||voc}</span>
+                  <span style="font-size:11px;background:var(--red-lt);color:var(--red);padding:3px 8px;border-radius:8px;font-weight:700">Devil: ${devil.loan_source} (${devilPct}% danger)</span>
+                </div>
+                ${rows.slice(0,4).map(r=>{
+                  const dpct=r.cnt?Math.round(r.danger_cnt/r.cnt*100):0;
+                  const maxCnt=Math.max(...rows.map(x=>x.cnt),1);
+                  return `<div class="rbar-row" style="font-size:12px">
+                    <span class="rbar-label" style="min-width:110px">${r.loan_source}</span>
+                    <div class="rbar-track"><div class="rbar-fill ${dpct>50?'red':dpct>25?'orange':''}" style="width:${Math.round(r.cnt/maxCnt*100)}%"></div></div>
+                    <span class="rbar-num">${r.cnt}</span>
+                    <span class="rbar-sub">${dpct?`🚨${dpct}%`:''} ${r.avg_rate?Math.round(r.avg_rate)+'%':''}</span>
+                  </div>`;
+                }).join('')}
+              </div>`;
+            }).join('')||'<div class="empty">No source data yet</div>';
+          })()}
+        </div>
+      </div>
+
+      <!-- ── Devil in Each Income Class ── -->
+      <div class="card" style="margin-top:18px">
+        <div class="card-hd"><h3>Source-wise Distribution — Devil in Each Income Class</h3><span style="font-size:12px;color:var(--muted)">Which lender targets each income slab</span></div>
+        <div class="card-body">
+          ${(()=>{
+            const slabOrder=['below_10k','10k_20k','20k_35k','35k_50k','above_50k'];
+            const slabLabels2={'below_10k':'< ₹10k','10k_20k':'₹10k–20k','20k_35k':'₹20k–35k','35k_50k':'₹35k–50k','above_50k':'> ₹50k'};
+            const slabMap={};
+            (d.slab_source_matrix||[]).forEach(r=>{
+              if(!slabMap[r.slab])slabMap[r.slab]=[];
+              slabMap[r.slab].push(r);
+            });
+            return slabOrder.filter(s=>slabMap[s]).map(slab=>{
+              const rows=slabMap[slab];
+              const devil=rows[0];
+              const devilPct=devil.cnt?Math.round(devil.danger_cnt/devil.cnt*100):0;
+              return `<div style="margin-bottom:14px;border:1px solid var(--border);border-radius:var(--rs);padding:12px">
+                <div style="font-weight:700;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center">
+                  <span>${slabLabels2[slab]||slab}</span>
+                  <span style="font-size:11px;background:var(--red-lt);color:var(--red);padding:3px 8px;border-radius:8px;font-weight:700">Devil: ${devil.loan_source} (${devilPct}% danger)</span>
+                </div>
+                ${rows.slice(0,4).map(r=>{
+                  const dpct=r.cnt?Math.round(r.danger_cnt/r.cnt*100):0;
+                  const maxCnt=Math.max(...rows.map(x=>x.cnt),1);
+                  return `<div class="rbar-row" style="font-size:12px">
+                    <span class="rbar-label" style="min-width:110px">${r.loan_source}</span>
+                    <div class="rbar-track"><div class="rbar-fill ${dpct>50?'red':dpct>25?'orange':''}" style="width:${Math.round(r.cnt/maxCnt*100)}%"></div></div>
+                    <span class="rbar-num">${r.cnt}</span>
+                    <span class="rbar-sub">${dpct?`🚨${dpct}%`:''} ${r.avg_rate?Math.round(r.avg_rate)+'%':''}</span>
+                  </div>`;
+                }).join('')}
+              </div>`;
+            }).join('')||'<div class="empty">No source data yet</div>';
+          })()}
+        </div>
+      </div>
+
+      <!-- ── Vocation × Income × Source Problem Matrix ── -->
+      <div class="card" style="margin-top:18px">
+        <div class="card-hd"><h3>Problem Distribution — Vocation × Income × Source</h3><span style="font-size:12px;color:var(--muted)">Top 15 patterns by count</span></div>
+        <div class="tbl-wrap">
+          <table>
+            <thead><tr><th>Vocation</th><th>Income Slab</th><th>Loan Source</th><th>Status</th><th>Count</th></tr></thead>
+            <tbody>
+              ${(d.voc_income_source_matrix||[]).slice(0,15).map(r=>`
+                <tr>
+                  <td><span class="tag voc">${VOC_LABELS[r.vocation]||r.vocation}</span></td>
+                  <td>${{'below_10k':'< ₹10k','10k_20k':'₹10k–20k','20k_35k':'₹20k–35k','35k_50k':'₹35k–50k','above_50k':'> ₹50k'}[r.slab]||r.slab}</td>
+                  <td>${r.loan_source||'–'}</td>
+                  <td>${badge(r.status)}</td>
+                  <td><strong>${r.cnt}</strong></td>
+                </tr>
+              `).join('')||'<tr><td colspan="5" class="empty">No data yet</td></tr>'}
+            </tbody>
+          </table>
+        </div>
+      </div>
     `;
   }catch(e){
     document.getElementById('research-content').innerHTML='<div class="empty">Failed to load. Check backend.</div>';
@@ -853,6 +1031,29 @@ async function addAdmin(){
 async function deleteAdmin(id,uname){
   if(!confirm(`Remove admin "${uname}"? This cannot be undone.`))return;
   try{await api('DELETE','/api/admin/admins/'+id);loadAdmins();}catch(e){alert('Error: '+e.message);}
+}
+
+// ── Questions ─────────────────────────────────────────────────────────────────
+async function loadQuestions(){
+  try{
+    const [rows,dash]=await Promise.all([
+      api('GET','/api/admin/questions'),
+      api('GET','/api/admin/dashboard')
+    ]);
+    document.getElementById('qn-total').textContent=fmtN(dash.open_questions_count||0);
+    document.getElementById('qn-ppt').textContent='0';
+    document.getElementById('qn-ai').textContent='0';
+    document.getElementById('qns-tbody').innerHTML=rows.length?rows.map((q,i)=>`
+      <tr>
+        <td style="color:var(--muted)">${i+1}</td>
+        <td style="max-width:320px;word-break:break-word;font-size:13px">${q.question||'–'}</td>
+        <td><strong>${q.name||'–'}</strong></td>
+        <td><span class="tag voc">${VOC_LABELS[q.vocation]||q.vocation||'–'}</span></td>
+        <td style="color:var(--muted);font-size:12px">${fmtDate(q.created_at)}</td>
+        <td><span class="badge grey">Unanswered</span></td>
+      </tr>
+    `).join(''):'<tr><td colspan="6" class="empty">No questions yet</td></tr>';
+  }catch(e){console.error(e);}
 }
 
 // ── Pagination ────────────────────────────────────────────────────────────────

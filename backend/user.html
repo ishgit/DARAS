@@ -267,6 +267,22 @@ html[lang="hi"] .ngo-card h3,html[lang="bn"] .ngo-card h3{font-family:inherit}
         <input type="text" id="in-vocation-custom" data-testid="reg-vocation-custom-input"/>
       </div>
 
+      <div id="dup-found" class="callout-warn" style="display:none;margin-top:18px">
+        <div class="ic">!</div>
+        <div style="flex:1">
+          <div class="title" data-i18n="dup_title">यह नंबर पहले से रजिस्टर है</div>
+          <div id="dup-found-msg" style="margin:6px 0 12px;font-size:0.9rem"></div>
+          <div class="btn-row" style="margin-top:0">
+            <button class="btn btn-primary" id="btn-dup-resume">
+              <span data-i18n="dup_resume">जारी रखें</span>
+            </button>
+            <button class="btn btn-ghost" id="btn-dup-startover">
+              <span data-i18n="dup_startover">नए सिरे से शुरू करें</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
       <div class="btn-row">
         <button class="btn btn-primary" id="btn-register" data-testid="reg-submit-btn">
           <span data-i18n="reg_continue">आगे बढ़ें</span>
@@ -679,7 +695,7 @@ html[lang="hi"] .ngo-card h3,html[lang="bn"] .ngo-card h3{font-family:inherit}
         <select id="nl-spoken" data-testid="nl-spoken-select"></select>
       </div>
 
-      <div id="nl-recommend-box" class="callout-info" style="display:none">
+      <div id="nl-recommend-box" class="callout-info" style="display:none" data-testid="nl-recommend">
         <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4.5 2 7-6.5-4.5-6.5 4.5 2-7L2 9h7z"/></svg>
         <div id="nl-recommend-text"></div>
       </div>
@@ -1155,6 +1171,33 @@ const LANG = {
   rec_default:     {hi:"बैंक से बात कीजिए — सबसे पारदर्शी और ब्याज भी कम। साहूकार से बचें।",
                     bn:"ব্যাঙ্কের সঙ্গে কথা বলুন — সবচেয়ে স্বচ্ছ এবং সুদও কম। সহুকার এড়িয়ে চলুন।",
                     en:"Speak to a bank — most transparent and lower interest. Avoid moneylenders."},
+
+  welcome_returning:{hi:"पहले आए हैं? मोबाइल से ढूंढें",
+                     bn:"আগে এসেছেন? মোবাইলে খুঁজুন",
+                     en:"Visited before? Find by mobile"},
+  ret_title:        {hi:"वापस आए — स्वागत है",   bn:"ফিরে এলেন — স্বাগতম",    en:"Welcome back"},
+  ret_sub:          {hi:"अपना मोबाइल नंबर डालिए — हम आपकी पुरानी जानकारी ढूंढ लेते हैं।",
+                     bn:"আপনার মোবাইল নম্বর দিন — আমরা আপনার পুরানো তথ্য খুঁজে নেব।",
+                     en:"Enter your mobile — we'll find your previous record."},
+  ret_find:         {hi:"ढूंढें",  bn:"খুঁজুন",   en:"Find"},
+  ret_new_user:     {hi:"नया हूँ", bn:"নতুন",      en:"I'm new"},
+  ret_not_found_t:  {hi:"नहीं मिला",   bn:"পাওয়া যায়নি", en:"Not found"},
+  ret_not_found_b:  {hi:"इस नंबर से कोई जानकारी नहीं मिली। नया खाता बनाइए।",
+                     bn:"এই নম্বরে কোনো তথ্য পাওয়া যায়নি। নতুন অ্যাকাউন্ট তৈরি করুন।",
+                     en:"No record found for this number. Please register as new."},
+  ret_found_hi:     {hi:"नमस्ते", bn:"নমস্কার", en:"Hello"},
+  ret_found_sub:    {hi:"आपकी पुरानी जानकारी मिल गई। जारी रखें या नए सिरे से शुरू करें।",
+                     bn:"আপনার পুরানো তথ্য পাওয়া গেছে। চালিয়ে যান বা নতুন করে শুরু করুন।",
+                     en:"We found your previous record. Continue or start fresh."},
+  ret_last_check:   {hi:"पिछली बार", bn:"শেষবার",  en:"Last visit"},
+  ret_status:       {hi:"पिछला नतीजा", bn:"শেষ ফলাফল", en:"Last result"},
+  ret_continue:     {hi:"जारी रखें",       bn:"চালিয়ে যান",  en:"Continue"},
+  ret_fresh:        {hi:"नए सिरे से शुरू", bn:"নতুন করে শুরু করুন", en:"Start fresh"},
+  ret_searching:    {hi:"ढूंढ रहे हैं…",  bn:"খুঁজছি…",     en:"Searching…"},
+
+  dup_title:     {hi:"यह नंबर पहले से रजिस्टर है",    bn:"এই নম্বর আগে নথিভুক্ত হয়েছে",     en:"This number is already registered"},
+  dup_resume:    {hi:"जारी रखें",                     bn:"চালিয়ে যান",                       en:"Resume"},
+  dup_startover: {hi:"नए सिरे से शुरू करें",           bn:"নতুন করে শুরু করুন",               en:"Start Over"},
 };
 
 /* ---------- VOCATIONS ---------- */
@@ -1176,7 +1219,7 @@ const SPOKEN   = ["none","family","bank","sahukaar","other"];
 /* ---------- STATE ---------- */
 const S = {
   lang: (localStorage.getItem("daras-lang") || "hi"),
-  userId: null, sessionId: null,
+  userId: null, sessionId: null, _existingId: null,
   name: "", age: null, mobile: "", vocation: "", vocationCustom: "",
   loanType: null, // 'existing' | 'new'
   existing: { amount: 0, purpose: "", source: "", rate: 0, remaining: 0 },
@@ -1300,7 +1343,22 @@ document.getElementById("back-btn").addEventListener("click", goBack);
 
 /* ---------- 1. WELCOME → REGISTER (handled by [data-go]) ---------- */
 
+/* Clear all form fields + state when "Let's Begin" is clicked from welcome */
+document.querySelector('[data-testid="welcome-begin-btn"]').addEventListener("click", () => {
+  S.userId = null; S.sessionId = null; S._existingId = null;
+  S.name = ""; S.age = null; S.mobile = ""; S.vocation = ""; S.vocationCustom = "";
+  document.getElementById("in-name").value = "";
+  document.getElementById("in-age").value = "";
+  document.getElementById("in-mobile").value = "";
+  document.getElementById("in-vocation-custom").value = "";
+  document.getElementById("vocation-custom-wrap").style.display = "none";
+  document.getElementById("dup-found").style.display = "none";
+  populateVocations();
+});
+
 /* ---------- 2. REGISTER ---------- */
+let _dupUser = null;
+
 document.getElementById("btn-register").addEventListener("click", async () => {
   const name = document.getElementById("in-name").value.trim();
   if (!name) { alert(t("err_name")); return; }
@@ -1310,20 +1368,83 @@ document.getElementById("btn-register").addEventListener("click", async () => {
   S.mobile = document.getElementById("in-mobile").value.trim();
   S.vocationCustom = document.getElementById("in-vocation-custom").value.trim();
 
+  const payload = {
+    name: S.name, age: S.age, mobile: S.mobile,
+    vocation: S.vocation, vocation_custom: S.vocationCustom,
+    language: S.lang
+  };
+  if (S._existingId) payload.existing_user_id = S._existingId;
+
   try {
     const r = await fetch("/api/user/register", {
       method:"POST", headers:{"Content-Type":"application/json"},
-      body: JSON.stringify({
-        name: S.name, age: S.age, mobile: S.mobile,
-        vocation: S.vocation, vocation_custom: S.vocationCustom,
-        language: S.lang
-      })
+      body: JSON.stringify(payload)
     });
     const d = await r.json();
-    if (d.success) { S.userId = d.user_id; S.sessionId = d.session_id; }
+
+    if (d.exists) {
+      _dupUser = d.user;
+      const uname = d.user.name || "";
+      const already = S.lang==="bn" ? "নামে এই নম্বর আগে নথিভুক্ত হয়েছে।"
+                    : S.lang==="hi" ? "के नाम से यह नंबर पहले से रजिस्टर है।"
+                    : "is already registered with this number.";
+      document.getElementById("dup-found-msg").innerHTML = uname
+        ? `<strong>${uname}</strong> ${already}`
+        : t("dup_title") + ".";
+      if (d.last_assessment) {
+        const col = d.last_assessment.status || "green";
+        document.getElementById("dup-found-msg").innerHTML +=
+          ` &nbsp;<span class="${col}">${t("status_"+col)}</span>`;
+      }
+      document.getElementById("dup-found").style.display = "flex";
+      return;
+    }
+
+    if (d.success) {
+      S.userId = d.user_id; S.sessionId = d.session_id;
+      S._existingId = null;
+    }
   } catch(e){}
-  applyLang(); // re-render so {name} substitutes in ltype_title
+  applyLang();
   go("s-ltype");
+});
+
+document.getElementById("btn-dup-resume").addEventListener("click", () => {
+  if (!_dupUser) return;
+  S.userId       = _dupUser.id;
+  S.sessionId    = _dupUser.session_id;
+  S.name         = _dupUser.name;
+  S.age          = _dupUser.age;
+  S.mobile       = _dupUser.mobile;
+  S.vocation     = _dupUser.vocation;
+  S.vocationCustom = _dupUser.vocation_custom || "";
+  if (_dupUser.language) { S.lang = _dupUser.language; localStorage.setItem("daras-lang", S.lang); }
+  document.getElementById("in-name").value   = _dupUser.name;
+  document.getElementById("in-age").value    = _dupUser.age || "";
+  document.getElementById("in-mobile").value = _dupUser.mobile;
+  document.getElementById("in-vocation-custom").value = _dupUser.vocation_custom || "";
+  if (_dupUser.vocation === "other" || _dupUser.vocation === "business") {
+    document.getElementById("vocation-custom-wrap").style.display = "block";
+  }
+  populateVocations();
+  document.getElementById("dup-found").style.display = "none";
+  _dupUser = null;
+  applyLang();
+  go("s-ltype");
+});
+
+document.getElementById("btn-dup-startover").addEventListener("click", () => {
+  if (!_dupUser) return;
+  S._existingId = _dupUser.id;
+  S.userId = null; S.sessionId = null;
+  S.name = ""; S.age = null; S.vocation = ""; S.vocationCustom = "";
+  document.getElementById("in-name").value = "";
+  document.getElementById("in-age").value = "";
+  document.getElementById("in-vocation-custom").value = "";
+  document.getElementById("vocation-custom-wrap").style.display = "none";
+  populateVocations();
+  document.getElementById("dup-found").style.display = "none";
+  _dupUser = null;
 });
 
 /* ---------- 3. LOAN TYPE ---------- */
@@ -1370,7 +1491,10 @@ document.querySelectorAll("[data-set-branch]").forEach(b => b.addEventListener("
   else if (S.branch === "principal_issue") go("s-incexp");
   else if (S.branch === "need_more_money") {
     // First check current loan health
-    if (S.existing.amount > 0) go("s-incexp"); else go("s-new");
+    if (S.existing.amount > 0) {
+      if (S.existing.rate >= 36) go("s-warning");
+      else go("s-incexp");
+    } else go("s-new");
   }
 }));
 
@@ -1616,6 +1740,11 @@ function inr(n){
 applyLang();
 go("s-welcome", {replace:true});
 S.history = ["s-welcome"];
+// Count each new browser session as one visitor
+if (!sessionStorage.getItem("daras-visited")) {
+  sessionStorage.setItem("daras-visited", "1");
+  logEvent("visit", {lang: S.lang});
+}
 </script>
 </body>
 </html>
