@@ -7,7 +7,7 @@ Rebuild `user.html` of the existing Flask SQLite project (DARAS) so the user-fac
 ## Architecture (Feb 2026 state)
 - **Backend (Flask + SQLite)** at `/app/backend/`
   - `app.py` — full Flask app (HTML routes `/` and `/api/`, `/admin` and `/api/admin/panel`; APIs `/api/user/*`, `/api/admin/*`)
-  - `server.py` — ASGI shim (`WsgiToAsgi(flask_app)`) so Emergent's `uvicorn server:app` supervisor command runs the Flask app on port 8001
+  - `server.py` — ASGI shim (`WsgiToAsgi(flask_app)`) for running via `uvicorn server:app`
   - `user.html`, `admin.html` — Jinja templates (template_folder='.')
   - `daras.db` — SQLite (WAL mode). Tables: users, loan_assessments, app_events, open_questions, admin_users, admin_sessions
 - **Frontend launcher (port 3000)** — minimal React `App.js` that redirects `/` → `/api/` and `/admin*` → `/api/admin/panel`. The "real" UI is the standalone `user.html` served by Flask.

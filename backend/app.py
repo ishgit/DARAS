@@ -4,10 +4,8 @@ DARAS – दारस | Aapka Vittiya Mitra
 Flask backend:
   Public User API  → /api/user/*
   Admin API        → /api/admin/*  (token-protected)
-  User Panel       → /                 (local Mac)
-                   → /api/             (Emergent preview – ingress routes /api/*)
-  Admin Panel      → /admin            (local)
-                   → /api/admin/panel  (Emergent preview)
+  User Panel       → /
+  Admin Panel      → /admin
 """
 
 from flask import Flask, request, jsonify, render_template, send_from_directory, g, Response
@@ -277,8 +275,6 @@ def run_calculator(income, expenses, loan, rate, months):
     )
 
 # ── Page routes ───────────────────────────────────────────────────────────────
-# Local Mac: visit  http://localhost:5001/  and  /admin
-# Emergent preview: visit  <URL>/api/         and  /api/admin/panel
 @app.route("/")
 @app.route("/api/")
 def user_panel():
