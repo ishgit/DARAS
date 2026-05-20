@@ -3,50 +3,68 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta name="theme-color" content="#FBF7F2"/>
+<meta name="theme-color" content="#0B1B3F"/>
 <title>दारस DARAS — आपका वित्तीय मित्र</title>
+<link rel="icon" type="image/png" href="/api/Logo.png">
+<link rel="apple-touch-icon" href="/api/Logo.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700&family=Hind:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --cream:#FBF7F2; --paper:#FFFFFF; --paper-soft:#FCF8F1;
-  --ink:#292524; --ink-soft:#57534E; --ink-faint:#A8A29E;
-  --terra:#B4532A; --terra-dark:#8C3F1F; --terra-soft:#FFF1E4;
-  --teal:#0F766E; --teal-dark:#0B5D56; --teal-soft:#E6F4F2;
+  /* Daras palette — derived from logo: deep cobalt, electric blue, navy, silver-white */
+  --cream:#F4F7FE; --paper:#FFFFFF; --paper-soft:#EEF3FE;
+  --ink:#0A1E4F; --ink-soft:#3D4F7C; --ink-faint:#8896B8;
+  --terra:#1E40AF; --terra-dark:#0B1B3F; --terra-soft:#E6EEFF;
+  --electric:#2E63F6; --electric-soft:#DDE8FF;
+  --teal:#0B7CC4; --teal-dark:#075A91; --teal-soft:#DDF0FB;
   --gold:#B45309; --gold-soft:#FEF3C7;
-  --green:#15803D; --green-soft:#DCFCE7;
-  --orange:#D97706; --orange-soft:#FFEDD5;
+  --green:#0F7A3A; --green-soft:#D9F5E3;
+  --orange:#C46A00; --orange-soft:#FFEDD5;
   --red:#B91C1C; --red-soft:#FEE2E2;
-  --line:#E7E0D5; --line-soft:#F0EAD9;
+  --line:#C6D4F2; --line-soft:#E3EBFB;
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-html,body{background:var(--cream);color:var(--ink);line-height:1.6;min-height:100vh}
+html,body{
+  background-color:var(--cream);
+  background-image:
+    radial-gradient(rgba(30,64,175,.05) 1px,transparent 1px),
+    radial-gradient(at 12% 8%, rgba(46,99,246,.08) 0%, transparent 45%),
+    radial-gradient(at 88% 92%, rgba(11,124,196,.07) 0%, transparent 45%);
+  background-size:22px 22px, 100% 100%, 100% 100%;
+  color:var(--ink);line-height:1.6;min-height:100vh
+}
 body{font-family:'Manrope','Hind',sans-serif;font-feature-settings:"ss01" on}
 html[lang="hi"] body{font-family:'Hind','Manrope',sans-serif}
 html[lang="bn"] body{font-family:'Noto Sans Bengali','Manrope',sans-serif}
 html[lang="en"] body{font-family:'Manrope',sans-serif}
 
 .bg-deco{position:fixed;inset:0;pointer-events:none;z-index:-1;overflow:hidden}
-.bg-deco::before,.bg-deco::after{content:"";position:absolute;border-radius:50%;filter:blur(80px);opacity:.4}
-.bg-deco::before{top:-10%;right:-10%;width:380px;height:380px;background:radial-gradient(circle,#FFE1C7,transparent 70%)}
-.bg-deco::after{bottom:-10%;left:-10%;width:380px;height:380px;background:radial-gradient(circle,#D6EBE8,transparent 70%)}
+.bg-deco::before,.bg-deco::after{content:"";position:absolute;border-radius:50%;filter:blur(90px);opacity:.5}
+.bg-deco::before{top:-12%;right:-10%;width:420px;height:420px;background:radial-gradient(circle,#B6CCFC,transparent 70%)}
+.bg-deco::after{bottom:-12%;left:-10%;width:420px;height:420px;background:radial-gradient(circle,#9FC4E8,transparent 70%)}
+
+/* Subtle triangular "third-eye" watermark — pays homage to the Daras logo */
+.bg-deco .glyph{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:min(560px,80vw);opacity:.04;color:#1E40AF}
+.bg-deco .glyph svg{width:100%;height:auto;display:block}
 
 .app{max-width:740px;margin:0 auto;padding:14px 18px 120px;min-height:100vh;position:relative}
 
 /* Sticky top bar */
-.topbar{position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;margin:-14px -18px 18px;backdrop-filter:blur(14px);background:rgba(251,247,242,.78);border-bottom:1px solid rgba(231,224,213,.6)}
-.brand{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:600;font-size:20px;color:var(--terra);letter-spacing:-0.02em}
-.brand-mark{width:30px;height:30px;border-radius:50%;background:var(--terra);position:relative;box-shadow:0 4px 10px rgba(180,83,42,.25)}
-.brand-mark::after{content:"";position:absolute;inset:7px;border-radius:50%;background:var(--gold)}
-.brand-mark::before{content:"";position:absolute;inset:-3px;border-radius:50%;border:1.5px dashed rgba(180,83,42,.35)}
-.brand small{display:block;font-family:'Manrope',sans-serif;font-size:11px;color:var(--ink-soft);font-weight:500;letter-spacing:.04em;text-transform:uppercase;margin-top:-2px}
+.topbar{position:sticky;top:0;z-index:50;display:flex;justify-content:space-between;align-items:center;padding:14px 18px;margin:-14px -18px 18px;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);background:rgba(244,247,254,.78);border-bottom:1px solid rgba(198,212,242,.6)}
+.brand{display:flex;align-items:center;gap:12px;font-family:'Fraunces',serif;font-weight:600;font-size:22px;color:var(--terra-dark);letter-spacing:-0.02em}
+.brand-mark{width:44px;height:44px;border-radius:12px;background:linear-gradient(160deg,#FFFFFF 0%,#E6EEFF 100%);overflow:hidden;display:inline-flex;align-items:center;justify-content:center;box-shadow:0 4px 14px rgba(30,64,175,.22),inset 0 0 0 1px rgba(255,255,255,.6);flex-shrink:0;position:relative;transition:transform .3s ease, box-shadow .3s ease}
+.brand-mark::after{content:"";position:absolute;inset:-2px;border-radius:14px;background:conic-gradient(from 0deg,transparent 0deg,rgba(46,99,246,.35) 90deg,transparent 180deg,rgba(11,124,196,.3) 270deg,transparent 360deg);z-index:-1;opacity:0;transition:opacity .4s}
+.brand-mark:hover{transform:rotate(-6deg) scale(1.05)}
+.brand-mark:hover::after{opacity:1}
+.brand-mark img{width:100%;height:100%;object-fit:contain;padding:3px}
+.brand small{display:block;font-family:'Manrope',sans-serif;font-size:11px;color:var(--ink-soft);font-weight:500;letter-spacing:.06em;text-transform:uppercase;margin-top:1px}
 html[lang="hi"] .brand small{font-family:'Hind',sans-serif}
 html[lang="bn"] .brand small{font-family:'Noto Sans Bengali',sans-serif}
 
 .lang-switch{display:flex;gap:4px;padding:4px;background:var(--paper);border:1px solid var(--line);border-radius:999px;box-shadow:0 2px 6px rgba(40,30,15,.05)}
 .lang-btn{padding:6px 12px;font-size:12px;font-weight:600;border:0;background:transparent;cursor:pointer;border-radius:999px;color:var(--ink-soft);transition:background-color .2s,color .2s;font-family:inherit;letter-spacing:.02em}
-.lang-btn.on{background:var(--terra);color:white;box-shadow:0 2px 6px rgba(180,83,42,.3)}
+.lang-btn.on{background:var(--terra);color:white;box-shadow:0 2px 6px rgba(29,78,216,.3)}
 .lang-btn:hover:not(.on){background:var(--terra-soft);color:var(--terra-dark)}
 
 /* Progress */
@@ -58,11 +76,13 @@ html[lang="bn"] .brand small{font-family:'Noto Sans Bengali',sans-serif}
 .back-btn:hover{background:var(--paper);color:var(--ink)}
 
 /* Bubble cards */
-.bubble{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:28px 26px;box-shadow:0 6px 18px rgba(40,30,15,.04);margin-bottom:18px;position:relative}
-.bubble.warm{background:linear-gradient(180deg,#FFFCF6,#FFF4DD);border-color:#EAD3A4}
+.bubble{background:var(--paper);border:1px solid var(--line);border-radius:24px;padding:28px 26px;box-shadow:0 10px 30px rgba(11,27,63,.06),0 1px 0 rgba(255,255,255,.7) inset;margin-bottom:18px;position:relative;overflow:hidden}
+.bubble::before{content:"";position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,var(--electric),var(--teal),transparent);opacity:.0;transition:opacity .35s}
+.bubble:hover::before{opacity:.6}
+.bubble.warm{background:linear-gradient(180deg,#F5F9FF,#E6EEFF);border-color:#BAD4FF}
 .bubble.danger{background:linear-gradient(180deg,#FFF4F4,#FEE2E2);border-color:#FCA5A5}
-.bubble.good{background:linear-gradient(180deg,#F2FDF5,#DCFCE7);border-color:#86EFAC}
-.bubble.teal{background:linear-gradient(180deg,#F1FAF9,#D6EFEC);border-color:#5EEAD4}
+.bubble.good{background:linear-gradient(180deg,#F0FBF5,#D9F5E3);border-color:#86EFAC}
+.bubble.teal{background:linear-gradient(180deg,#EEF7FE,#DDF0FB);border-color:#7DB7E3}
 
 .bubble h1{font-family:'Fraunces',serif;font-weight:600;font-size:34px;line-height:1.15;color:var(--ink);letter-spacing:-0.02em;margin-bottom:12px}
 html[lang="hi"] .bubble h1,html[lang="bn"] .bubble h1{font-family:inherit;font-weight:700;font-size:30px}
@@ -85,13 +105,15 @@ html[lang="hi"] .bubble h2,html[lang="bn"] .bubble h2{font-family:inherit;font-w
 .rupee input{padding-left:34px}
 
 /* Buttons */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;font-size:16px;font-weight:600;border:0;border-radius:999px;cursor:pointer;font-family:inherit;transition:transform .15s ease,background-color .2s,box-shadow .2s;text-decoration:none}
-.btn-primary{background:var(--terra);color:white;box-shadow:0 6px 16px rgba(180,83,42,.28)}
-.btn-primary:hover{background:var(--terra-dark);transform:translateY(-1px);box-shadow:0 10px 22px rgba(180,83,42,.32)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:14px 28px;font-size:16px;font-weight:600;border:0;border-radius:999px;cursor:pointer;font-family:inherit;transition:transform .15s ease,background-color .2s,box-shadow .25s;text-decoration:none;position:relative;overflow:hidden}
+.btn-primary{background:linear-gradient(135deg,var(--electric),var(--terra));color:white;box-shadow:0 8px 22px rgba(30,64,175,.32)}
+.btn-primary:hover{background:linear-gradient(135deg,var(--terra),var(--terra-dark));transform:translateY(-2px);box-shadow:0 14px 28px rgba(30,64,175,.4)}
+.btn-primary::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(255,255,255,.35),transparent 50%);opacity:0;transition:opacity .25s;pointer-events:none}
+.btn-primary:hover::after{opacity:1}
 .btn-ghost{background:var(--paper);color:var(--ink);border:1.5px solid var(--line)}
-.btn-ghost:hover{background:var(--cream);border-color:var(--ink-soft);transform:translateY(-1px)}
-.btn-teal{background:var(--teal);color:white;box-shadow:0 6px 16px rgba(15,118,110,.28)}
-.btn-teal:hover{background:var(--teal-dark);transform:translateY(-1px)}
+.btn-ghost:hover{background:var(--cream);border-color:var(--electric);color:var(--terra-dark);transform:translateY(-1px)}
+.btn-teal{background:linear-gradient(135deg,var(--teal),var(--teal-dark));color:white;box-shadow:0 8px 22px rgba(11,124,196,.32)}
+.btn-teal:hover{background:var(--teal-dark);transform:translateY(-2px);box-shadow:0 14px 28px rgba(11,124,196,.4)}
 .btn-row{display:flex;flex-wrap:wrap;gap:12px;margin-top:18px}
 .btn:disabled{opacity:.45;cursor:not-allowed;transform:none}
 .loan-row{background:var(--cream);border:1.5px solid var(--line);border-radius:14px;padding:14px 14px 10px;margin:8px 0}
@@ -100,13 +122,13 @@ html[lang="hi"] .bubble h2,html[lang="bn"] .bubble h2{font-family:inherit;font-w
 .btn-remove-loan{background:none;border:none;color:var(--ink-faint);font-size:20px;line-height:1;cursor:pointer;padding:0 4px;border-radius:6px}
 .btn-remove-loan:hover{color:#EF4444;background:rgba(239,68,68,.08)}
 .btn-add-loan{margin:6px 0 10px;font-size:15px;padding:10px 20px;width:100%}
-.loan-summary{background:linear-gradient(135deg,#FFF8EE,#FEF3C7);border:1.5px solid #EAD3A4;border-radius:12px;padding:12px 16px;font-size:15px;font-weight:600;color:var(--ink);margin:10px 0}
-.loan-summary-max{color:#B45322;font-size:13px;display:block;margin-top:3px;font-weight:500}
+.loan-summary{background:linear-gradient(135deg,#EEF4FF,#E0EAFF);border:1.5px solid #BAD4FF;border-radius:12px;padding:12px 16px;font-size:15px;font-weight:600;color:var(--ink);margin:10px 0}
+.loan-summary-max{color:#1E40AF;font-size:13px;display:block;margin-top:3px;font-weight:500}
 
 /* Option grid */
 .opt-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;margin-top:14px}
 .opt-card{background:var(--paper);border:1.5px solid var(--line);border-radius:18px;padding:16px 12px;cursor:pointer;text-align:center;transition:border-color .2s,background .2s,transform .15s,box-shadow .2s;display:flex;flex-direction:column;align-items:center;gap:8px;font-weight:600;color:var(--ink);font-size:14px;font-family:inherit;width:100%}
-.opt-card:hover{border-color:var(--terra);transform:translateY(-2px);box-shadow:0 6px 14px rgba(180,83,42,.1)}
+.opt-card:hover{border-color:var(--terra);transform:translateY(-2px);box-shadow:0 6px 14px rgba(29,78,216,.1)}
 .opt-card.selected{border-color:var(--terra);background:var(--terra-soft)}
 .opt-card .ic{width:42px;height:42px;color:var(--terra);display:flex;align-items:center;justify-content:center;background:var(--terra-soft);border-radius:14px;flex-shrink:0}
 .opt-card .ic svg{width:24px;height:24px}
@@ -152,10 +174,10 @@ html[lang="hi"] .bubble h2,html[lang="bn"] .bubble h2{font-family:inherit;font-w
 .callout-warn .title{font-family:'Fraunces',serif;font-weight:700;font-size:17px;color:#78350F;margin-bottom:4px;text-transform:uppercase;letter-spacing:.04em}
 html[lang="hi"] .callout-warn .title,html[lang="bn"] .callout-warn .title{font-family:inherit}
 
-.callout-info{background:var(--teal-soft);border:1.5px solid #5EEAD4;border-radius:18px;padding:16px 18px;margin:14px 0;color:var(--teal-dark);font-size:14px;display:flex;gap:12px;align-items:flex-start}
+.callout-info{background:var(--teal-soft);border:1.5px solid #7DD3FC;border-radius:18px;padding:16px 18px;margin:14px 0;color:var(--teal-dark);font-size:14px;display:flex;gap:12px;align-items:flex-start}
 .callout-info .ic{flex-shrink:0;color:var(--teal)}
 
-.ngo-card{background:linear-gradient(180deg,#F0FDF4,#DCFCE7);border:2px solid var(--teal);border-radius:22px;padding:24px;margin:18px 0}
+.ngo-card{background:linear-gradient(180deg,#F0F8FF,#DBEAFE);border:2px solid var(--teal);border-radius:22px;padding:24px;margin:18px 0}
 .ngo-card h3{color:var(--teal-dark);margin-bottom:6px;font-family:'Fraunces',serif;font-size:22px;font-weight:700}
 html[lang="hi"] .ngo-card h3,html[lang="bn"] .ngo-card h3{font-family:inherit}
 .ngo-card .ngo-lines{margin-top:14px;display:flex;flex-direction:column;gap:8px}
@@ -170,10 +192,33 @@ html[lang="hi"] .ngo-card h3,html[lang="bn"] .ngo-card h3{font-family:inherit}
 /* Footer / disclaimer */
 .footer{text-align:center;margin-top:48px;padding-top:24px;border-top:1px dashed var(--line);color:var(--ink-soft);font-size:12px;line-height:1.6}
 .footer .small-disc{max-width:520px;margin:6px auto;font-style:italic}
+.footer-brand{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:8px}
+.footer-logo{width:34px;height:34px;object-fit:contain;filter:drop-shadow(0 2px 6px rgba(30,64,175,.25))}
+.footer-brand > div{text-align:left}
+.footer-brand > div > div:first-child{font-family:'Fraunces',serif;font-size:14px;font-weight:600;color:var(--terra-dark);letter-spacing:-.01em}
+html[lang="hi"] .footer-brand > div > div:first-child,html[lang="bn"] .footer-brand > div > div:first-child{font-family:'Hind',sans-serif;font-weight:700}
+.footer-tag{font-family:'Manrope',sans-serif;font-size:10px;font-weight:700;color:var(--electric);letter-spacing:.18em;margin-top:1px}
 
 /* Decorative top illustration */
-.illus{display:flex;justify-content:center;margin:-6px 0 12px;color:var(--terra)}
-.illus svg{width:120px;height:auto}
+.illus{display:flex;justify-content:center;margin:-6px 0 18px;position:relative}
+.illus::after{content:"";position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:200px;height:200px;background:radial-gradient(circle,rgba(46,99,246,.18),transparent 65%);filter:blur(20px);z-index:-1;animation:halo 6s ease-in-out infinite}
+@keyframes halo{0%,100%{opacity:.7;transform:translate(-50%,-50%) scale(1)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.15)}}
+.illus img{width:170px;height:auto;filter:drop-shadow(0 10px 24px rgba(11,27,63,.22));animation:floaty 5s ease-in-out infinite}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+/* Story / chronology card */
+.story-card{background:linear-gradient(135deg,rgba(255,255,255,.65),rgba(230,238,255,.55));backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);border:1px solid rgba(30,64,175,.18);border-radius:20px;padding:18px 20px;margin:16px 0 0;font-size:14px;color:var(--ink-soft);line-height:1.65;position:relative;overflow:hidden}
+.story-card .story-label{display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--terra);margin-bottom:8px}
+.story-card .story-label::before{content:"";width:18px;height:1px;background:var(--terra)}
+.story-card strong{color:var(--terra-dark);font-weight:700}
+.story-card .story-mean{display:block;font-family:'Fraunces',serif;font-size:22px;color:var(--terra-dark);margin:2px 0 8px;letter-spacing:-.01em}
+html[lang="hi"] .story-card .story-mean,html[lang="bn"] .story-card .story-mean{font-family:inherit;font-weight:700;font-size:20px}
+.story-card details{margin-top:10px;border-top:1px dashed rgba(30,64,175,.2);padding-top:10px}
+.story-card details summary{cursor:pointer;font-weight:700;color:var(--terra);font-size:13px;list-style:none;display:flex;align-items:center;gap:6px;user-select:none}
+.story-card details summary::-webkit-details-marker{display:none}
+.story-card details summary::after{content:"+";margin-left:auto;font-size:18px;color:var(--electric);transition:transform .25s}
+.story-card details[open] summary::after{transform:rotate(45deg)}
+.story-card details p{margin-top:10px;font-size:13.5px;color:var(--ink-soft);line-height:1.7}
 
 @media (max-width:520px){
   .bubble h1{font-size:28px}
@@ -189,14 +234,26 @@ html[lang="hi"] .ngo-card h3,html[lang="bn"] .ngo-card h3{font-family:inherit}
 </style>
 </head>
 <body>
-<div class="bg-deco" aria-hidden="true"></div>
+<div class="bg-deco" aria-hidden="true">
+  <div class="glyph">
+    <!-- Subtle "third-eye triangle" watermark inspired by the Daras logo -->
+    <svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1">
+      <path d="M100 18 L184 162 L16 162 Z"/>
+      <path d="M100 38 L162 152 L38 152 Z"/>
+      <ellipse cx="100" cy="110" rx="34" ry="18"/>
+      <circle cx="100" cy="110" r="9" fill="currentColor"/>
+      <circle cx="100" cy="14" r="6"/>
+      <path d="M64 24 L100 8 L136 24" />
+    </svg>
+  </div>
+</div>
 
 <div class="app" data-testid="daras-app">
 
   <!-- Top bar -->
   <header class="topbar" data-testid="top-bar">
     <div class="brand">
-      <span class="brand-mark" aria-hidden="true"></span>
+      <span class="brand-mark" aria-hidden="true"><img src="/api/Logo.png" alt=""></span>
       <span>
         <span data-i18n="brand">दारस</span>
         <small data-i18n="brand_tag">आपका वित्तीय मित्र</small>
@@ -221,14 +278,7 @@ html[lang="hi"] .ngo-card h3,html[lang="bn"] .ngo-card h3{font-family:inherit}
   <section class="screen on" id="s-welcome" data-testid="screen-welcome">
     <div class="bubble warm">
       <div class="illus" aria-hidden="true">
-        <svg viewBox="0 0 200 140" xmlns="http://www.w3.org/2000/svg">
-          <ellipse cx="100" cy="125" rx="60" ry="6" fill="#000" opacity=".06"/>
-          <path d="M100 35 C 80 35, 70 60, 80 80 L 120 80 C 130 60, 120 35, 100 35 Z" fill="#B4532A"/>
-          <ellipse cx="100" cy="80" rx="22" ry="6" fill="#8C3F1F"/>
-          <rect x="92" y="80" width="16" height="22" rx="2" fill="#8C3F1F"/>
-          <path d="M100 25 C 96 18, 95 12, 100 8 C 105 12, 104 18, 100 25 Z" fill="#FBBF24"/>
-          <circle cx="100" cy="22" r="3" fill="#FEF3C7"/>
-        </svg>
+        <img src="/api/Logo.png" alt="Daras Global">
       </div>
       <h1 data-i18n="welcome_title">नमस्ते 🙏</h1>
       <p class="lead" data-i18n="welcome_promise"></p>
@@ -237,6 +287,17 @@ html[lang="hi"] .ngo-card h3,html[lang="bn"] .ngo-card h3{font-family:inherit}
           <span data-i18n="welcome_begin">आगे बढ़ें</span>
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
         </button>
+      </div>
+
+      <!-- Chronology behind the logo — "Daras" = divine vision / sight -->
+      <div class="story-card" data-testid="story-card">
+        <span class="story-label" data-i18n="story_label">दारस — पीछे की कहानी</span>
+        <span class="story-mean" data-i18n="story_mean">दारस = दिव्य दृष्टि</span>
+        <span data-i18n="story_body"></span>
+        <details>
+          <summary data-i18n="story_more">और जानें</summary>
+          <p data-i18n="story_chrono"></p>
+        </details>
       </div>
     </div>
     <div class="callout-info">
@@ -462,11 +523,11 @@ html[lang="hi"] .ngo-card h3,html[lang="bn"] .ngo-card h3{font-family:inherit}
             <span class="sub" data-i18n="un_more_sub">Need more money</span>
           </span>
         </button>
-        <button class="opt-row" data-set-branch="confused" data-testid="branch-confused">
+        <button class="opt-row" data-set-branch="others" data-testid="branch-others">
           <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 9a3 3 0 0 1 6 0c0 2-3 3-3 5M12 17h.01"/></svg></span>
           <span class="body">
-            <span class="title" data-i18n="un_confused">समझ नहीं आ रहा — बचत है फिर भी परेशानी है</span>
-            <span class="sub" data-i18n="un_confused_sub">मुझे किसी से बात करनी है</span>
+            <span class="title" data-i18n="un_others">अन्य — बचत है फिर भी परेशानी है</span>
+            <span class="sub" data-i18n="un_others_sub">मुझे किसी से बात करनी है</span>
           </span>
         </button>
       </div>
@@ -809,10 +870,16 @@ html[lang="hi"] .ngo-card h3,html[lang="bn"] .ngo-card h3{font-family:inherit}
 
   <!-- Footer -->
   <div class="footer">
-    <div data-i18n="ft_brand">दारस DARAS — आपका वित्तीय मित्र</div>
+    <div class="footer-brand">
+      <img src="/api/Logo.png" alt="Daras Global" class="footer-logo">
+      <div>
+        <div data-i18n="ft_brand">दारस DARAS — आपका वित्तीय मित्र</div>
+        <div class="footer-tag">INSIGHT &nbsp;·&nbsp; STRATEGY &nbsp;·&nbsp; GROWTH</div>
+      </div>
+    </div>
     <div class="small-disc" data-i18n="ft_disc">यह ऐप केवल जानकारी और दिशा-निर्देश के लिए है। किसी भी वित्तीय निर्णय से पहले अपने सलाहकार से ज़रूर मिलें।</div>
     <div style="margin-top:10px">
-      <a href="/privacy" style="color:var(--ink-faint);font-size:12px;text-decoration:none;border-bottom:1px dashed var(--line)" data-i18n="ft_privacy">गोपनीयता नीति</a>
+      <a href="/api/privacy" style="color:var(--ink-faint);font-size:12px;text-decoration:none;border-bottom:1px dashed var(--line)" data-i18n="ft_privacy">गोपनीयता नीति</a>
     </div>
   </div>
 
@@ -849,6 +916,23 @@ const LANG = {
                     bn:"শুধু নাম এবং মোবাইল। বাকি তথ্য আপনি ইচ্ছে হলেই দেবেন।",
                     en:"Just name & mobile. Share more only when you wish to."},
   welcome_begin:   {hi:"आगे बढ़ें", bn:"শুরু করুন", en:"Let's begin"},
+
+  /* --- Chronology behind the logo --- */
+  story_label:     {hi:"दारस — लोगो की कहानी",
+                    bn:"দারস — লোগোর গল্প",
+                    en:"Daras — the story behind the logo"},
+  story_mean:      {hi:"\"दारस\" = दिव्य दृष्टि",
+                    bn:"\"দারস\" = দিব্য দৃষ্টি",
+                    en:"\"Daras\" = divine sight"},
+  story_body:      {hi:"हिंदी–उर्दू शब्द \"दारस\" का अर्थ है — झलक, ज्ञान पाने वाली दृष्टि। लोगो में बना त्रिकोण और आँख शिव के तीसरे नेत्र का प्रतीक है — अंतर्दृष्टि, ज्ञान और बदलाव। ऊपर का चमकता ग्लोब बताता है कि बदलती दुनिया में भी हम भारत के हर कोने तक पहुँचना चाहते हैं।",
+                    bn:"হিন্দি-উর্দু শব্দ \"দারস\" মানে — এক ঝলক, জ্ঞান লাভের দৃষ্টি। লোগোর ত্রিভুজ ও চক্ষু শিবের তৃতীয় নয়ন — অন্তর্দৃষ্টি, প্রজ্ঞা ও রূপান্তরের প্রতীক। উপরের উজ্জ্বল গ্লোব বলছে — পরিবর্তনশীল পৃথিবীতে আমরা ভারতের প্রতিটি কোণে পৌঁছাতে চাই।",
+                    en:"\"Daras\" is a Hindi-Urdu word meaning a glimpse — divine vision that grants knowledge. The triangle and eye echo Shiva's Third Eye: insight, wisdom and transformation. The glowing globe atop signals our reach across India in a fast-changing world."},
+  story_more:      {hi:"और जानें — हम क्यों बने",
+                    bn:"আরও জানুন — কেন তৈরি হলাম",
+                    en:"Learn more — why we exist"},
+  story_chrono:    {hi:"दारस की नींव माता-पिता की सीख पर पड़ी — पिता (एक चार्टर्ड अकाउंटेंट) ने पैसों की समझ और दूरदर्शिता सिखाई; माँ ने सिखाया कि कम संसाधनों वालों पर ही सबसे ज़्यादा बोझ पड़ता है। M3M Foundation और \"Tribes for Good\" के साथ काम करते हुए हमने देखा कि कैसे करोड़ों भारतीय कर्ज़-जाल में फँस जाते हैं। दारस इसी दिशा में एक छोटा-सा कदम है — \"Insight • Strategy • Growth\"।",
+                    bn:"দারসের ভিত্তি বাবা-মায়ের শিক্ষায় — বাবা (একজন চার্টার্ড অ্যাকাউন্ট্যান্ট) অর্থের প্রজ্ঞা ও দূরদৃষ্টি শিখিয়েছেন; মা শিখিয়েছেন কম সংস্থানের মানুষেরাই সবচেয়ে বেশি বোঝা বহন করে। M3M Foundation ও \"Tribes for Good\"–এর সঙ্গে কাজ করতে গিয়ে দেখলাম কীভাবে কোটি কোটি ভারতীয় ঋণ-জালে আটকে পড়েন। দারস সেই পথেই এক ছোট পদক্ষেপ — \"Insight • Strategy • Growth\"।",
+                    en:"Daras was born from parental wisdom — a father (a Chartered Accountant) who taught the power of foresight in money, and a mother who emphasised that those with the least bear the heaviest burden. Working with M3M Foundation and \"Tribes for Good\", we saw millions of Indians caught in the debt trap. Daras is a small step in that direction — \"Insight • Strategy • Growth\"."},
 
   reg_title:       {hi:"अपना परिचय दें", bn:"আপনার পরিচয় দিন", en:"Tell us about yourself"},
   reg_sub:         {hi:"सिर्फ़ नाम और मोबाइल काफ़ी है। बाकी आप जब चाहें तब बताएँ।",
@@ -910,8 +994,8 @@ const LANG = {
   nlc_max_sub:     {hi:"अपनी बचत के हिसाब से जानें", bn:"নিজের সঞ্চয় অনুযায়ী জানুন", en:"Based on your monthly savings"},
   nlc_check:       {hi:"यह लोन लेना सुरक्षित है?", bn:"এই ঋণ নেওয়া কি নিরাপদ?", en:"Is this specific loan safe to take?"},
   nlc_check_sub:   {hi:"एक खास रकम और ब्याज जाँचें", bn:"একটি নির্দিষ্ট পরিমাণ ও সুদ যাচাই করুন", en:"Check a specific amount and interest rate"},
-  un_confused:     {hi:"समझ नहीं आ रहा — बचत है फिर भी परेशानी है", bn:"বুঝতে পারছি না — সঞ্চয় আছে তবুও সমস্যা", en:"Confused — have savings but still struggling"},
-  un_confused_sub: {hi:"मुझे किसी से बात करनी है", bn:"আমাকে কারো সাথে কথা বলতে হবে", en:"Need personal guidance"},
+  un_others:     {hi:"अन्य — बचत है फिर भी परेशानी है", bn:"অন্যান্য — সঞ্চয় আছে তবুও সমস্যা", en:"Others — have savings but still struggling"},
+  un_others_sub: {hi:"मुझे किसी से बात करनी है", bn:"আমাকে কারো সাথে কথা বলতে হবে", en:"Need personal guidance"},
   open_new_loan:   {hi:"नया लोन लेना है →", bn:"নতুন ঋণ নিতে চাই →", en:"I want to take a new loan →"},
   nl_rate:         {hi:"ब्याज दर (% सालाना)", bn:"সুদের হার (% বার্ষিক)", en:"Interest rate (% p.a.)"},
   nl_source:       {hi:"कहाँ से लेना है?", bn:"কোথা থেকে নিচ্ছেন?", en:"From where are you taking it?"},
@@ -1633,7 +1717,7 @@ document.querySelectorAll("[data-set-branch]").forEach(b => b.addEventListener("
   if (S.branch === "high_interest") go("s-incexp");
   else if (S.branch === "cant_pay_emi") go("s-incexp");
   else if (S.branch === "principal_issue") go("s-incexp");
-  else if (S.branch === "confused") go("s-ngo");
+  else if (S.branch === "others") go("s-ngo");
   else if (S.branch === "need_more_money") {
     if (S.existing.amount > 0) {
       if (S.existing.rate >= 36) go("s-warning");

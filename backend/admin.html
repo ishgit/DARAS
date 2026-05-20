@@ -4,11 +4,12 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>DARAS Admin Panel</title>
+<link rel="icon" type="image/png" href="/api/Logo.png">
 <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
 :root{
   --navy:#1A2340;--navy2:#2C3E6B;--navy3:#3a5288;
-  --saffron:#FF6B00;--saffron-lt:#FFF3E8;
+  --saffron:#2563EB;--saffron-lt:#EFF6FF;
   --green:#138808;--green-lt:#E8F5E9;
   --red:#D32F2F;--red-lt:#FFEBEE;
   --orange:#E65100;--orange-lt:#FFF3E0;
@@ -30,23 +31,23 @@ h1,h2,h3,.num-big,.tab-btn{font-family:'Baloo 2',cursive}
 }
 .login-box{background:#fff;border-radius:20px;padding:36px 32px;width:100%;max-width:380px;
   box-shadow:0 20px 60px rgba(0,0,0,.3);}
-.login-logo{width:64px;height:64px;border-radius:50%;
-  background:linear-gradient(135deg,var(--saffron),var(--gold));
+.login-logo{width:80px;height:80px;border-radius:12px;
+  background:#fff;
   display:flex;align-items:center;justify-content:center;
-  font-family:'Baloo 2',cursive;font-weight:800;font-size:28px;color:#fff;
-  margin:0 auto 16px;box-shadow:0 4px 16px rgba(255,107,0,.4);}
+  margin:0 auto 16px;box-shadow:0 4px 16px rgba(37,99,235,.2);overflow:hidden;padding:4px}
+.login-logo img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply}
 .login-box h2{text-align:center;font-size:22px;margin-bottom:4px}
 .login-box .sub{text-align:center;color:var(--muted);font-size:13px;margin-bottom:24px}
 .lf{margin-bottom:14px}
 .lf label{display:block;font-size:12px;font-weight:600;color:var(--navy);margin-bottom:5px;text-transform:uppercase;letter-spacing:.4px}
 .lf input{width:100%;padding:11px 13px;border:2px solid var(--border);border-radius:var(--rs);
   font-family:'Inter',sans-serif;font-size:14px;outline:none;transition:.2s}
-.lf input:focus{border-color:var(--saffron);box-shadow:0 0 0 3px rgba(255,107,0,.1)}
-.login-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--saffron),#FF8C33);
+.lf input:focus{border-color:var(--saffron);box-shadow:0 0 0 3px rgba(37,99,235,.1)}
+.login-btn{width:100%;padding:13px;background:linear-gradient(135deg,var(--navy2),var(--saffron));
   color:#fff;border:none;border-radius:var(--rs);font-family:'Baloo 2',cursive;
   font-size:16px;font-weight:700;cursor:pointer;margin-top:6px;transition:.2s;
-  box-shadow:0 4px 14px rgba(255,107,0,.3)}
-.login-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(255,107,0,.4)}
+  box-shadow:0 4px 14px rgba(37,99,235,.3)}
+.login-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,99,235,.4)}
 .login-err{color:var(--red);font-size:13px;text-align:center;margin-top:10px;min-height:20px}
 
 /* ── Layout ── */
@@ -58,10 +59,10 @@ h1,h2,h3,.num-big,.tab-btn{font-family:'Baloo 2',cursive}
 }
 .sb-header{padding:20px 18px 14px;border-bottom:1px solid rgba(255,255,255,.08)}
 .sb-logo{display:flex;align-items:center;gap:10px}
-.sb-logo .d{width:38px;height:38px;border-radius:50%;
-  background:linear-gradient(135deg,var(--saffron),var(--gold));
-  display:flex;align-items:center;justify-content:center;
-  font-family:'Baloo 2',cursive;font-weight:800;font-size:17px;}
+.sb-logo .d{width:42px;height:42px;border-radius:8px;
+  background:#fff;
+  display:flex;align-items:center;justify-content:center;overflow:hidden;padding:2px;flex-shrink:0}
+.sb-logo .d img{width:100%;height:100%;object-fit:contain;mix-blend-mode:multiply}
 .sb-logo h1{font-size:18px;font-weight:800}
 .sb-logo p{font-size:10px;opacity:.55;margin-top:1px}
 .sb-nav{padding:12px 10px;flex:1}
@@ -70,7 +71,7 @@ h1,h2,h3,.num-big,.tab-btn{font-family:'Baloo 2',cursive}
   transition:.2s;margin-bottom:2px;border:none;background:none;width:100%;text-align:left}
 .sbn .ic{font-size:17px;width:22px;text-align:center;flex-shrink:0}
 .sbn:hover{background:rgba(255,255,255,.08);color:#fff}
-.sbn.on{background:rgba(255,107,0,.18);color:var(--saffron)}
+.sbn.on{background:rgba(37,99,235,.18);color:var(--saffron)}
 .sb-footer{padding:14px 18px;border-top:1px solid rgba(255,255,255,.08)}
 .sb-user{font-size:12px;opacity:.6;margin-bottom:8px}
 .sb-user strong{display:block;font-size:13px;opacity:1;color:#fff}
@@ -200,9 +201,9 @@ tr:last-child td{border-bottom:none}
 <!-- ══ LOGIN ══ -->
 <div id="login-screen">
   <div class="login-box">
-    <div class="login-logo">D</div>
+    <div class="login-logo"><img src="/api/Logo.png" alt="DARAS Global"></div>
     <h2>DARAS Admin</h2>
-    <p class="sub">Research & Analytics Panel</p>
+    <p class="sub">Insight · Strategy · Growth</p>
     <div class="lf">
       <label>Username</label>
       <input type="text" id="l-user" placeholder="daras_admin" autocomplete="username">
@@ -223,10 +224,10 @@ tr:last-child td{border-bottom:none}
   <div class="sidebar">
     <div class="sb-header">
       <div class="sb-logo">
-        <div class="d">D</div>
+        <div class="d"><img src="/api/Logo.png" alt="DARAS Global"></div>
         <div>
           <h1>DARAS</h1>
-          <p>Admin Panel</p>
+          <p>daras global</p>
         </div>
       </div>
     </div>
@@ -569,11 +570,11 @@ async function loadDashboard(){
         return `${x},${y}`;
       }).join(' ');
       const svg=`
-        <polyline points="${pts}" fill="none" stroke="#FF6B00" stroke-width="2.5" stroke-linejoin="round"/>
+        <polyline points="${pts}" fill="none" stroke="#2563EB" stroke-width="2.5" stroke-linejoin="round"/>
         ${trend.map((t,i)=>{
           const x=pad+i*(w-pad*2)/(trend.length-1||1);
           const y=h-pad-(t.count/max)*(h-pad*2);
-          return `<circle cx="${x}" cy="${y}" r="3" fill="#FF6B00"/>`;
+          return `<circle cx="${x}" cy="${y}" r="3" fill="#2563EB"/>`;
         }).join('')}
         <text x="${pad}" y="${h-2}" font-size="9" fill="#9CA3AF">${trend[0]?.day||''}</text>
         <text x="${w-pad}" y="${h-2}" font-size="9" fill="#9CA3AF" text-anchor="end">${trend[trend.length-1]?.day||''}</text>

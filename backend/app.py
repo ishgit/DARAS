@@ -297,6 +297,10 @@ def user_panel():
 def privacy_policy():
     return send_from_directory(os.path.dirname(__file__), "privacy.html")
 
+@app.route("/api/Logo.png")
+def serve_logo():
+    return send_from_directory(os.path.join(os.path.dirname(__file__), "static"), "Logo.png")
+
 @app.route("/admin")
 @app.route("/admin/")
 @app.route("/api/admin/panel")
