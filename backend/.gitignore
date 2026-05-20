@@ -1,0 +1,21 @@
+# Database — never commit real user data
+daras.db
+*.db-shm
+*.db-wal
+
+# Environment secrets
+.env
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+.Python
+
+# Logs and temp files
+*.log
+*.swp
+.DS_Store
+
+# Artifacts
+_artifacts/

@@ -13,18 +13,30 @@ from flask_cors import CORS
 import sqlite3, hashlib, hmac, uuid, os, json, math, csv, io
 from datetime import datetime, timedelta
 from functools import wraps
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # ── Config ────────────────────────────────────────────────────────────────────
 app = Flask(__name__, template_folder='.')
 app.config['TEMPLATES_AUTO_RELOAD'] = True
 app.jinja_env.auto_reload = True
-CORS(app, resources={r"/api/*": {"origins": "*"}})
+
+_ALLOWED_ORIGINS = os.environ.get("ALLOWED_ORIGINS", "*").split(",")
+CORS(app, resources={r"/api/*": {"origins": _ALLOWED_ORIGINS}})
 
 DB_PATH    = os.path.join(os.path.dirname(__file__), "daras.db")
 SECRET_KEY = os.environ.get("DARAS_SECRET", "daras-dev-secret-change-in-prod")
 TOKEN_TTL  = 12   # hours
 ADMIN_USER = os.environ.get("ADMIN_USER", "daras_admin")
 ADMIN_PASS = os.environ.get("ADMIN_PASS", "Daras@2024")
+
+_IS_PROD = os.environ.get("FLASK_ENV") == "production"
+if _IS_PROD:
+    if SECRET_KEY == "daras-dev-secret-change-in-prod":
+        raise RuntimeError("DARAS_SECRET env variable must be set in production")
+    if ADMIN_PASS == "Daras@2024":
+        raise RuntimeError("ADMIN_PASS env variable must be set in production")
 
 # ── DB helpers ────────────────────────────────────────────────────────────────
 def get_db():
@@ -157,7 +169,7 @@ def init_db():
             (ADMIN_USER, _hash_pw(ADMIN_PASS), "DARAS Admin", "superadmin")
         )
         conn.commit()
-        print(f"[DARAS] Admin seeded → {ADMIN_USER} / {ADMIN_PASS}")
+        print(f"[DARAS] Admin seeded → {ADMIN_USER}")
 
     conn.close()
 
@@ -280,6 +292,11 @@ def run_calculator(income, expenses, loan, rate, months):
 def user_panel():
     return render_template("user.html")
 
+@app.route("/privacy")
+@app.route("/privacy/")
+def privacy_policy():
+    return send_from_directory(os.path.dirname(__file__), "privacy.html")
+
 @app.route("/admin")
 @app.route("/admin/")
 @app.route("/api/admin/panel")
@@ -316,30 +333,28 @@ def user_register():
         db.commit()
         return jsonify({"success":True,"user_id":row["id"],"session_id":row["session_id"]})
 
-    # Duplicate mobile check — return existing record for frontend to handle
-    if mobile and len(mobile) >= 6:
-        existing = db.execute(
-            "SELECT * FROM users WHERE mobile=? ORDER BY created_at DESC LIMIT 1",
+    # Duplicate mobile check — return ALL existing profiles for frontend to handle
+    if mobile and len(mobile) >= 6 and not d.get("force_new"):
+        existing_rows = db.execute(
+            "SELECT * FROM users WHERE mobile=? ORDER BY created_at DESC",
             (mobile,)
-        ).fetchone()
-        if existing:
-            last = db.execute(
-                "SELECT * FROM loan_assessments WHERE user_id=? ORDER BY created_at DESC LIMIT 1",
-                (existing["id"],)
-            ).fetchone()
+        ).fetchall()
+        if existing_rows:
+            profiles = []
+            for row in existing_rows:
+                profiles.append({
+                    "id":              row["id"],
+                    "session_id":      row["session_id"],
+                    "name":            row["name"],
+                    "age":             row["age"],
+                    "mobile":          row["mobile"],
+                    "vocation":        row["vocation"],
+                    "vocation_custom": row["vocation_custom"] or "",
+                    "language":        row["language"] or "hi",
+                })
             return jsonify({
                 "exists": True,
-                "user": {
-                    "id":              existing["id"],
-                    "session_id":      existing["session_id"],
-                    "name":            existing["name"],
-                    "age":             existing["age"],
-                    "mobile":          existing["mobile"],
-                    "vocation":        existing["vocation"],
-                    "vocation_custom": existing["vocation_custom"] or "",
-                    "language":        existing["language"] or "hi",
-                },
-                "last_assessment": dict(last) if last else None,
+                "profiles": profiles
             })
 
     # New user INSERT
@@ -861,7 +876,7 @@ def admin_questions():
 if __name__=="__main__":
     init_db()
     port=int(os.environ.get("PORT",5001))
+    debug=os.environ.get("FLASK_DEBUG","0") == "1"
     print(f"\n  DARAS running on http://localhost:{port}\n"
-          f"  Admin panel → http://localhost:{port}/admin\n"
-          f"  Login: {ADMIN_USER} / {ADMIN_PASS}\n")
-    app.run(debug=True, port=port)
+          f"  Admin panel → http://localhost:{port}/admin\n")
+    app.run(debug=debug, port=port)
