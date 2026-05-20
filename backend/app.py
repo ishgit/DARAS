@@ -413,30 +413,30 @@ def user_calculate():
     r["payoff_months_at_surplus"] = payoff
 
     db = get_db(); uid = d.get("user_id")
-    try:
-        if uid:
+    if uid:
+        try:
             db.execute("UPDATE loan_assessments SET is_current=0 WHERE user_id=?", (uid,))
-        db.execute("""
-            INSERT INTO loan_assessments
-              (user_id,loan_type,loan_amount,loan_purpose,loan_source,
-               interest_rate,tenure_months,loan_remaining,
-               income,rent,grocery,medicine,education,mobile_bill,
-               gaon,other_expenses,expenses_total,
-               monthly_savings,emi,total_interest,monthly_interest,
-               loan_to_income,max_safe_loan,status,conclusion)
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-        """, (uid,loan_type,loan,purpose,source,rate,months,remaining,
-              income,rent,grocery,medicine,education,mob,gaon,other,expenses,
-              r["monthly_savings"],r["emi"],r["total_interest"],r["monthly_interest"],
-              r["lti_ratio"],r["max_safe_loan"],r["status"],r["conclusion"]))
-        db.execute("INSERT INTO app_events (user_id,event,meta) VALUES (?,?,?)",
-                   (uid,"assessment",json.dumps({
-                       "status":r["status"],"income_slab":income_slab(income),
-                       "loan_source":source,"loan_type":loan_type,"lti":r["lti_ratio"]})))
-        db.execute("UPDATE users SET last_active=datetime('now','localtime') WHERE id=?", (uid,))
-        db.commit()
-    except Exception as e:
-        app.logger.error(f"DB error: {e}")
+            db.execute("""
+                INSERT INTO loan_assessments
+                  (user_id,loan_type,loan_amount,loan_purpose,loan_source,
+                   interest_rate,tenure_months,loan_remaining,
+                   income,rent,grocery,medicine,education,mobile_bill,
+                   gaon,other_expenses,expenses_total,
+                   monthly_savings,emi,total_interest,monthly_interest,
+                   loan_to_income,max_safe_loan,status,conclusion)
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+            """, (uid,loan_type,loan,purpose,source,rate,months,remaining,
+                  income,rent,grocery,medicine,education,mob,gaon,other,expenses,
+                  r["monthly_savings"],r["emi"],r["total_interest"],r["monthly_interest"],
+                  r["lti_ratio"],r["max_safe_loan"],r["status"],r["conclusion"]))
+            db.execute("INSERT INTO app_events (user_id,event,meta) VALUES (?,?,?)",
+                       (uid,"assessment",json.dumps({
+                           "status":r["status"],"income_slab":income_slab(income),
+                           "loan_source":source,"loan_type":loan_type,"lti":r["lti_ratio"]})))
+            db.execute("UPDATE users SET last_active=datetime('now','localtime') WHERE id=?", (uid,))
+            db.commit()
+        except Exception as e:
+            app.logger.error(f"DB error: {e}")
 
     return jsonify(r)
 
