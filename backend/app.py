@@ -25,7 +25,7 @@ app.jinja_env.auto_reload = True
 _ALLOWED_ORIGINS = os.environ.get("ALLOWED_ORIGINS", "*").split(",")
 CORS(app, resources={r"/api/*": {"origins": _ALLOWED_ORIGINS}})
 
-DB_PATH    = os.path.join(os.path.dirname(__file__), "daras.db")
+DB_PATH    = os.environ.get("DB_PATH", os.path.join(os.path.dirname(__file__), "daras.db"))
 SECRET_KEY = os.environ.get("DARAS_SECRET", "daras-dev-secret-change-in-prod")
 TOKEN_TTL  = 12   # hours
 ADMIN_USER = os.environ.get("ADMIN_USER", "daras_admin")
