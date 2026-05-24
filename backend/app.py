@@ -163,6 +163,36 @@ def init_db():
     except Exception:
         pass
 
+    # Migration: soft-delete support on users (safe to run repeatedly)
+    try:
+        conn.execute("ALTER TABLE users ADD COLUMN deleted_at TEXT DEFAULT NULL")
+        conn.commit()
+    except Exception:
+        pass
+
+    # Migration: new user profile fields
+    for col, defn in [
+        ("household_size",   "INTEGER"),
+        ("employment_type",  "TEXT"),
+        ("has_bank_account", "INTEGER"),
+    ]:
+        try:
+            conn.execute(f"ALTER TABLE users ADD COLUMN {col} {defn}")
+            conn.commit()
+        except Exception:
+            pass
+
+    # Migration: FOIR + DSCR on loan assessments
+    for col, defn in [
+        ("foir", "REAL DEFAULT 0"),
+        ("dscr", "REAL DEFAULT 0"),
+    ]:
+        try:
+            conn.execute(f"ALTER TABLE loan_assessments ADD COLUMN {col} {defn}")
+            conn.commit()
+        except Exception:
+            pass
+
     if not conn.execute("SELECT id FROM admin_users LIMIT 1").fetchone():
         conn.execute(
             "INSERT INTO admin_users (username,password_hash,full_name,role) VALUES (?,?,?,?)",
@@ -234,36 +264,45 @@ def calc_payoff_months(p, annual_pct, monthly_pay):
     n = math.log(monthly_pay / (monthly_pay - p*r)) / math.log(1+r)
     return math.ceil(n)
 
-def run_calculator(income, expenses, loan, rate, months):
+def run_calculator(income, expenses, loan, rate, months, remaining=None):
+    emi_principal = remaining if (remaining and 0 < remaining <= loan) else loan
     savings  = income - expenses
-    emi      = calc_emi(loan, rate, months)
-    tot_int  = round(loan*(rate/100)*(months/12), 2)
-    mon_int  = round(tot_int/months, 2) if months else 0
-    lti      = round(loan/income, 2) if income else 0
-    int_pay  = round(min(max(savings,0)*months, tot_int), 2)
+    # EMI — Reducing Balance (RBI DBOD.No.Dir.BC.56/13.03.00/2003-04)
+    emi      = calc_emi(emi_principal, rate, months)
+    # Total interest = total payments minus principal (not simple interest)
+    tot_int  = round(max(0, emi * months - emi_principal), 2)
+    mon_int  = round(tot_int / months, 2) if months else 0
+    tot_pay  = round(emi_principal + tot_int, 2)
+    # LTI — loan vs annual income (RBI Financial Stability Report standard)
+    lti      = round(loan / (income * 12), 2) if income else 0
+    # FOIR — EMI as % of monthly income (RBI Master Direction on Advances 2016)
+    foir     = round((emi / income) * 100, 2) if income else 0
+    # DSCR — savings per rupee of EMI (NABARD/Sa-Dhan MFI Guidelines)
+    dscr     = round(max(savings, 0) / emi, 2) if emi > 0 else 0
+    after_emi_savings = round(savings - emi, 2)
+    int_pay  = round(min(max(savings, 0) * months, tot_int), 2)
     int_unp  = round(max(0, tot_int - int_pay), 2)
-    rem_sav  = max(0, savings*months - tot_int)
-    prin_pay = round(min(rem_sav, loan), 2)
-    prin_unp = round(loan - prin_pay, 2)
-    max_loan = calc_max_loan(max(savings,0), rate, months)
-    tot_pay  = round(loan + tot_int, 2)
+    rem_sav  = max(0, savings * months - tot_int)
+    prin_pay = round(min(rem_sav, emi_principal), 2)
+    prin_unp = round(emi_principal - prin_pay, 2)
+    max_loan = calc_max_loan(max(savings, 0), rate, months)
 
     if savings <= 0:
         s,c = "red","no_savings"
         mh = "Aapki amdani se kharcha hi pura nahi hota. Loan bilkul mat lein."
         me = "Income does not cover expenses. Do NOT take any loan."
         mb = "আপনার আয়ে খরচই পুরো হয় না। ঋণ একদম নেবেন না।"
-    elif emi > savings:
+    elif dscr < 1.0:
         s,c = "red","emi_exceeds_savings"
         mh = "EMI aapki poori bachat se zyaada hai. Bahut khatarnak – chota loan ya zyaada tenure chunein."
         me = "EMI exceeds your total monthly savings. Very dangerous."
         mb = "EMI আপনার পুরো সঞ্চয়ের চেয়ে বেশি। খুব বিপজ্জনক — ছোট ঋণ বা বেশি মেয়াদ বেছে নিন।"
-    elif emi > savings * 0.6:
+    elif dscr < 1.5:
         s,c = "orange","emi_high"
-        mh = "EMI aapki bachat ka 60% se zyaada le legi. Dhyan se – koi bhi emergency mein phans sakte hain."
-        me = "EMI consumes over 60% of savings. Any emergency could trap you."
-        mb = "EMI আপনার সঞ্চয়ের ৬০%-এর বেশি নেবে। সাবধান — যেকোনো জরুরি অবস্থায় ফেঁসে যাবেন।"
-    elif prin_unp > loan * 0.4:
+        mh = "EMI aapki bachat ka zyaada hissa le legi. Dhyan se – koi bhi emergency mein phans sakte hain."
+        me = "EMI takes most of your savings. Any emergency could trap you."
+        mb = "EMI আপনার সঞ্চয়ের বড় অংশ নেবে। সাবধান — যেকোনো জরুরি অবস্থায় ফেঁসে যাবেন।"
+    elif prin_unp > emi_principal * 0.4:
         s,c = "orange","principal_risk"
         mh = "Bayaaj to de payenge lekin mool chukana mushkil hoga. Thoda chota loan lein."
         me = "Interest is manageable but repaying principal is risky. Consider smaller amount."
@@ -275,16 +314,26 @@ def run_calculator(income, expenses, loan, rate, months):
         mb = "আপনি এই ঋণ আরামে নিতে পারেন। আপনার সঞ্চয় EMI-এর চেয়ে বেশি।"
 
     return dict(
-        income=income, expenses_total=round(expenses,2),
-        loan_amount=loan, interest_rate=rate, tenure_months=months,
-        monthly_savings=round(savings,2), emi=emi,
+        income=income, expenses_total=round(expenses, 2),
+        loan_amount=loan, emi_principal=emi_principal,
+        interest_rate=rate, tenure_months=months,
+        monthly_savings=round(savings, 2), emi=emi,
+        after_emi_savings=after_emi_savings,
         total_interest=tot_int, monthly_interest=mon_int,
         total_payable=tot_pay, lti_ratio=lti,
+        foir=foir, dscr=dscr,
         interest_payable=int_pay, interest_unpayable=int_unp,
         principal_payable=prin_pay, principal_unpayable=prin_unp,
         max_safe_loan=max_loan,
         status=s, conclusion=c, message_hi=mh, message_en=me, message_bn=mb
     )
+
+# ── Static asset caching ─────────────────────────────────────────────────────
+@app.after_request
+def add_static_cache(response):
+    if request.path.startswith('/static/'):
+        response.headers['Cache-Control'] = 'public, max-age=31536000, immutable'
+    return response
 
 # ── Page routes ───────────────────────────────────────────────────────────────
 @app.route("/")
@@ -323,12 +372,16 @@ def user_register():
     voc_custom = d.get("vocation_custom", "")
     age      = d.get("age")
 
-    # START OVER: update existing user record, keep same user_id
+    # START OVER: update 
+    # existing user record, keep same user_id
     existing_uid = d.get("existing_user_id")
     if existing_uid:
+        household_size   = d.get("household_size")
+        employment_type  = d.get("employment_type", "")
+        has_bank_account = 1 if d.get("has_bank_account") else 0
         db.execute(
-            "UPDATE users SET name=?,age=?,vocation=?,vocation_custom=?,language=?,last_active=datetime('now','localtime') WHERE id=?",
-            (name, age, vocation, voc_custom, language, existing_uid)
+            "UPDATE users SET name=?,age=?,vocation=?,vocation_custom=?,language=?,household_size=?,employment_type=?,has_bank_account=?,last_active=datetime('now','localtime') WHERE id=?",
+            (name, age, vocation, voc_custom, language, household_size, employment_type, has_bank_account, existing_uid)
         )
         db.commit()
         row = db.execute("SELECT id,session_id FROM users WHERE id=?", (existing_uid,)).fetchone()
@@ -340,7 +393,7 @@ def user_register():
     # Duplicate mobile check — return ALL existing profiles for frontend to handle
     if mobile and len(mobile) >= 6 and not d.get("force_new"):
         existing_rows = db.execute(
-            "SELECT * FROM users WHERE mobile=? ORDER BY created_at DESC",
+            "SELECT * FROM users WHERE mobile=? AND deleted_at IS NULL ORDER BY created_at DESC",
             (mobile,)
         ).fetchall()
         if existing_rows:
@@ -363,14 +416,19 @@ def user_register():
 
     # New user INSERT
     sid = str(uuid.uuid4())
+    household_size   = d.get("household_size")
+    employment_type  = d.get("employment_type", "")
+    has_bank_account = 1 if d.get("has_bank_account") else 0
     try:
         db.execute("""
             INSERT INTO users
-              (session_id,name,age,mobile,vocation,vocation_custom,city,state,language,ip_address,user_agent)
-            VALUES (?,?,?,?,?,?,?,?,?,?,?)
+              (session_id,name,age,mobile,vocation,vocation_custom,city,state,language,
+               household_size,employment_type,has_bank_account,ip_address,user_agent)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
         """, (sid, name, age, mobile,
               vocation, voc_custom,
               d.get("city",""), d.get("state",""), language,
+              household_size, employment_type, has_bank_account,
               request.remote_addr, request.headers.get("User-Agent","")[:255]))
         db.commit()
         uid = db.execute("SELECT id FROM users WHERE session_id=?", (sid,)).fetchone()["id"]
@@ -380,6 +438,15 @@ def user_register():
         return jsonify({"success":True,"session_id":sid,"user_id":uid})
     except sqlite3.IntegrityError as e:
         return jsonify({"error":str(e)}), 409
+
+@app.route("/api/user/profile/<int:uid>", methods=["DELETE"])
+def delete_user_profile(uid):
+    db = get_db()
+    db.execute(
+        "UPDATE users SET deleted_at=datetime('now','localtime') WHERE id=?", (uid,)
+    )
+    db.commit()
+    return jsonify({"success": True})
 
 @app.route("/api/user/calculate", methods=["POST"])
 def user_calculate():
@@ -402,7 +469,7 @@ def user_calculate():
     source    = d.get("loan_source","")
     remaining = float(d.get("loan_remaining",loan) or loan)
 
-    r = run_calculator(income, expenses, loan, rate, months)
+    r = run_calculator(income, expenses, loan, rate, months, remaining=remaining)
     r["expenses_breakdown"] = {
         "rent":rent,"grocery":grocery,"medicine":medicine,
         "education":education,"mobile_bill":mob,"gaon":gaon,"other":other
@@ -423,12 +490,12 @@ def user_calculate():
                    income,rent,grocery,medicine,education,mobile_bill,
                    gaon,other_expenses,expenses_total,
                    monthly_savings,emi,total_interest,monthly_interest,
-                   loan_to_income,max_safe_loan,status,conclusion)
-                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                   loan_to_income,foir,dscr,max_safe_loan,status,conclusion)
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
             """, (uid,loan_type,loan,purpose,source,rate,months,remaining,
                   income,rent,grocery,medicine,education,mob,gaon,other,expenses,
                   r["monthly_savings"],r["emi"],r["total_interest"],r["monthly_interest"],
-                  r["lti_ratio"],r["max_safe_loan"],r["status"],r["conclusion"]))
+                  r["lti_ratio"],r["foir"],r["dscr"],r["max_safe_loan"],r["status"],r["conclusion"]))
             db.execute("INSERT INTO app_events (user_id,event,meta) VALUES (?,?,?)",
                        (uid,"assessment",json.dumps({
                            "status":r["status"],"income_slab":income_slab(income),
@@ -474,7 +541,7 @@ def user_lookup():
         return jsonify({"found": False})
     db   = get_db()
     user = db.execute(
-        "SELECT * FROM users WHERE mobile=? ORDER BY created_at DESC LIMIT 1",
+        "SELECT * FROM users WHERE mobile=? AND deleted_at IS NULL ORDER BY created_at DESC LIMIT 1",
         (mobile,)
     ).fetchone()
     if not user:
