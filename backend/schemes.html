@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="#0B1B3F"/>
+<title>Government Schemes — दारस DARAS</title>
+<meta name="description" content="Detailed guide to Indian government loan schemes — Mudra, SVANidhi, Stand-Up India, Jan Dhan, NSDC, NSFDC, NMDFC, Education Loans, Marriage Assistance.">
+<link rel="icon" type="image/png" href="/api/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Manrope:wght@400;500;600;700&family=Hind:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/pages.css?v=2">
+</head>
+<body>
+<div class="bg-deco"></div>
+<div class="app">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <a href="/api/" class="brand">
+      <div class="brand-mark"><img src="/api/Logo.webp" alt="Daras"></div>
+      <div>दारस DARAS<small><span data-hi>आपका वित्तीय मित्र</span><span data-bn>আপনার আর্থিক বন্ধু</span><span data-en>Your Financial Friend</span></small></div>
+    </a>
+    <div class="lang-switch">
+      <button class="lang-btn on" data-lang="hi" onclick="setLang('hi')">हिं</button>
+      <button class="lang-btn" data-lang="bn" onclick="setLang('bn')">বাং</button>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-label" data-hi>सरकारी योजनाएँ</div>
+    <div class="hero-label" data-bn>সরকারি প্রকল্প</div>
+    <div class="hero-label" data-en>Government Schemes</div>
+    <h1 data-hi>सरकारी योजनाएँ — आपके लिए</h1>
+    <h1 data-bn>সরকারি প্রকল্প — আপনার জন্য</h1>
+    <h1 data-en>Government Schemes — For You</h1>
+    <p data-hi>भारत सरकार की प्रमुख योजनाएँ जो कम आमदनी वाले परिवारों को सुरक्षित कर्ज़ और सहायता प्रदान करती हैं। हर योजना पर क्लिक करके विस्तार देखें।</p>
+    <p data-bn>ভারত সরকারের প্রধান প্রকল্পগুলো যা কম আয়ের পরিবারকে নিরাপদ ঋণ ও সহায়তা প্রদান করে। প্রতিটি প্রকল্পে ক্লিক করে বিস্তারিত দেখুন।</p>
+    <p data-en>Key schemes from the Government of India that provide safe loans and assistance to low-income families. Click each scheme for details.</p>
+  </div>
+
+  <!-- 1. PMMY Mudra -->
+  <div class="scheme-card open" id="scheme-mudra">
+    <div class="scheme-header">
+      <div class="scheme-icon" style="background:#E6EEFF">🏪</div>
+      <div>
+        <h3>Pradhan Mantri Mudra Yojana (PMMY)</h3>
+        <small data-hi>छोटे बिज़नेस के लिए बिना गिरवी लोन</small>
+        <small data-bn>ছোট ব্যবসার জন্য বিনা গচ্ছিত ঋণ</small>
+        <small data-en>Collateral-free loans for micro & small businesses</small>
+      </div>
+      <span class="scheme-chevron">▼</span>
+    </div>
+    <div class="scheme-body">
+      <table class="scheme-table">
+        <tr><td><span data-hi>लाभार्थी</span><span data-bn>সুবিধাভোগী</span><span data-en>Target</span></td><td><span data-hi>दुकानदार, कारीगर, महिला उद्यमी, मरम्मत की दुकानें, फ़ूड स्टॉल</span><span data-bn>দোকানদার, কারিগর, মহিলা উদ্যোক্তা, মেরামতের দোকান, ফুড স্টল</span><span data-en>Small shopkeepers, vendors, artisans, women entrepreneurs, repair shops, food stalls</span></td></tr>
+        <tr><td><span data-hi>श्रेणियाँ</span><span data-bn>শ্রেণি</span><span data-en>Categories</span></td><td>Shishu (≤₹50,000) · Kishor (₹50K–₹5L) · Tarun (≤₹10L)</td></tr>
+        <tr><td><span data-hi>पात्रता</span><span data-bn>যোগ্যতা</span><span data-en>Eligibility</span></td><td><span data-hi>भारतीय नागरिक, गैर-कृषि आय का बिज़नेस</span><span data-bn>ভারতীয় নাগরিক, কৃষি-বহির্ভূত আয়ের ব্যবসা</span><span data-en>Indian citizen with non-farm income-generating business</span></td></tr>
+        <tr><td><span data-hi>गिरवी</span><span data-bn>গচ্ছিত</span><span data-en>Collateral</span></td><td><span data-hi>आमतौर पर नहीं</span><span data-bn>সাধারণত না</span><span data-en>Usually No</span></td></tr>
+        <tr><td><span data-hi>अवधि</span><span data-bn>মেয়াদ</span><span data-en>Tenure</span></td><td><span data-hi>5 साल तक</span><span data-bn>৫ বছর পর্যন্ত</span><span data-en>Up to 5 years</span></td></tr>
+        <tr><td><span data-hi>ब्याज दर</span><span data-bn>সুদের হার</span><span data-en>Interest</span></td><td>~8–12%</td></tr>
+        <tr><td><span data-hi>कहाँ आवेदन करें</span><span data-bn>কোথায় আবেদন</span><span data-en>Where to Apply</span></td><td><span data-hi>सरकारी बैंक, RRB, सहकारी बैंक, NBFC</span><span data-bn>সরকারি ব্যাংক, RRB, সমবায় ব্যাংক, NBFC</span><span data-en>Public sector banks, RRBs, cooperative banks, NBFCs</span></td></tr>
+      </table>
+      <div class="md-grid">
+        <div class="md-box merits"><h4><span data-hi>फ़ायदे</span><span data-bn>সুবিধা</span><span data-en>Merits</span></h4><ul><li><span data-hi>कोई गिरवी नहीं</span><span data-bn>কোনো গচ্ছিত নয়</span><span data-en>No collateral</span></li><li><span data-hi>पहली बार बिज़नेस शुरू करने वालों के लिए</span><span data-bn>প্রথমবার ব্যবসা শুরুকারীদের জন্য</span><span data-en>Supports first-time business owners</span></li><li><span data-hi>क्रेडिट हिस्ट्री बनती है</span><span data-bn>ক্রেডিট হিস্ট্রি তৈরি হয়</span><span data-en>Formal credit history creation</span></li></ul></div>
+        <div class="md-box demerits"><h4><span data-hi>नुकसान</span><span data-bn>অসুবিধা</span><span data-en>Demerits</span></h4><ul><li><span data-hi>कागज़ात चाहिए</span><span data-bn>নথিপত্র লাগবে</span><span data-en>Documentation required</span></li><li><span data-hi>बैंक में देरी हो सकती है</span><span data-bn>ব্যাংকে দেরি হতে পারে</span><span data-en>Bank delays possible</span></li></ul></div>
+      </div>
+      <div class="callout-warn"><div class="cw-icon">💡</div><div class="cw-text"><span data-hi>अनुभव बताते हैं कि सरकारी बैंक निजी बैंकों से बेहतर तरीके से मुद्रा लोन प्रोसेस करते हैं।</span><span data-bn>অভিজ্ঞতা বলে সরকারি ব্যাংক বেসরকারি ব্যাংকের চেয়ে ভালোভাবে মুদ্রা লোন প্রসেস করে।</span><span data-en>Market experience suggests public sector banks process Mudra loans more smoothly than some private banks.</span></div></div>
+      <div class="contact-row"><span data-hi>📍 SBI, PNB, Bank of Baroda — MSME डेस्क पर संपर्क करें</span><span data-bn>📍 SBI, PNB, Bank of Baroda — MSME ডেস্কে যোগাযোগ</span><span data-en>📍 SBI, PNB, Bank of Baroda — Contact MSME/Mudra desk</span></div>
+    </div>
+  </div>
+
+  <!-- 2. PM SVANidhi -->
+  <div class="scheme-card" id="scheme-svanidhi">
+    <div class="scheme-header">
+      <div class="scheme-icon" style="background:#D9F5E3">🛒</div>
+      <div><h3>PM SVANidhi</h3><small data-hi>रेहड़ी-पटरी वालों के लिए कार्यशील पूँजी</small><small data-bn>পথ-বিক্রেতাদের কার্যকরী মূলধন</small><small data-en>Working capital loans for street vendors</small></div>
+      <span class="scheme-chevron">▼</span>
+    </div>
+    <div class="scheme-body">
+      <table class="scheme-table">
+        <tr><td><span data-hi>लाभार्थी</span><span data-bn>সুবিধাভোগী</span><span data-en>Target</span></td><td><span data-hi>रेहड़ी-पटरी, ठेले, फेरीवाले</span><span data-bn>পথ বিক্রেতা, ঠেলাওয়ালা, ফেরিওয়ালা</span><span data-en>Street vendors, hawkers, cart sellers</span></td></tr>
+        <tr><td><span data-hi>लोन राशि</span><span data-bn>ঋণের পরিমাণ</span><span data-en>Loan</span></td><td>₹10,000 (<span data-hi>पहला चरण; बाद में बढ़ सकता है</span><span data-bn>প্রথম ধাপ; পরে বাড়তে পারে</span><span data-en>first tranche; can increase later</span>)</td></tr>
+        <tr><td><span data-hi>पात्रता</span><span data-bn>যোগ্যতা</span><span data-en>Eligibility</span></td><td><span data-hi>वेंडर ID / वेंडिंग सर्टिफिकेट / सिफ़ारिश पत्र</span><span data-bn>ভেন্ডর ID / ভেন্ডিং সার্টিফিকেট / সুপারিশ পত্র</span><span data-en>Vendor ID / Certificate of Vending / Letter of Recommendation</span></td></tr>
+        <tr><td><span data-hi>गिरवी</span><span data-bn>গচ্ছিত</span><span data-en>Collateral</span></td><td><span data-hi>नहीं</span><span data-bn>না</span><span data-en>None</span></td></tr>
+        <tr><td><span data-hi>ब्याज सब्सिडी</span><span data-bn>সুদ ভর্তুকি</span><span data-en>Interest Subsidy</span></td><td><span data-hi>समय पर भुगतान पर 7% सब्सिडी</span><span data-bn>সময়মতো পরিশোধে ৭% ভর্তুকি</span><span data-en>7% subsidy on timely repayment</span></td></tr>
+        <tr><td><span data-hi>अवधि</span><span data-bn>মেয়াদ</span><span data-en>Tenure</span></td><td>12–36 <span data-hi>महीने</span><span data-bn>মাস</span><span data-en>months</span></td></tr>
+      </table>
+      <div class="md-grid">
+        <div class="md-box merits"><h4><span data-hi>फ़ायदे</span><span data-bn>সুবিধা</span><span data-en>Merits</span></h4><ul><li><span data-hi>बहुत कम जोखिम का लोन</span><span data-bn>অত্যন্ত কম ঝুঁকির ঋণ</span><span data-en>Very low-risk formal loan</span></li><li><span data-hi>कोई गिरवी नहीं</span><span data-bn>কোনো গচ্ছিত নয়</span><span data-en>No collateral</span></li><li><span data-hi>डिजिटल भुगतान को बढ़ावा</span><span data-bn>ডিজিটাল পেমেন্টে উৎসাহ</span><span data-en>Encourages digital inclusion</span></li></ul></div>
+        <div class="md-box demerits"><h4><span data-hi>नुकसान</span><span data-bn>অসুবিধা</span><span data-en>Demerits</span></h4><ul><li><span data-hi>वेंडर सत्यापन कठिन</span><span data-bn>ভেন্ডর যাচাই কঠিন</span><span data-en>Vendor verification difficult</span></li><li><span data-hi>शहरी कागज़ात की चुनौतियाँ</span><span data-bn>শহুরে নথিপত্রের সমস্যা</span><span data-en>Urban documentation challenges</span></li></ul></div>
+      </div>
+      <div class="contact-row">📞 <span data-hi>टोल-फ़्री:</span><span data-bn>টোল-ফ্রি:</span><span data-en>Toll-Free:</span> 1800-11-1979</div>
+      <div class="contact-row">📧 portal.pmsvanidhi@sidbi.in</div>
+    </div>
+  </div>
+
+  <!-- 3. Stand-Up India -->
+  <div class="scheme-card" id="scheme-standup">
+    <div class="scheme-header">
+      <div class="scheme-icon" style="background:#FFF1E4">👩‍💼</div>
+      <div><h3>Stand-Up India Scheme</h3><small data-hi>SC/ST और महिला उद्यमियों के लिए</small><small data-bn>SC/ST ও মহিলা উদ্যোক্তাদের জন্য</small><small data-en>For SC/ST and women entrepreneurs</small></div>
+      <span class="scheme-chevron">▼</span>
+    </div>
+    <div class="scheme-body">
+      <table class="scheme-table">
+        <tr><td><span data-hi>लोन राशि</span><span data-bn>ঋণের পরিমাণ</span><span data-en>Loan</span></td><td>₹10L – ₹1Cr</td></tr>
+        <tr><td><span data-hi>पात्रता</span><span data-bn>যোগ্যতা</span><span data-en>Eligibility</span></td><td><span data-hi>SC/ST या महिला उद्यमी</span><span data-bn>SC/ST বা মহিলা উদ্যোক্তা</span><span data-en>SC/ST or women entrepreneur</span></td></tr>
+        <tr><td><span data-hi>बिज़नेस प्रकार</span><span data-bn>ব্যবসার ধরন</span><span data-en>Business Type</span></td><td><span data-hi>ग्रीनफ़ील्ड (नया) उद्यम</span><span data-bn>গ্রিনফিল্ড (নতুন) উদ্যোগ</span><span data-en>Greenfield enterprises</span></td></tr>
+        <tr><td><span data-hi>अवधि</span><span data-bn>মেয়াদ</span><span data-en>Tenure</span></td><td><span data-hi>7 साल तक</span><span data-bn>৭ বছর পর্যন্ত</span><span data-en>Up to 7 years</span></td></tr>
+        <tr><td><span data-hi>ग्रेस पीरियड</span><span data-bn>গ্রেস পিরিয়ড</span><span data-en>Moratorium</span></td><td><span data-hi>18 महीने तक</span><span data-bn>১৮ মাস পর্যন্ত</span><span data-en>Up to 18 months</span></td></tr>
+      </table>
+      <div class="md-grid">
+        <div class="md-box merits"><h4><span data-hi>फ़ायदे</span><span data-bn>সুবিধা</span><span data-en>Merits</span></h4><ul><li><span data-hi>सामाजिक समावेश को बढ़ावा</span><span data-bn>সামাজিক অন্তর্ভুক্তিকে উৎসাহ</span><span data-en>Encourages social inclusion</span></li><li><span data-hi>बड़ा बिज़नेस लोन संभव</span><span data-bn>বড় ব্যবসায়িক ঋণ সম্ভব</span><span data-en>Large business financing possible</span></li></ul></div>
+        <div class="md-box demerits"><h4><span data-hi>नुकसान</span><span data-bn>অসুবিধা</span><span data-en>Demerits</span></h4><ul><li><span data-hi>प्रोजेक्ट तैयारी ज़रूरी</span><span data-bn>প্রজেক্ট প্রস্তুতি প্রয়োজন</span><span data-en>Requires project preparation</span></li><li><span data-hi>औपचारिक कागज़ात</span><span data-bn>আনুষ্ঠানিক নথিপত্র</span><span data-en>Formal documentation needed</span></li></ul></div>
+      </div>
+      <div class="contact-row">📍 SIDBI, Canara Bank, SBI — NCR <span data-hi>शाखाएँ</span><span data-bn>শাখা</span><span data-en>branches</span></div>
+    </div>
+  </div>
+
+  <!-- 4. Jan Dhan -->
+  <div class="scheme-card" id="scheme-jandhan">
+    <div class="scheme-header">
+      <div class="scheme-icon" style="background:#DDF0FB">🏦</div>
+      <div><h3>Pradhan Mantri Jan Dhan Yojana</h3><small data-hi>ग़रीब परिवारों के लिए बैंकिंग समावेश</small><small data-bn>দরিদ্র পরিবারের ব্যাংকিং অন্তর্ভুক্তি</small><small data-en>Banking inclusion for poor households</small></div>
+      <span class="scheme-chevron">▼</span>
+    </div>
+    <div class="scheme-body">
+      <table class="scheme-table">
+        <tr><td><span data-hi>मुख्य लाभ</span><span data-bn>প্রধান সুবিধা</span><span data-en>Main Benefit</span></td><td><span data-hi>शून्य-बैलेंस खाता</span><span data-bn>শূন্য-ব্যালেন্স অ্যাকাউন্ট</span><span data-en>Zero-balance account</span></td></tr>
+        <tr><td><span data-hi>ओवरड्राफ्ट</span><span data-bn>ওভারড্রাফট</span><span data-en>Overdraft</span></td><td>₹10,000 (<span data-hi>पात्र उपयोगकर्ता</span><span data-bn>যোগ্য ব্যবহারকারী</span><span data-en>eligible users</span>)</td></tr>
+        <tr><td><span data-hi>पात्रता</span><span data-bn>যোগ্যতা</span><span data-en>Eligibility</span></td><td><span data-hi>कोई भी भारतीय नागरिक</span><span data-bn>যেকোনো ভারতীয় নাগরিক</span><span data-en>Any Indian citizen</span></td></tr>
+        <tr><td><span data-hi>न्यूनतम बैलेंस</span><span data-bn>ন্যূনতম ব্যালেন্স</span><span data-en>Minimum Balance</span></td><td><span data-hi>ज़रूरी नहीं</span><span data-bn>প্রয়োজন নেই</span><span data-en>Not required</span></td></tr>
+      </table>
+      <div class="md-grid">
+        <div class="md-box merits"><h4><span data-hi>फ़ायदे</span><span data-bn>সুবিধা</span><span data-en>Merits</span></h4><ul><li><span data-hi>औपचारिक वित्त का द्वार</span><span data-bn>আনুষ্ঠানিক অর্থের দ্বার</span><span data-en>Gateway to formal finance</span></li><li><span data-hi>DBT सुविधा मिलती है</span><span data-bn>DBT সুবিধা পাওয়া যায়</span><span data-en>Enables DBT benefits</span></li><li><span data-hi>वित्तीय पहचान बनती है</span><span data-bn>আর্থিক পরিচয় তৈরি হয়</span><span data-en>Builds financial identity</span></li></ul></div>
+        <div class="md-box demerits"><h4><span data-hi>नुकसान</span><span data-bn>অসুবিধা</span><span data-en>Demerits</span></h4><ul><li><span data-hi>ओवरड्राफ्ट बहुत सीमित</span><span data-bn>ওভারড্রাফট অত্যন্ত সীমিত</span><span data-en>Very limited overdraft</span></li><li><span data-hi>वित्तीय साक्षरता ज़रूरी</span><span data-bn>আর্থিক সাক্ষরতা প্রয়োজন</span><span data-en>Financial literacy still needed</span></li></ul></div>
+      </div>
+      <div class="contact-row">📍 SBI, Bank of Baroda — <span data-hi>निकटतम शाखा</span><span data-bn>নিকটতম শাখা</span><span data-en>Nearest branch</span></div>
+    </div>
+  </div>
+
+  <!-- 5. NSDC -->
+  <div class="scheme-card" id="scheme-nsdc">
+    <div class="scheme-header">
+      <div class="scheme-icon" style="background:#FEF3C7">🎓</div>
+      <div><h3>NSDC Programs</h3><small data-hi>कौशल प्रशिक्षण और रोज़गार वित्तपोषण</small><small data-bn>দক্ষতা প্রশিক্ষণ ও জীবিকা অর্থায়ন</small><small data-en>Skill training and livelihood financing</small></div>
+      <span class="scheme-chevron">▼</span>
+    </div>
+    <div class="scheme-body">
+      <table class="scheme-table">
+        <tr><td><span data-hi>लाभार्थी</span><span data-bn>সুবিধাভোগী</span><span data-en>Target</span></td><td><span data-hi>युवा, बेरोज़गार</span><span data-bn>যুবা, বেকার</span><span data-en>Youth, unemployed</span></td></tr>
+        <tr><td><span data-hi>क्षेत्र</span><span data-bn>ক্ষেত্র</span><span data-en>Areas</span></td><td><span data-hi>इलेक्ट्रीशियन, सिलाई, IT, होटल, ब्यूटी, मरम्मत</span><span data-bn>ইলেকট্রিশিয়ান, সেলাই, IT, হোটেল, বিউটি, মেরামত</span><span data-en>Electrician, tailoring, IT, hospitality, beauty, repair</span></td></tr>
+        <tr><td><span data-hi>गिरवी</span><span data-bn>গচ্ছিত</span><span data-en>Collateral</span></td><td><span data-hi>आमतौर पर नहीं</span><span data-bn>সাধারণত না</span><span data-en>Usually No</span></td></tr>
+      </table>
+      <div class="md-grid">
+        <div class="md-box merits"><h4><span data-hi>फ़ायदे</span><span data-bn>সুবিধা</span><span data-en>Merits</span></h4><ul><li><span data-hi>रोज़गार योग्यता बढ़ती है</span><span data-bn>কর্মসংস্থান যোগ্যতা বাড়ে</span><span data-en>Increases employability</span></li><li><span data-hi>कौशल + वित्तपोषण दोनों</span><span data-bn>দক্ষতা + অর্থায়ন দুটোই</span><span data-en>Links skills with financing</span></li></ul></div>
+        <div class="md-box demerits"><h4><span data-hi>नुकसान</span><span data-bn>অসুবিধা</span><span data-en>Demerits</span></h4><ul><li><span data-hi>प्लेसमेंट की गुणवत्ता बदलती है</span><span data-bn>প্লেসমেন্টের গুণমান ভিন্ন হয়</span><span data-en>Placement quality varies</span></li><li><span data-hi>ग्रामीण जागरूकता सीमित</span><span data-bn>গ্রামীণ সচেতনতা সীমিত</span><span data-en>Rural awareness limited</span></li></ul></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. NSFDC -->
+  <div class="scheme-card" id="scheme-nsfdc">
+    <div class="scheme-header">
+      <div class="scheme-icon" style="background:#E6EEFF">🤝</div>
+      <div><h3>NSFDC</h3><small data-hi>अनुसूचित जाति समुदाय के लिए वित्तीय सहायता</small><small data-bn>তফশিলি জাতি সম্প্রদায়ের আর্থিক সহায়তা</small><small data-en>Financial assistance for Scheduled Caste communities</small></div>
+      <span class="scheme-chevron">▼</span>
+    </div>
+    <div class="scheme-body">
+      <table class="scheme-table">
+        <tr><td><span data-hi>लाभार्थी</span><span data-bn>সুবিধাভোগী</span><span data-en>Target</span></td><td><span data-hi>अनुसूचित जाति परिवार</span><span data-bn>তফশিলি জাতি পরিবার</span><span data-en>Scheduled Caste households</span></td></tr>
+        <tr><td><span data-hi>उद्देश्य</span><span data-bn>উদ্দেশ্য</span><span data-en>Purpose</span></td><td><span data-hi>छोटा बिज़नेस, शिक्षा, आय सृजन</span><span data-bn>ছোট ব্যবসা, শিক্ষা, আয় সৃষ্টি</span><span data-en>Small business, education, income generation</span></td></tr>
+        <tr><td><span data-hi>ब्याज</span><span data-bn>সুদ</span><span data-en>Interest</span></td><td><span data-hi>सब्सिडाइज़्ड</span><span data-bn>ভর্তুকিযুক্ত</span><span data-en>Subsidized</span></td></tr>
+      </table>
+      <div class="contact-row">📍 SCOPE Minar Core 1 & 2, Laxmi Nagar, Delhi-110092</div>
+      <div class="contact-row">📞 +91-11-22056503 · Helpline: 1800-110-396</div>
+      <div class="contact-row">📧 support-nsfdc@nic.in</div>
+    </div>
+  </div>
+
+  <!-- 7. NMDFC -->
+  <div class="scheme-card" id="scheme-nmdfc">
+    <div class="scheme-header">
+      <div class="scheme-icon" style="background:#D9F5E3">🕌</div>
+      <div><h3>NMDFC</h3><small data-hi>अल्पसंख्यक समुदायों के लिए लोन</small><small data-bn>সংখ্যালঘু সম্প্রদায়ের ঋণ</small><small data-en>Loans for minority communities</small></div>
+      <span class="scheme-chevron">▼</span>
+    </div>
+    <div class="scheme-body">
+      <table class="scheme-table">
+        <tr><td><span data-hi>लाभार्थी</span><span data-bn>সুবিধাভোগী</span><span data-en>Beneficiaries</span></td><td><span data-hi>मुस्लिम, सिख, ईसाई, बौद्ध, जैन, पारसी समुदाय</span><span data-bn>মুসলিম, শিখ, খ্রিস্টান, বৌদ্ধ, জৈন, পার্সি সম্প্রদায়</span><span data-en>Muslim, Sikh, Christian, Buddhist, Jain, Parsi communities</span></td></tr>
+        <tr><td><span data-hi>उद्देश्य</span><span data-bn>উদ্দেশ্য</span><span data-en>Purpose</span></td><td><span data-hi>शिक्षा, बिज़नेस, व्यावसायिक गतिविधियाँ</span><span data-bn>শিক্ষা, ব্যবসা, পেশাগত কার্যকলাপ</span><span data-en>Education, business, vocational activities</span></td></tr>
+        <tr><td><span data-hi>ब्याज</span><span data-bn>সুদ</span><span data-en>Interest</span></td><td><span data-hi>सब्सिडाइज़्ड</span><span data-bn>ভর্তুকিযুক্ত</span><span data-en>Subsidized</span></td></tr>
+      </table>
+      <div class="md-grid">
+        <div class="md-box merits"><h4><span data-hi>फ़ायदे</span><span data-bn>সুবিধা</span><span data-en>Merits</span></h4><ul><li><span data-hi>कम ब्याज</span><span data-bn>কম সুদ</span><span data-en>Low-cost financing</span></li><li><span data-hi>शिक्षा सहायता</span><span data-bn>শিক্ষা সহায়তা</span><span data-en>Education support</span></li></ul></div>
+        <div class="md-box demerits"><h4><span data-hi>नुकसान</span><span data-bn>অসুবিধা</span><span data-en>Demerits</span></h4><ul><li><span data-hi>जागरूकता कम</span><span data-bn>সচেতনতা কম</span><span data-en>Awareness gaps</span></li><li><span data-hi>कागज़ात चुनौतीपूर्ण</span><span data-bn>নথিপত্র চ্যালেঞ্জিং</span><span data-en>Documentation challenges</span></li></ul></div>
+      </div>
+      <div class="contact-row">📍 <span data-hi>प्रधान कार्यालय: नई दिल्ली</span><span data-bn>প্রধান কার্যালয়: নতুন দিল্লি</span><span data-en>Head Office: New Delhi</span></div>
+    </div>
+  </div>
+
+  <!-- 8. Education Loans -->
+  <div class="scheme-card" id="scheme-education">
+    <div class="scheme-header">
+      <div class="scheme-icon" style="background:#FEF3C7">📚</div>
+      <div><h3><span data-hi>शिक्षा लोन योजनाएँ</span><span data-bn>শিক্ষা ঋণ প্রকল্প</span><span data-en>Education Loan Schemes</span></h3><small data-hi>उच्च शिक्षा के लिए सहायता</small><small data-bn>উচ্চ শিক্ষার সহায়তা</small><small data-en>Higher education support</small></div>
+      <span class="scheme-chevron">▼</span>
+    </div>
+    <div class="scheme-body">
+      <table class="scheme-table">
+        <tr><td><span data-hi>लाभार्थी</span><span data-bn>সুবিধাভোগী</span><span data-en>Target</span></td><td><span data-hi>आर्थिक रूप से कमज़ोर छात्र</span><span data-bn>আর্থিকভাবে দুর্বল ছাত্র</span><span data-en>Economically weaker students</span></td></tr>
+        <tr><td><span data-hi>कवरेज</span><span data-bn>কভারেজ</span><span data-en>Coverage</span></td><td><span data-hi>ट्यूशन, होस्टल, किताबें, लैपटॉप</span><span data-bn>টিউশন, হোস্টেল, বই, ল্যাপটপ</span><span data-en>Tuition, hostel, books, laptop</span></td></tr>
+        <tr><td><span data-hi>ग्रेस पीरियड</span><span data-bn>গ্রেস পিরিয়ড</span><span data-en>Moratorium</span></td><td><span data-hi>पढ़ाई + ग्रेस अवधि के दौरान</span><span data-bn>পড়ার সময় + গ্রেস পিরিয়ড</span><span data-en>During study + grace period</span></td></tr>
+        <tr><td><span data-hi>गिरवी</span><span data-bn>গচ্ছিত</span><span data-en>Collateral</span></td><td><span data-hi>छोटे लोन में छूट</span><span data-bn>ছোট ঋণে ছাড়</span><span data-en>Usually waived for smaller loans</span></td></tr>
+      </table>
+      <div class="callout-warn"><div class="cw-icon">💡</div><div class="cw-text"><span data-hi>फ़ायदा: दीर्घकालिक आय के अवसर बनते हैं। नुकसान: भविष्य में चुकाने का अनुशासन चाहिए।</span><span data-bn>সুবিধা: দীর্ঘমেয়াদি আয়ের সুযোগ তৈরি হয়। অসুবিধা: ভবিষ্যতে পরিশোধের শৃঙ্খলা প্রয়োজন।</span><span data-en>Merit: Creates long-term income opportunities. Demerit: Requires future repayment discipline.</span></div></div>
+      <div class="contact-row">📍 SBI, PNB — <span data-hi>शिक्षा लोन डेस्क</span><span data-bn>শিক্ষা ঋণ ডেস্ক</span><span data-en>Education loan desk</span></div>
+    </div>
+  </div>
+
+  <!-- 9. Marriage Assistance -->
+  <div class="scheme-card" id="scheme-marriage">
+    <div class="scheme-header">
+      <div class="scheme-icon" style="background:#FFF1E4">💒</div>
+      <div><h3><span data-hi>राज्य विवाह सहायता योजनाएँ</span><span data-bn>রাজ্য বিবাহ সহায়তা প্রকল্প</span><span data-en>State Marriage Assistance Schemes</span></h3><small data-hi>राज्य सरकार अनुसार भिन्न</small><small data-bn>রাজ্য সরকার অনুযায়ী ভিন্ন</small><small data-en>Varies by state government</small></div>
+      <span class="scheme-chevron">▼</span>
+    </div>
+    <div class="scheme-body">
+      <table class="scheme-table">
+        <tr><td><span data-hi>लाभार्थी</span><span data-bn>সুবিধাভোগী</span><span data-en>Beneficiaries</span></td><td><span data-hi>आर्थिक रूप से कमज़ोर परिवार</span><span data-bn>আর্থিকভাবে দুর্বল পরিবার</span><span data-en>Economically weaker families</span></td></tr>
+        <tr><td><span data-hi>सहायता प्रकार</span><span data-bn>সহায়তার ধরন</span><span data-en>Assistance</span></td><td><span data-hi>बेटी की शादी के लिए अनुदान</span><span data-bn>মেয়ের বিয়ের জন্য অনুদান</span><span data-en>Financial aid for daughter's marriage</span></td></tr>
+        <tr><td><span data-hi>लोन या अनुदान</span><span data-bn>ঋণ বা অনুদান</span><span data-en>Type</span></td><td><span data-hi>आमतौर पर अनुदान</span><span data-bn>সাধারণত অনুদান</span><span data-en>Usually grant-based</span></td></tr>
+        <tr><td><span data-hi>गिरवी</span><span data-bn>গচ্ছিত</span><span data-en>Collateral</span></td><td><span data-hi>नहीं</span><span data-bn>না</span><span data-en>None</span></td></tr>
+      </table>
+    </div>
+  </div>
+
+  <a href="/api/" class="back-link">
+    <span>←</span>
+    <span data-hi>वापस जाएं</span>
+    <span data-bn>ফিরে যান</span>
+    <span data-en>Go Back</span>
+  </a>
+
+</div>
+
+<script src="/static/pages.js?v=2"></script>
+</body>
+</html>

@@ -5,11 +5,11 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
 <meta name="theme-color" content="#0B1B3F"/>
 <title>Privacy Policy — दारस DARAS</title>
-<link rel="icon" type="image/png" href="/api/Logo.png">
+<link rel="icon" type="image/png" href="/api/favicon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700&family=Hind:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/static/privacy.css?v=1">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Manrope:wght@400;500;600;700&family=Hind:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/privacy.css?v=2">
 </head>
 <body>
 <div class="bg-deco"></div>
@@ -18,29 +18,36 @@
   <!-- Topbar -->
   <div class="topbar">
     <a href="/api/" class="brand">
-      <div class="brand-mark"><img src="/api/Logo.png" alt="Daras"></div>
+      <div class="brand-mark"><img src="/api/Logo.webp" alt="Daras"></div>
       <div>
         दारस DARAS
-        <small>Aapka Vittiya Mitra</small>
+        <small><span data-hi>आपका वित्तीय मित्र</span><span data-bn>আপনার আর্থিক বন্ধু</span><span data-en>Your Financial Friend</span></small>
       </div>
     </a>
     <div class="lang-switch">
-      <button class="lang-btn on" onclick="setLang('hi')">हिंदी</button>
-      <button class="lang-btn" onclick="setLang('en')">EN</button>
+      <button class="lang-btn on" data-lang="hi" onclick="setLang('hi')">हिं</button>
+      <button class="lang-btn" data-lang="bn" onclick="setLang('bn')">বাং</button>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
     </div>
   </div>
 
   <!-- Hero -->
   <div class="hero">
     <div class="hero-label" data-hi>गोपनीयता नीति</div>
+    <div class="hero-label" data-bn>গোপনীয়তা নীতি</div>
     <div class="hero-label" data-en>Privacy Policy</div>
 
     <h1 data-hi>आपका डेटा, आपका भरोसा</h1>
+    <h1 data-bn>আপনার ডেটা, আপনার বিশ্বাস</h1>
     <h1 data-en>Your Data, Your Trust</h1>
 
     <p data-hi style="font-size:16px;color:var(--ink-soft);margin-top:8px">
       DARAS आपकी निजी और वित्तीय जानकारी को पूरी सावधानी और सम्मान के साथ रखता है।
       यह नीति बताती है कि हम क्या जानकारी लेते हैं, क्यों लेते हैं, और इसे कैसे सुरक्षित रखते हैं।
+    </p>
+    <p data-bn style="font-size:16px;color:var(--ink-soft);margin-top:8px">
+      DARAS আপনার ব্যক্তিগত ও আর্থিক তথ্য সম্পূর্ণ যত্ন ও সম্মানের সাথে পরিচালনা করে।
+      এই নীতি ব্যাখ্যা করে যে আমরা কী সংগ্রহ করি, কেন সংগ্রহ করি এবং কীভাবে নিরাপদ রাখি।
     </p>
     <p data-en style="font-size:16px;color:var(--ink-soft);margin-top:8px">
       DARAS handles your personal and financial information with full care and respect.
@@ -48,6 +55,7 @@
     </p>
 
     <div class="date" data-hi>अंतिम अपडेट: मई 2025</div>
+    <div class="date" data-bn>সর্বশেষ আপডেট: মে ২০২৫</div>
     <div class="date" data-en>Last updated: May 2025</div>
   </div>
 
@@ -55,10 +63,15 @@
   <div class="section">
     <div class="section-icon" style="background:#FFF1E4">🏠</div>
     <h2 data-hi>हम कौन हैं?</h2>
+    <h2 data-bn>আমরা কারা?</h2>
     <h2 data-en>Who We Are</h2>
     <p data-hi>
       DARAS (दारस) एक मुफ़्त वित्तीय साक्षरता ऐप है जो भारत के मेहनतकश लोगों की मदद के लिए बनाया गया है।
       हमारा उद्देश्य है कि हर व्यक्ति अपने कर्ज़ और बचत को समझ सके और सही फ़ैसला ले सके।
+    </p>
+    <p data-bn>
+      DARAS (দারস) একটি বিনামূল্যে আর্থিক সাক্ষরতা অ্যাপ যা ভারতের পরিশ্রমী মানুষদের সাহায্যের জন্য তৈরি।
+      আমাদের লক্ষ্য — প্রত্যেক ব্যক্তি যেন তার ঋণ ও সঞ্চয় বুঝতে এবং সঠিক সিদ্ধান্ত নিতে পারেন।
     </p>
     <p data-en>
       DARAS is a free financial literacy app built to help hardworking people across India.
@@ -70,16 +83,18 @@
   <div class="section">
     <div class="section-icon" style="background:#E6F4F2">📋</div>
     <h2 data-hi>हम कौन सी जानकारी लेते हैं?</h2>
+    <h2 data-bn>আমরা কোন তথ্য সংগ্রহ করি?</h2>
     <h2 data-en>What Information We Collect</h2>
     <p data-hi>जब आप DARAS इस्तेमाल करते हैं, हम यह जानकारी लेते हैं:</p>
+    <p data-bn>আপনি DARAS ব্যবহার করলে আমরা নিম্নলিখিত তথ্য সংগ্রহ করি:</p>
     <p data-en>When you use DARAS, we collect the following information:</p>
     <ul class="data-list">
-      <li><span data-hi>आपका नाम और उम्र</span><span data-en>Your name and age</span></li>
-      <li><span data-hi>मोबाइल नंबर (वापसी के लिए)</span><span data-en>Mobile number (so you can return to your assessment)</span></li>
-      <li><span data-hi>आपका पेशा (जैसे किसान, मज़दूर, दुकानदार)</span><span data-en>Your occupation (e.g. farmer, labourer, shopkeeper)</span></li>
-      <li><span data-hi>आमदनी और खर्चे की जानकारी</span><span data-en>Income and expense information</span></li>
-      <li><span data-hi>कर्ज़ की जानकारी (रकम, ब्याज, अवधि)</span><span data-en>Loan details (amount, interest rate, tenure)</span></li>
-      <li><span data-hi>शहर / राज्य (वैकल्पिक)</span><span data-en>City / State (optional)</span></li>
+      <li><span data-hi>आपका नाम और उम्र</span><span data-bn>আপনার নাম ও বয়স</span><span data-en>Your name and age</span></li>
+      <li><span data-hi>मोबाइल नंबर (वापसी के लिए)</span><span data-bn>মোবাইল নম্বর (মূল্যায়নে ফিরতে)</span><span data-en>Mobile number (so you can return to your assessment)</span></li>
+      <li><span data-hi>आपका पेशा (जैसे किसान, मज़दूर, दुकानदार)</span><span data-bn>আপনার পেশা (যেমন কৃষক, শ্রমিক, দোকানদার)</span><span data-en>Your occupation (e.g. farmer, labourer, shopkeeper)</span></li>
+      <li><span data-hi>आमदनी और खर्चे की जानकारी</span><span data-bn>আয় ও ব্যয়ের তথ্য</span><span data-en>Income and expense information</span></li>
+      <li><span data-hi>कर्ज़ की जानकारी (रकम, ब्याज, अवधि)</span><span data-bn>ঋণের বিবরণ (পরিমাণ, সুদের হার, মেয়াদ)</span><span data-en>Loan details (amount, interest rate, tenure)</span></li>
+      <li><span data-hi>शहर / राज्य (वैकल्पिक)</span><span data-bn>শহর / রাজ্য (ঐচ্ছিক)</span><span data-en>City / State (optional)</span></li>
     </ul>
   </div>
 
@@ -87,18 +102,14 @@
   <div class="section">
     <div class="section-icon" style="background:#DCFCE7">🎯</div>
     <h2 data-hi>हम यह जानकारी क्यों लेते हैं?</h2>
+    <h2 data-bn>আমরা এই তথ্য কেন সংগ্রহ করি?</h2>
     <h2 data-en>Why We Collect This Information</h2>
-    <!-- <p data-hi>हम यह जानकारी केवल दो कारणों से लेते हैं:</p> -->
-    <!-- <p data-en>We collect this information for only two reasons:</p> -->
     <ul class="data-list">
       <li>
         <span data-hi><strong>आपकी मदद के लिए</strong> — आपकी वित्तीय स्थिति को समझकर सही सलाह देने के लिए</span>
+        <span data-bn><strong>আপনাকে সাহায্য করতে</strong> — আপনার আর্থিক পরিস্থিতি বুঝে সঠিক পরামর্শ দিতে</span>
         <span data-en><strong>To help you</strong> — to understand your financial situation and give you the right guidance</span>
       </li>
-      <!-- <li>
-        <span data-hi><strong>शोध के लिए</strong> — भारत में कर्ज़ की समस्या को समझने के लिए। इसमें आपका नाम या फ़ोन नंबर कभी नहीं दिखाया जाता।</span>
-        <span data-en><strong>For research</strong> — to understand the debt crisis in India. Your name or phone number is never shown in any research.</span>
-      </li> -->
     </ul>
   </div>
 
@@ -106,11 +117,17 @@
   <div class="section">
     <div class="section-icon" style="background:#FEF3C7">🔒</div>
     <h2 data-hi>आपकी जानकारी कैसे सुरक्षित है?</h2>
+    <h2 data-bn>আপনার তথ্য কীভাবে সুরক্ষিত?</h2>
     <h2 data-en>How We Protect Your Information</h2>
     <p data-hi>
       आपकी जानकारी एक सुरक्षित सर्वर पर रखी जाती है।
       हम आपका डेटा किसी भी बाहरी कंपनी, बैंक, या व्यक्ति को नहीं बेचते और न ही देते हैं।
       हमारे सिस्टम में पासवर्ड एनक्रिप्टेड (coded) रूप में रखे जाते हैं।
+    </p>
+    <p data-bn>
+      আপনার তথ্য একটি সুরক্ষিত সার্ভারে রাখা হয়।
+      আমরা আপনার ডেটা কোনো বাহ্যিক কোম্পানি, ব্যাংক বা ব্যক্তির কাছে বিক্রি বা শেয়ার করি না।
+      আমাদের সিস্টেমে পাসওয়ার্ড এনক্রিপ্টেড (কোডেড) আকারে রাখা হয়।
     </p>
     <p data-en>
       Your information is stored on a secure server.
@@ -121,6 +138,7 @@
     <div class="no-cookie">
       <span style="font-size:22px">🍪</span>
       <span data-hi>DARAS कोई भी Cookies इस्तेमाल नहीं करता। हम केवल आपके फ़ोन की Local Storage का उपयोग भाषा और सत्र याद रखने के लिए करते हैं।</span>
+      <span data-bn>DARAS কোনো Cookie ব্যবহার করে না। আমরা কেবল আপনার ফোনের Local Storage ব্যবহার করি ভাষা ও সেশন মনে রাখতে।</span>
       <span data-en>DARAS does not use any cookies. We only use your phone's Local Storage to remember your language and session.</span>
     </div>
   </div>
@@ -129,14 +147,17 @@
   <div class="section">
     <div class="section-icon" style="background:#E6F4F2">✊</div>
     <h2 data-hi>आपके अधिकार</h2>
+    <h2 data-bn>আপনার অধিকার</h2>
     <h2 data-en>Your Rights</h2>
     <p data-hi>भारत के डिजिटल व्यक्तिगत डेटा संरक्षण अधिनियम (DPDPA 2023) के तहत आपको ये अधिकार हैं:</p>
+    <p data-bn>ভারতের ডিজিটাল ব্যক্তিগত ডেটা সুরক্ষা আইন (DPDPA 2023) অনুযায়ী আপনার নিম্নলিখিত অধিকার রয়েছে:</p>
     <p data-en>Under India's Digital Personal Data Protection Act (DPDPA 2023), you have the following rights:</p>
     <ul class="rights-list">
       <li>
         <div class="badge">1</div>
         <div>
           <span data-hi><strong>जानने का अधिकार</strong> — आप जान सकते हैं कि हमने आपके बारे में क्या जानकारी रखी है।</span>
+          <span data-bn><strong>জানার অধিকার</strong> — আমরা আপনার সম্পর্কে কী তথ্য রেখেছি তা জানতে পারবেন।</span>
           <span data-en><strong>Right to Know</strong> — You can ask us what information we hold about you.</span>
         </div>
       </li>
@@ -144,6 +165,7 @@
         <div class="badge">2</div>
         <div>
           <span data-hi><strong>सुधार का अधिकार</strong> — अगर कोई जानकारी गलत है तो आप उसे ठीक करवा सकते हैं।</span>
+          <span data-bn><strong>সংশোধনের অধিকার</strong> — কোনো তথ্য ভুল হলে তা ঠিক করাতে পারবেন।</span>
           <span data-en><strong>Right to Correct</strong> — If any information is wrong, you can ask us to fix it.</span>
         </div>
       </li>
@@ -151,11 +173,13 @@
         <div class="badge">3</div>
         <div>
           <span data-hi><strong>मिटाने का अधिकार</strong> — आप अपना पूरा डेटा हमारे सिस्टम से हटवा सकते हैं।</span>
+          <span data-bn><strong>মুছে ফেলার অধিকার</strong> — আমাদের সিস্টেম থেকে আপনার সমস্ত ডেটা সরিয়ে দেওয়ার অনুরোধ করতে পারবেন।</span>
           <span data-en><strong>Right to Delete</strong> — You can request that all your data be removed from our system.</span>
         </div>
       </li>
     </ul>
     <p data-hi style="margin-top:14px">इन अधिकारों का उपयोग करने के लिए नीचे दिए गए संपर्क पर हमसे बात करें।</p>
+    <p data-bn style="margin-top:14px">এই অধিকারগুলো প্রয়োগ করতে নিচের ঠিকানায় আমাদের সাথে যোগাযোগ করুন।</p>
     <p data-en style="margin-top:14px">To exercise any of these rights, contact us at the address below.</p>
   </div>
 
@@ -163,14 +187,18 @@
   <div class="section">
     <div class="section-icon" style="background:#FFF1E4">📬</div>
     <h2 data-hi>हमसे संपर्क करें</h2>
+    <h2 data-bn>আমাদের সাথে যোগাযোগ করুন</h2>
     <h2 data-en>Contact Us</h2>
     <p data-hi>अगर आपका कोई सवाल है या आप अपना डेटा हटवाना चाहते हैं, तो हमसे यहाँ संपर्क करें:</p>
+    <p data-bn>কোনো প্রশ্ন থাকলে বা ডেটা মুছতে চাইলে এখানে যোগাযোগ করুন:</p>
     <p data-en>If you have any questions or want your data deleted, reach out to us here:</p>
     <div class="contact-card">
       <p><strong>DARAS — दारस</strong></p>
       <p data-hi>ईमेल: <a href="mailto:daras.vittiya@gmail.com">daras.vittiya@gmail.com</a></p>
+      <p data-bn>ইমেইল: <a href="mailto:daras.vittiya@gmail.com">daras.vittiya@gmail.com</a></p>
       <p data-en>Email: <a href="mailto:daras.vittiya@gmail.com">daras.vittiya@gmail.com</a></p>
       <p data-hi style="margin-top:8px;font-size:13px;color:var(--ink-faint)">हम 7 कार्य दिवसों के भीतर जवाब देने की कोशिश करेंगे।</p>
+      <p data-bn style="margin-top:8px;font-size:13px;color:var(--ink-faint)">আমরা ৭ কার্যদিবসের মধ্যে উত্তর দেওয়ার চেষ্টা করব।</p>
       <p data-en style="margin-top:8px;font-size:13px;color:var(--ink-faint)">We will try to respond within 7 working days.</p>
     </div>
   </div>
@@ -179,10 +207,15 @@
   <div class="section">
     <div class="section-icon" style="background:#F0EAD9">📅</div>
     <h2 data-hi>नीति में बदलाव</h2>
+    <h2 data-bn>নীতিতে পরিবর্তন</h2>
     <h2 data-en>Changes to This Policy</h2>
     <p data-hi>
       अगर इस नीति में कोई बड़ा बदलाव होता है, तो हम ऐप में सूचना देंगे।
       छोटे बदलावों के लिए यह पेज अपडेट किया जाएगा।
+    </p>
+    <p data-bn>
+      এই নীতিতে কোনো বড় পরিবর্তন হলে আমরা অ্যাপের মধ্যে জানাব।
+      ছোট পরিবর্তনের জন্য এই পেজ আপডেট করা হবে।
     </p>
     <p data-en>
       If there are any major changes to this policy, we will notify you within the app.
@@ -193,11 +226,12 @@
   <a href="/api/" class="back-link">
     <span>←</span>
     <span data-hi>वापस जाएं</span>
+    <span data-bn>ফিরে যান</span>
     <span data-en>Go Back</span>
   </a>
 
 </div>
 
-<script src="/static/privacy.js?v=1"></script>
+<script src="/static/privacy.js?v=2"></script>
 </body>
 </html>

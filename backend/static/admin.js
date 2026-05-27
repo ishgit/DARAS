@@ -3,6 +3,12 @@ let TOKEN = localStorage.getItem('daras_token') || '';
 let ADMIN_INFO = {};
 let uPage=1, aPage=1;
 
+// ── HTML escaping — never interpolate user data into innerHTML without this ───
+function esc(s){
+  if(s==null||s===''||s===undefined)return '–';
+  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');
+}
+
 // ── Auth ──────────────────────────────────────────────────────────────────────
 async function doLogin(){
   const u=document.getElementById('l-user').value.trim();
@@ -137,8 +143,8 @@ async function loadDashboard(){
     const ra=d.recent_assessments||[];
     document.getElementById('recent-tbody').innerHTML=ra.length?ra.map(r=>`
       <tr>
-        <td><strong>${r.name||'–'}</strong></td>
-        <td><span class="tag voc">${VOC_LABELS[r.vocation]||r.vocation}</span></td>
+        <td><strong>${esc(r.name)}</strong></td>
+        <td><span class="tag voc">${esc(VOC_LABELS[r.vocation]||r.vocation)}</span></td>
         <td>${fmt(r.income)}</td>
         <td>${fmt(r.loan_amount)}</td>
         <td>${badge(r.status)}</td>
@@ -160,18 +166,18 @@ async function loadUsers(){
     document.getElementById('users-tbody').innerHTML=d.users.length?d.users.map((u,i)=>`
       <tr>
         <td style="color:var(--muted)">${(uPage-1)*20+i+1}</td>
-        <td><strong>${u.name}</strong></td>
+        <td><strong>${esc(u.name)}</strong></td>
         <td>${u.age||'–'}</td>
-        <td style="font-family:monospace">${u.mobile||'–'}</td>
-        <td><span class="tag voc">${VOC_LABELS[u.vocation]||u.vocation}</span></td>
+        <td style="font-family:monospace">${esc(u.mobile_last4)||'–'}</td>
+        <td><span class="tag voc">${esc(VOC_LABELS[u.vocation]||u.vocation)}</span></td>
         <td>${fmt(u.income)}</td>
         <td>${fmt(u.loan_amount)}</td>
         <td>${u.loan_to_income!=null?u.loan_to_income+'x':'–'}</td>
         <td>${u.interest_rate!=null?u.interest_rate+'%':'–'}</td>
-        <td>${u.loan_source||'–'}</td>
+        <td>${esc(u.loan_source)}</td>
         <td>${u.last_status?badge(u.last_status):'<span class="badge grey">–</span>'}</td>
         <td style="color:var(--muted)">${fmtDate(u.created_at)}</td>
-        <td><button class="pag-btn" onclick="viewUser(${u.id},'${u.name}')">View</button></td>
+        <td><button class="pag-btn" data-uid="${u.id}" data-uname="${esc(u.name)}" onclick="viewUser(this.dataset.uid,this.dataset.uname)">View</button></td>
       </tr>
     `).join(''):'<tr><td colspan="13" class="empty">No users found</td></tr>';
     renderPag('u-pag',d.page,d.total_pages,p=>{uPage=p;loadUsers();});
@@ -192,17 +198,17 @@ async function loadAssessments(){
     document.getElementById('assess-tbody').innerHTML=d.assessments.length?d.assessments.map((a,i)=>`
       <tr>
         <td style="color:var(--muted)">${(aPage-1)*25+i+1}</td>
-        <td><strong>${a.name||'–'}</strong></td>
-        <td><span class="tag voc">${VOC_LABELS[a.vocation]||a.vocation||'–'}</span></td>
-        <td><span class="badge grey">${a.loan_type||'–'}</span></td>
+        <td><strong>${esc(a.name)}</strong></td>
+        <td><span class="tag voc">${esc(VOC_LABELS[a.vocation]||a.vocation)}</span></td>
+        <td><span class="badge grey">${esc(a.loan_type)}</span></td>
         <td>${fmt(a.income)}</td>
         <td>${fmt(a.loan_amount)}</td>
         <td>${a.interest_rate!=null?a.interest_rate+'%':'–'}</td>
         <td>${a.tenure_months?a.tenure_months+'m':'–'}</td>
         <td>${fmt(a.emi)}</td>
         <td class="${(a.monthly_savings||0)<0?'':''}"><strong>${fmt(a.monthly_savings)}</strong></td>
-        <td>${a.loan_source||'–'}</td>
-        <td>${a.loan_purpose||'–'}</td>
+        <td>${esc(a.loan_source)}</td>
+        <td>${esc(a.loan_purpose)}</td>
         <td>${badge(a.status)}</td>
         <td style="color:var(--muted)">${fmtDate(a.created_at)}</td>
       </tr>
@@ -211,10 +217,18 @@ async function loadAssessments(){
   }catch(e){console.error(e);}
 }
 
-function exportCSV(){
-  const a=document.createElement('a');
-  a.href='/api/admin/export/csv';
-  a.click();
+async function exportCSV(){
+  try{
+    const res=await fetch('/api/admin/export/csv',{headers:{'Authorization':'Bearer '+TOKEN}});
+    if(!res.ok){alert('Export failed: '+res.status);return;}
+    const blob=await res.blob();
+    const url=URL.createObjectURL(blob);
+    const a=document.createElement('a');
+    a.href=url;
+    a.download='daras_export.csv';
+    a.click();
+    URL.revokeObjectURL(url);
+  }catch(e){alert('Export error: '+e.message);}
 }
 
 // ── Research ──────────────────────────────────────────────────────────────────
@@ -513,11 +527,11 @@ async function viewUser(uid,name){
     const assessments=d.assessments;
     document.getElementById('modal-body').innerHTML=`
       <div class="detail-grid">
-        <div class="detail-item"><div class="dl">Name</div><div class="dv">${u.name}</div></div>
-        <div class="detail-item"><div class="dl">Mobile</div><div class="dv">${u.mobile||'–'}</div></div>
+        <div class="detail-item"><div class="dl">Name</div><div class="dv">${esc(u.name)}</div></div>
+        <div class="detail-item"><div class="dl">Mobile (last 4)</div><div class="dv">${esc(u.mobile_last4)||'–'}</div></div>
         <div class="detail-item"><div class="dl">Age</div><div class="dv">${u.age||'–'}</div></div>
-        <div class="detail-item"><div class="dl">Vocation</div><div class="dv"><span class="tag voc">${VOC_LABELS[u.vocation]||u.vocation}</span></div></div>
-        <div class="detail-item"><div class="dl">City</div><div class="dv">${u.city||'–'}</div></div>
+        <div class="detail-item"><div class="dl">Vocation</div><div class="dv"><span class="tag voc">${esc(VOC_LABELS[u.vocation]||u.vocation)}</span></div></div>
+        <div class="detail-item"><div class="dl">City</div><div class="dv">${esc(u.city)}</div></div>
         <div class="detail-item"><div class="dl">Registered</div><div class="dv">${fmtDate(u.created_at)}</div></div>
       </div>
       <div class="section-title">Loan Assessments (${assessments.length})</div>
@@ -534,8 +548,8 @@ async function viewUser(uid,name){
             <div class="detail-item"><div class="dl">Monthly Savings</div><div class="dv">${fmt(a.monthly_savings)}</div></div>
             <div class="detail-item"><div class="dl">Interest Rate</div><div class="dv">${a.interest_rate||0}%</div></div>
             <div class="detail-item"><div class="dl">Tenure</div><div class="dv">${a.tenure_months||0} months</div></div>
-            <div class="detail-item"><div class="dl">Loan Source</div><div class="dv">${a.loan_source||'–'}</div></div>
-            <div class="detail-item"><div class="dl">Purpose</div><div class="dv">${a.loan_purpose||'–'}</div></div>
+            <div class="detail-item"><div class="dl">Loan Source</div><div class="dv">${esc(a.loan_source)}</div></div>
+            <div class="detail-item"><div class="dl">Purpose</div><div class="dv">${esc(a.loan_purpose)}</div></div>
             <div class="detail-item"><div class="dl">LTI Ratio</div><div class="dv">${a.loan_to_income||0}x</div></div>
             <div class="detail-item"><div class="dl">Total Interest</div><div class="dv">${fmt(a.total_interest)}</div></div>
           </div>
@@ -596,9 +610,9 @@ async function loadQuestions(){
     document.getElementById('qns-tbody').innerHTML=rows.length?rows.map((q,i)=>`
       <tr>
         <td style="color:var(--muted)">${i+1}</td>
-        <td style="max-width:320px;word-break:break-word;font-size:13px">${q.question||'–'}</td>
-        <td><strong>${q.name||'–'}</strong></td>
-        <td><span class="tag voc">${VOC_LABELS[q.vocation]||q.vocation||'–'}</span></td>
+        <td style="max-width:320px;word-break:break-word;font-size:13px">${esc(q.question)}</td>
+        <td><strong>${esc(q.name)}</strong></td>
+        <td><span class="tag voc">${esc(VOC_LABELS[q.vocation]||q.vocation)}</span></td>
         <td style="color:var(--muted);font-size:12px">${fmtDate(q.created_at)}</td>
         <td><span class="badge grey">Unanswered</span></td>
       </tr>

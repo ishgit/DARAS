@@ -1,3 +1,4 @@
+/* DARAS — 3-language toggle for standalone pages */
 function setLang(l) {
   const root = document.documentElement;
   root.classList.remove('lang-hi', 'lang-bn', 'lang-en');
@@ -11,3 +12,10 @@ function setLang(l) {
 }
 const saved = localStorage.getItem('daras-lang') || 'hi';
 setLang(saved);
+
+/* Scheme accordion */
+document.querySelectorAll('.scheme-header').forEach(h => {
+  h.addEventListener('click', () => {
+    h.closest('.scheme-card').classList.toggle('open');
+  });
+});

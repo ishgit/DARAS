@@ -2,37 +2,15 @@
 DARAS backend regression tests.
 Covers: HTML pages, user APIs (register / calculate / calculate_max / event / question),
 admin auth, admin data endpoints.
+
+Fixtures (server, s, admin_token, auth_headers) live in conftest.py and are
+shared with browser_test.py.
 """
-import os
 import pytest
 import requests
 
-BASE_URL = os.environ.get("REACT_APP_BACKEND_URL", "http://localhost:5001").rstrip("/")
-API = f"{BASE_URL}/api"
-
-ADMIN_USER = "daras_admin"
-ADMIN_PASS = "Daras@2024"
-
-
-@pytest.fixture(scope="session")
-def s():
-    sess = requests.Session()
-    sess.headers.update({"Content-Type": "application/json"})
-    return sess
-
-
-@pytest.fixture(scope="session")
-def admin_token(s):
-    r = s.post(f"{API}/admin/auth/login", json={"username": ADMIN_USER, "password": ADMIN_PASS})
-    assert r.status_code == 200, r.text
-    tok = r.json().get("token")
-    assert tok
-    return tok
-
-
-@pytest.fixture(scope="session")
-def auth_headers(admin_token):
-    return {"Authorization": f"Bearer {admin_token}", "Content-Type": "application/json"}
+from tests.test_config import BASE_URL, API, ADMIN_USER, ADMIN_PASS
+from calculator import infer_flat_annual_rate, summarize_existing_loans
 
 
 # ─── HTML pages ──────────────────────────────────────────────────────────────
@@ -58,6 +36,7 @@ class TestUserRegister:
             "mobile": "9999999999",
             "vocation": "driver",
             "language": "hi",
+            "force_new": True,
         })
         assert r.status_code == 200, r.text
         d = r.json()
@@ -75,12 +54,27 @@ class TestUserRegister:
 def user_id(s):
     r = s.post(f"{API}/user/register", json={
         "name": "TEST_Calc_User", "age": 30, "mobile": "8888888888",
-        "vocation": "shopkeeper", "language": "hi"
+        "vocation": "shopkeeper", "language": "hi", "force_new": True,
     })
     return r.json()["user_id"]
 
 
 class TestCalculate:
+    def test_excel_flat_rate_formula(self):
+        assert infer_flat_annual_rate(10000, 24000, 48) == 35.0
+
+    def test_multiple_existing_loan_summary_matches_excel_formula(self):
+        summary = summarize_existing_loans([
+            {"amount": 10000, "total_return": 24000, "tenure_months": 48, "remaining": 10000},
+            {"amount": 30000, "total_return": 60000, "tenure_months": 60, "remaining": 30000},
+        ])
+        assert summary["total_amount"] == 40000
+        assert summary["total_interest"] == 44000
+        assert summary["max_interest_rate"] == 35.0
+        assert summary["max_tenure_months"] == 60
+        assert summary["weighted_tenure_months"] == 57.0
+        assert summary["weighted_interest_rate"] == 23.16
+
     def test_green_scenario(self, s, user_id):
         r = s.post(f"{API}/user/calculate", json={
             "user_id": user_id,
@@ -142,6 +136,26 @@ class TestCalculate:
         assert d["status"] == "green"
         # green Bengali fragment
         assert "আরামে" in d["message_bn"]
+
+    def test_calculate_accepts_unknown_interest_existing_loans(self, s, user_id):
+        r = s.post(f"{API}/user/calculate", json={
+            "user_id": user_id,
+            "loan_type": "existing",
+            "income": 60000, "rent": 8000, "grocery": 5000,
+            "medicine": 1000, "education": 2000, "mobile_bill": 500,
+            "gaon": 1000, "other_expenses": 2000,
+            "tenure_months": 24,
+            "existing_loans": [
+                {"amount": 10000, "total_return": 24000, "tenure_months": 48, "remaining": 10000},
+                {"amount": 30000, "total_return": 60000, "tenure_months": 60, "remaining": 30000},
+            ],
+        })
+        assert r.status_code == 200, r.text
+        d = r.json()
+        assert d["loan_amount"] == 40000
+        assert d["emi"] == 1500
+        assert d["existing_loans_summary"]["weighted_interest_rate"] == 23.16
+        assert d["max_existing_interest_rate"] == 35.0
 
 
 class TestCalculateMax:
@@ -225,3 +239,47 @@ class TestAdminData:
         r = requests.get(f"{API}/admin/questions", headers=auth_headers)
         assert r.status_code == 200
         assert isinstance(r.json(), list)
+
+
+# ─── SQL injection parameterisation ─────────────────────────────────────────
+# These tests verify that user-controlled filter values are always passed as
+# bound parameters, never interpolated into SQL.  A 200 with a normal JSON
+# response (not a 500 crash) and no data leakage proves the payload was treated
+# as a literal value rather than SQL.
+class TestAdminSQLInjection:
+    _PAYLOADS = [
+        "' OR '1'='1",
+        "'; DROP TABLE users; --",
+        "1 UNION SELECT * FROM admin_users --",
+        '" OR "1"="1',
+    ]
+
+    def test_users_search_injection(self, auth_headers):
+        for payload in self._PAYLOADS:
+            r = requests.get(f"{API}/admin/users", headers=auth_headers,
+                             params={"search": payload})
+            assert r.status_code == 200, f"500 on payload: {payload!r}"
+            assert "users" in r.json(), f"unexpected response for payload: {payload!r}"
+            # The payload must not match real rows (no user has that literal name)
+            assert r.json()["total"] == 0, f"injection may have widened results: {payload!r}"
+
+    def test_users_vocation_injection(self, auth_headers):
+        for payload in self._PAYLOADS:
+            r = requests.get(f"{API}/admin/users", headers=auth_headers,
+                             params={"vocation": payload})
+            assert r.status_code == 200, f"500 on payload: {payload!r}"
+            assert r.json()["total"] == 0, f"injection may have widened results: {payload!r}"
+
+    def test_assessments_status_injection(self, auth_headers):
+        for payload in self._PAYLOADS:
+            r = requests.get(f"{API}/admin/assessments", headers=auth_headers,
+                             params={"status": payload})
+            assert r.status_code == 200, f"500 on payload: {payload!r}"
+            assert r.json()["total"] == 0, f"injection may have widened results: {payload!r}"
+
+    def test_assessments_source_injection(self, auth_headers):
+        for payload in self._PAYLOADS:
+            r = requests.get(f"{API}/admin/assessments", headers=auth_headers,
+                             params={"source": payload})
+            assert r.status_code == 200, f"500 on payload: {payload!r}"
+            assert r.json()["total"] == 0, f"injection may have widened results: {payload!r}"

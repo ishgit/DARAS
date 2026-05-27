@@ -1,697 +1,804 @@
 <!DOCTYPE html>
 <html lang="hi">
+
 <head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<meta name="theme-color" content="#0B1B3F"/>
-<title>दारस DARAS — आपका वित्तीय मित्र</title>
-<link rel="icon" type="image/png" href="/api/Logo.png">
-<link rel="apple-touch-icon" href="/api/Logo.png">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Manrope:wght@400;500;600;700&family=Hind:wght@400;500;600;700&family=Noto+Sans+Bengali:wght@400;500;600;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="/static/user.css?v=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#0B1B3F" />
+  <title>दारस DARAS — आपका वित्तीय मित्र</title>
+  <link rel="icon" type="image/png" href="/api/favicon.png">
+  <link rel="apple-touch-icon" href="/api/favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Manrope:wght@400;500;600;700&family=Hind:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="/static/user.css?v=1">
 </head>
+
 <body>
-<div class="bg-deco" aria-hidden="true">
-  <div class="glyph">
-    <!-- Subtle "third-eye triangle" watermark inspired by the Daras logo -->
-    <svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1">
-      <path d="M100 18 L184 162 L16 162 Z"/>
-      <path d="M100 38 L162 152 L38 152 Z"/>
-      <ellipse cx="100" cy="110" rx="34" ry="18"/>
-      <circle cx="100" cy="110" r="9" fill="currentColor"/>
-      <circle cx="100" cy="14" r="6"/>
-      <path d="M64 24 L100 8 L136 24" />
-    </svg>
-  </div>
-</div>
-
-<div class="app" data-testid="daras-app">
-
-  <!-- Top bar -->
-  <header class="topbar" data-testid="top-bar">
-    <div class="brand" onclick="go('s-welcome')" style="cursor:pointer" role="link" aria-label="Home">
-      <span class="brand-mark" aria-hidden="true"><img src="/api/Logo.png" alt=""></span>
-      <span>
-        <span data-i18n="brand">दारस</span>
-        <small data-i18n="brand_tag">आपका वित्तीय मित्र</small>
-      </span>
+  <div class="bg-deco" aria-hidden="true">
+    <div class="glyph">
+      <!-- Subtle "third-eye triangle" watermark inspired by the Daras logo -->
+      <svg viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="currentColor" stroke-width="1">
+        <path d="M100 18 L184 162 L16 162 Z" />
+        <path d="M100 38 L162 152 L38 152 Z" />
+        <ellipse cx="100" cy="110" rx="34" ry="18" />
+        <circle cx="100" cy="110" r="9" fill="currentColor" />
+        <circle cx="100" cy="14" r="6" />
+        <path d="M64 24 L100 8 L136 24" />
+      </svg>
     </div>
-    <div class="lang-switch" role="tablist" aria-label="Language">
-      <button class="lang-btn on" data-lang="hi" data-testid="lang-hi">हिं</button>
-      <button class="lang-btn" data-lang="bn" data-testid="lang-bn">বাং</button>
-      <button class="lang-btn" data-lang="en" data-testid="lang-en">EN</button>
-    </div>
-  </header>
-
-  <div class="progress-row">
-    <button class="back-btn" id="back-btn" data-testid="back-btn" hidden>
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M15 18l-6-6 6-6"/></svg>
-      <span data-i18n="nav_back">वापस</span>
-    </button>
-    <span class="chip" id="progress-chip" data-testid="progress-chip"><span class="dot"></span><span data-i18n="step_welcome">शुरुआत</span></span>
   </div>
 
-  <!-- ─── 1. WELCOME ─────────────────────────────── -->
-  <section class="screen on" id="s-welcome" data-testid="screen-welcome">
-    <div class="bubble warm">
-      <div class="illus" aria-hidden="true">
-        <img src="/api/Logo.png" alt="Daras Global">
-      </div>
-      <h1 data-i18n="welcome_title">नमस्ते 🙏</h1>
-      <p class="lead" data-i18n="welcome_promise"></p>
-      <div class="btn-row">
-        <button class="btn btn-primary" data-go="s-register" data-testid="welcome-begin-btn">
-          <span data-i18n="welcome_begin">आगे बढ़ें</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-        </button>
-      </div>
+  <div class="app" data-testid="daras-app">
 
-      <!-- Chronology behind the logo — "Daras" = divine vision / sight -->
-      <div class="story-card" data-testid="story-card">
-        <span class="story-label" data-i18n="story_label">दारस — पीछे की कहानी</span>
-        <span class="story-mean" data-i18n="story_mean">दारस = दिव्य दृष्टि</span>
-        <span data-i18n="story_body"></span>
-        <details>
-          <summary data-i18n="story_more">और जानें</summary>
-          <p data-i18n="story_chrono"></p>
-        </details>
+    <!-- Top bar -->
+    <header class="topbar" data-testid="top-bar">
+      <div class="brand" onclick="go('s-welcome')" style="cursor:pointer" role="link" aria-label="Home">
+        <span class="brand-mark" aria-hidden="true"><img src="/api/Logo.webp" alt=""></span>
+        <span>
+          <span data-i18n="brand">दारस</span>
+          <small data-i18n="brand_tag">आपका वित्तीय मित्र</small>
+        </span>
       </div>
+      <div class="lang-switch" role="tablist" aria-label="Language">
+        <button class="lang-btn on" data-lang="hi" data-testid="lang-hi">हिं</button>
+        <button class="lang-btn" data-lang="bn" data-testid="lang-bn">বাং</button>
+        <button class="lang-btn" data-lang="en" data-testid="lang-en">EN</button>
+      </div>
+    </header>
+
+    <div class="progress-row">
+      <button class="back-btn" id="back-btn" data-testid="back-btn" hidden>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M15 18l-6-6 6-6" />
+        </svg>
+        <span data-i18n="nav_back">वापस</span>
+      </button>
+      <span class="chip" id="progress-chip" data-testid="progress-chip"><span class="dot"></span><span
+          data-i18n="step_welcome">शुरुआत</span></span>
     </div>
-    <div class="callout-info">
-      <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-      <div data-i18n="welcome_privacy"></div>
-    </div>
-  </section>
 
-  <!-- ─── 2. REGISTER ─────────────────────────────── -->
-  <section class="screen" id="s-register" data-testid="screen-register">
-    <div class="bubble">
-      <h2 data-i18n="reg_title">अपना परिचय दें</h2>
-      <p data-i18n="reg_sub">सिर्फ नाम और मोबाइल काफी है। बाकी आप जब चाहें तब बताएँ।</p>
+    <!-- ─── 1. WELCOME ─────────────────────────────── -->
+    <section class="screen on" id="s-welcome" data-testid="screen-welcome">
+      <!-- ─── Page Nav ─── -->
+      <nav class="page-nav" style="display:flex;justify-content:center;flex-wrap:wrap;gap:8px 14px;margin-bottom:18px;padding:12px 0">
+        <a href="/about" class="nav-pill" data-i18n="ft_about">हमारे बारे में</a>
+        <a href="/learn" class="nav-pill" data-i18n="ft_learn">वित्तीय साक्षरता</a>
+        <a href="/schemes" class="nav-pill" data-i18n="ft_schemes">सरकारी योजनाएँ</a>
+        <a href="/privacy" class="nav-pill" data-i18n="ft_privacy">Privacy Policy</a>
+      </nav>
 
-      <div class="field">
-        <label data-i18n="reg_name">नाम</label>
-        <input type="text" id="in-name" data-i18n-placeholder="reg_name_ph" placeholder="आपका पूरा नाम" data-testid="reg-name-input"/>
-        <div class="field-err" id="err-name"></div>
+      <div class="bubble warm">
+        <div class="illus" aria-hidden="true">
+          <img src="/api/Logo.webp" alt="Daras Global">
+        </div>
+        <h1 data-i18n="welcome_title">नमस्ते 🙏</h1>
+        <p class="lead" data-i18n="welcome_promise"></p>
+        <div class="btn-row">
+          <button class="btn btn-primary" data-go="s-register" data-testid="welcome-begin-btn">
+            <span data-i18n="welcome_begin">आगे बढ़ें</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M5 12h14M13 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
       </div>
-      <div class="field-grid">
+      <div class="callout-info">
+        <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" />
+        </svg>
+        <div data-i18n="welcome_privacy"></div>
+      </div>
+    </section>
+
+    <!-- ─── 2. REGISTER ─────────────────────────────── -->
+    <section class="screen" id="s-register" data-testid="screen-register">
+      <div class="bubble">
+        <h2 data-i18n="reg_title">अपना परिचय दें</h2>
+        <p data-i18n="reg_sub">सिर्फ नाम और मोबाइल काफी है। बाकी आप जब चाहें तब बताएँ।</p>
+
         <div class="field">
-          <label data-i18n="reg_age">उम्र<span class="req">*</span></label>
-          <input type="number" id="in-age" min="14" max="99" data-i18n-placeholder="reg_age_ph" placeholder="वर्षों में" data-testid="reg-age-input"/>
-          <div class="field-err" id="err-age"></div>
+          <label data-i18n="reg_name">नाम</label>
+          <input type="text" id="in-name" data-i18n-placeholder="reg_name_ph" placeholder="आपका पूरा नाम"
+            data-testid="reg-name-input" />
+          <div class="field-err" id="err-name"></div>
         </div>
-        <div class="field">
-          <label data-i18n="reg_mobile">मोबाइल<span class="req">*</span></label>
-          <input type="tel" id="in-mobile" maxlength="10" data-i18n-placeholder="reg_mobile_ph" placeholder="10 अंक" data-testid="reg-mobile-input"/>
-          <div class="field-err" id="err-mobile"></div>
+        <div class="field-grid">
+          <div class="field">
+            <label data-i18n="reg_age">उम्र<span class="req">*</span></label>
+            <input type="number" id="in-age" min="14" max="99" data-i18n-placeholder="reg_age_ph"
+              placeholder="वर्षों में" data-testid="reg-age-input" />
+            <div class="field-err" id="err-age"></div>
+          </div>
+          <div class="field">
+            <label data-i18n="reg_mobile">मोबाइल<span class="req">*</span></label>
+            <input type="tel" id="in-mobile" maxlength="10" data-i18n-placeholder="reg_mobile_ph" placeholder="10 अंक"
+              data-testid="reg-mobile-input" />
+            <div class="field-err" id="err-mobile"></div>
+          </div>
         </div>
-      </div>
 
-      <div class="field" style="margin-top:18px">
-        <label data-i18n="reg_vocation">आप क्या काम करते हैं?</label>
-        <div class="opt-grid" id="vocation-grid"></div>
-        <div class="field-err" id="err-voc"></div>
-      </div>
-      <div class="field" id="vocation-custom-wrap" style="display:none">
-        <label data-i18n="reg_voc_custom">कौन-सा काम? (बताएँ)</label>
-        <input type="text" id="in-vocation-custom" data-testid="reg-vocation-custom-input"/>
-      </div>
+        <div class="field" style="margin-top:18px">
+          <label data-i18n="reg_vocation">आप क्या काम करते हैं?</label>
+          <div class="opt-grid" id="vocation-grid"></div>
+          <div class="field-err" id="err-voc"></div>
+        </div>
+        <div class="field" id="vocation-custom-wrap" style="display:none">
+          <label data-i18n="reg_voc_custom">कौन-सा काम? (बताएँ)</label>
+          <input type="text" id="in-vocation-custom" data-testid="reg-vocation-custom-input" />
+        </div>
 
-      <div class="field" style="margin-top:18px">
-        <label data-i18n="reg_employment">काम कैसा है?</label>
-        <div class="opt-grid" id="emptype-grid"></div>
-      </div>
-      <div class="field" id="emptype-custom-wrap" style="display:none;margin-top:10px">
-        <label data-i18n="emp_other_label">काम बताएँ</label>
-        <input type="text" id="in-emptype-custom"/>
-      </div>
+        <div class="field" style="margin-top:18px">
+          <label data-i18n="reg_employment">काम कैसा है?</label>
+          <div class="opt-grid" id="emptype-grid"></div>
+        </div>
+        <div class="field" id="emptype-custom-wrap" style="display:none;margin-top:10px">
+          <label data-i18n="emp_other_label">काम बताएँ</label>
+          <input type="text" id="in-emptype-custom" />
+        </div>
 
-      <div class="field" style="margin-top:18px">
-        <label data-i18n="reg_household">घर में कितने लोग हैं?</label>
-        <div class="opt-grid" id="household-grid"></div>
-      </div>
+        <div class="field" style="margin-top:18px">
+          <label data-i18n="reg_household">घर में कितने लोग हैं?</label>
+          <div class="opt-grid" id="household-grid"></div>
+        </div>
 
-      <div class="field" style="margin-top:18px">
-        <label data-i18n="reg_bank">बैंक में खाता है?</label>
-        <div class="yn-row" style="margin-top:8px">
-          <button class="yn-btn" id="btn-bank-yes" type="button">
-            <span class="em">🏦</span><span data-i18n="bank_yes">हाँ, है</span>
+        <div class="field" style="margin-top:18px">
+          <label data-i18n="reg_bank">बैंक में खाता है?</label>
+          <div class="yn-row" style="margin-top:8px">
+            <button class="yn-btn" id="btn-bank-yes" type="button">
+              <span class="em">🏦</span><span data-i18n="bank_yes">हाँ, है</span>
+            </button>
+            <button class="yn-btn" id="btn-bank-no" type="button">
+              <span class="em">❌</span><span data-i18n="bank_no">नहीं है</span>
+            </button>
+          </div>
+        </div>
+
+        <div id="profile-selection" class="callout-warn"
+          style="display:none;margin-top:18px;flex-direction:column;gap:12px">
+          <div>
+            <div class="title" data-i18n="dup_title">यह नंबर पहले से रजिस्टर है</div>
+            <div data-i18n="dup_profiles_sub" style="font-size:0.9rem;margin-top:4px">इस नंबर से जुड़े प्रोफ़ाइल नीचे
+              दिए गए हैं। आप किसे चुनना चाहते हैं?</div>
+          </div>
+          <div id="profiles-list" class="opt-list" style="margin-top:0"></div>
+          <button class="btn btn-ghost" id="btn-create-new-profile" style="width:100%;margin-top:4px;">
+            <span data-i18n="dup_create_new">नई प्रोफ़ाइल बनाएँ</span>
           </button>
-          <button class="yn-btn" id="btn-bank-no" type="button">
-            <span class="em">❌</span><span data-i18n="bank_no">नहीं है</span>
-          </button>
-        </div>
-      </div>
-
-      <div id="profile-selection" class="callout-warn" style="display:none;margin-top:18px;flex-direction:column;gap:12px">
-        <div>
-          <div class="title" data-i18n="dup_title">यह नंबर पहले से रजिस्टर है</div>
-          <div data-i18n="dup_profiles_sub" style="font-size:0.9rem;margin-top:4px">इस नंबर से जुड़े प्रोफ़ाइल नीचे दिए गए हैं। आप किसे चुनना चाहते हैं?</div>
-        </div>
-        <div id="profiles-list" class="opt-list" style="margin-top:0"></div>
-        <button class="btn btn-ghost" id="btn-create-new-profile" style="width:100%;margin-top:4px;">
-          <span data-i18n="dup_create_new">नई प्रोफ़ाइल बनाएँ</span>
-        </button>
-      </div>
-
-      <div class="btn-row">
-        <button class="btn btn-primary" id="btn-register" data-testid="reg-submit-btn">
-          <span data-i18n="reg_continue">आगे बढ़ें</span>
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── 3. EXISTING LOANS (universal first stop after registration) ────── -->
-  <section class="screen" id="s-existing" data-testid="screen-existing">
-    <div class="bubble">
-
-      <!-- YES / NO gate -->
-      <div id="ex-gate">
-        <h2 data-i18n="ex_gate_title">क्या आपका कोई लोन चल रहा है?</h2>
-        <p data-i18n="ex_gate_sub">साहूकार, बैंक, दोस्त — किसी से भी।</p>
-        <div class="yn-row">
-          <button class="yn-btn" id="btn-ex-yes" data-testid="ex-has-loan-btn">
-            <span class="em">📋</span><span data-i18n="ex_has_loan">हाँ, लोन है</span>
-          </button>
-          <button class="yn-btn" id="btn-ex-no" data-testid="ex-no-loan-btn">
-            <span class="em">✅</span><span data-i18n="ex_no_loan">नहीं, कोई लोन नहीं</span>
-          </button>
-        </div>
-      </div>
-
-      <!-- Loan entry form (revealed after YES) -->
-      <div id="ex-form" style="display:none">
-        <h2 data-i18n="ex_title">आपके लोन</h2>
-        <p data-i18n="ex_sub">अगर एक से ज़्यादा हैं, तो "+ एक और लोन" से सब जोड़ें।</p>
-
-        <div id="loan-list"></div>
-        <button class="btn btn-ghost btn-add-loan" id="btn-add-loan" type="button" data-i18n="ex_add_loan">+ एक और लोन जोड़ें</button>
-
-        <div id="loan-summary" class="loan-summary" style="display:none">
-          <span><span data-i18n="ex_sum_total">कुल कर्ज़</span>: <strong id="sum-total">₹0</strong></span>
-          <span class="loan-summary-max"><span data-i18n="ex_sum_rate">सबसे ज़्यादा ब्याज</span>: <strong id="sum-rate">0</strong>%</span>
-        </div>
-
-        <div class="field rupee">
-          <label data-i18n="ex_monthly_emi">हर महीने कुल EMI कितनी है?<span class="req">*</span></label>
-          <input type="number" id="ex-monthly-emi" min="0" placeholder="0" data-testid="ex-emi-input"/>
-          <div class="help" data-i18n="ex_monthly_emi_help">सभी लोन मिलाकर, हर महीने जितना चुकाते हैं।</div>
-          <div class="field-err" id="err-emi"></div>
         </div>
 
         <div class="btn-row">
-          <button class="btn btn-primary" id="btn-existing-next" data-testid="ex-next-btn">
+          <button class="btn btn-primary" id="btn-register" data-testid="reg-submit-btn">
             <span data-i18n="reg_continue">आगे बढ़ें</span>
           </button>
         </div>
-        <div class="field-err" id="err-remaining-exceeds" style="margin-top:10px"></div>
       </div>
+    </section>
 
-    </div>
-  </section>
+    <!-- ─── 3. EXISTING LOANS (universal first stop after registration) ────── -->
+    <section class="screen" id="s-existing" data-testid="screen-existing">
+      <div class="bubble">
 
-  <!-- ─── 4. NO LOAN — WHAT DO YOU WANT? ─────────────────────────────── -->
-  <section class="screen" id="s-no-loan-choice" data-testid="screen-no-loan-choice">
-    <div class="bubble">
-      <h2 data-i18n="nlc_title">आप क्या जानना चाहते हैं?</h2>
-      <p data-i18n="nlc_sub">दो रास्ते हैं।</p>
-      <div class="opt-list">
-        <button class="opt-row" data-nlc="max" data-testid="nlc-max-btn">
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18M7 14l4-4 4 4 5-5"/></svg></span>
-          <span class="body">
-            <span class="title" data-i18n="nlc_max">मैं अधिकतम कितना लोन ले सकता हूँ?</span>
-            <span class="sub" data-i18n="nlc_max_sub">अपनी बचत के हिसाब से जानें</span>
-          </span>
-        </button>
-        <button class="opt-row" data-nlc="check" data-testid="nlc-check-btn">
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg></span>
-          <span class="body">
-            <span class="title" data-i18n="nlc_check">यह लोन लेना सुरक्षित है?</span>
-            <span class="sub" data-i18n="nlc_check_sub">एक खास रकम और ब्याज जाँचें</span>
-          </span>
-        </button>
+        <!-- YES / NO gate -->
+        <div id="ex-gate">
+          <h2 data-i18n="ex_gate_title">क्या आपका कोई लोन चल रहा है?</h2>
+          <p data-i18n="ex_gate_sub">साहूकार, बैंक, दोस्त — किसी से भी।</p>
+          <div class="yn-row">
+            <button class="yn-btn" id="btn-ex-yes" data-testid="ex-has-loan-btn">
+              <span class="em">📋</span><span data-i18n="ex_has_loan">हाँ, लोन है</span>
+            </button>
+            <button class="yn-btn" id="btn-ex-no" data-testid="ex-no-loan-btn">
+              <span class="em">✅</span><span data-i18n="ex_no_loan">नहीं, कोई लोन नहीं</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Loan entry form (revealed after YES) -->
+        <div id="ex-form" style="display:none">
+          <h2 data-i18n="ex_title">आपके लोन</h2>
+          <p data-i18n="ex_sub">अगर एक से ज़्यादा हैं, तो "+ एक और लोन" से सब जोड़ें।</p>
+
+          <div id="loan-list"></div>
+          <button class="btn btn-ghost btn-add-loan" id="btn-add-loan" type="button" data-i18n="ex_add_loan">+ एक और लोन
+            जोड़ें</button>
+
+          <div id="loan-summary" class="loan-summary" style="display:none">
+            <span><span data-i18n="ex_sum_total">कुल कर्ज़</span>: <strong id="sum-total">₹0</strong></span>
+            <span class="loan-summary-max"><span data-i18n="ex_sum_rate">सबसे ज़्यादा ब्याज</span>: <strong
+                id="sum-rate">0</strong>%</span>
+          </div>
+
+          <div class="field rupee">
+            <label data-i18n="ex_monthly_emi">हर महीने कुल EMI कितनी है?</label>
+            <input type="number" id="ex-monthly-emi" min="0" placeholder="0" data-testid="ex-emi-input" />
+            <div class="help" data-i18n="ex_monthly_emi_help">सभी लोन मिलाकर, हर महीने जितना चुकाते हैं।</div>
+            <div class="field-err" id="err-emi"></div>
+          </div>
+
+          <div class="btn-row">
+            <button class="btn btn-primary" id="btn-existing-next" data-testid="ex-next-btn">
+              <span data-i18n="reg_continue">आगे बढ़ें</span>
+            </button>
+          </div>
+          <div class="field-err" id="err-remaining-exceeds" style="margin-top:10px"></div>
+        </div>
+
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ─── 5. SATISFIED GATE ─────────────────────────────── -->
-  <section class="screen" id="s-satisfied" data-testid="screen-satisfied">
-    <div class="bubble warm">
-      <h2 data-i18n="sat_title">क्या आप अपने मौजूदा लोन से संतुष्ट हैं?</h2>
-      <p class="lead" data-i18n="sat_sub">कोई भी जवाब सही है। बस सच्चाई से बताइए — मैं आपकी मदद के लिए हूँ।</p>
-      <div class="yn-row">
-        <button class="yn-btn" data-go="s-helpopen" data-testid="sat-yes-btn">
-          <span class="em">😊</span><span data-i18n="sat_yes">हाँ, संतुष्ट हूँ</span>
-        </button>
-        <button class="yn-btn" data-go="s-unhappy" data-testid="sat-no-btn">
-          <span class="em">😕</span><span data-i18n="sat_no">नहीं, समस्या है</span>
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── 6. SATISFIED → ANY OPEN QUESTION ─────────────────────────────── -->
-  <section class="screen" id="s-helpopen" data-testid="screen-helpopen">
-    <div class="bubble good">
-      <h2 data-i18n="open_title">क्या मैं और कोई मदद कर सकता हूँ?</h2>
-      <p data-i18n="open_sub">कोई भी सवाल लिखें — पैसों, बैंक, ब्याज, बचत — कुछ भी। हम कोशिश करेंगे।</p>
-      <div class="field">
-        <textarea id="open-q" rows="4" data-i18n-placeholder="open_ph" placeholder="आप क्या जानना चाहते हैं?" data-testid="open-question-textarea"></textarea>
-      </div>
-      <div class="btn-row">
-        <button class="btn btn-primary" id="btn-open-submit" data-testid="open-submit-btn">
-          <span data-i18n="open_submit">भेजें</span>
-        </button>
-        <button class="btn btn-ghost" data-go="s-endgrace" data-testid="open-skip-btn">
-          <span data-i18n="open_skip">अभी छोड़ें</span>
-        </button>
-      </div>
-      <div class="btn-row" style="margin-top:4px">
-        <button class="btn btn-teal" id="btn-open-new-loan" data-testid="open-new-loan-btn">
-          <span data-i18n="open_new_loan">नया लोन लेना है →</span>
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── 7. END GRACEFUL ─────────────────────────────── -->
-  <section class="screen" id="s-endgrace" data-testid="screen-endgrace">
-    <div class="bubble good">
-      <h2 data-i18n="end_title">सुन कर बहुत खुशी हुई 🙏</h2>
-      <p class="lead" data-i18n="end_body">हम पर भरोसा दिखाने के लिए बहुत शुक्रिया। मैं आपका दोस्त हूँ — कभी भी मदद चाहिए, बिना झिझक इस ऐप पर आइए।</p>
-      <div class="btn-row">
-        <button class="btn btn-ghost" data-go="s-welcome" data-testid="end-restart-btn">
-          <span data-i18n="end_restart">शुरू से शुरू करें</span>
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── 8. UNHAPPY → CHOOSE REASON ─────────────────────────────── -->
-  <section class="screen" id="s-unhappy" data-testid="screen-unhappy">
-    <div class="bubble">
-      <h2 data-i18n="un_title">किस बात से नाखुश हैं?</h2>
-      <p data-i18n="un_sub">एक चुनिए — हम उसी पर बात करते हैं।</p>
-      <div class="opt-list">
-        <button class="opt-row" data-set-branch="high_interest" data-testid="branch-high-interest">
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 1 1 0 7H6"/></svg></span>
-          <span class="body">
-            <span class="title" data-i18n="un_high">ज़्यादा ब्याज देना पड़ रहा है</span>
-            <span class="sub" data-i18n="un_high_sub">Higher interest rate</span>
-          </span>
-        </button>
-        <button class="opt-row" data-set-branch="cant_pay_emi" data-testid="branch-cant-pay">
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg></span>
-          <span class="body">
-            <span class="title" data-i18n="un_emi">किस्त/EMI भर नहीं पा रहा</span>
-            <span class="sub" data-i18n="un_emi_sub">Cannot service EMI</span>
-          </span>
-        </button>
-        <button class="opt-row" data-set-branch="principal_issue" data-testid="branch-principal">
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18M7 14l4-4 4 4 5-5"/></svg></span>
-          <span class="body">
-            <span class="title" data-i18n="un_prin">ब्याज तो दे रहा, मूल खत्म नहीं हो रहा</span>
-            <span class="sub" data-i18n="un_prin_sub">Servicing interest but principal stuck</span>
-          </span>
-        </button>
-        <button class="opt-row" data-set-branch="need_more_money" data-testid="branch-need-more">
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 5v14M5 12h14"/></svg></span>
-          <span class="body">
-            <span class="title" data-i18n="un_more">और पैसों की ज़रूरत है</span>
-            <span class="sub" data-i18n="un_more_sub">Need more money</span>
-          </span>
-        </button>
-        <button class="opt-row" data-set-branch="others" data-testid="branch-others">
-          <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9 9a3 3 0 0 1 6 0c0 2-3 3-3 5M12 17h.01"/></svg></span>
-          <span class="body">
-            <span class="title" data-i18n="un_others">अन्य — बचत है फिर भी परेशानी है</span>
-            <span class="sub" data-i18n="un_others_sub">मुझे किसी से बात करनी है</span>
-          </span>
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── 9. HIGH-INTEREST PROBE ─────────────────────────────── -->
-  <!-- ─── 10. INCOME + EXPENSES (LOOP 1 input) ─────────────────────────────── -->
-  <section class="screen" id="s-incexp" data-testid="screen-incexp">
-    <div class="bubble">
-      <h2 data-i18n="ie_title">आपकी आमदनी और खर्च</h2>
-      <p data-i18n="ie_sub">हर महीने का अनुमान बताइए। सही जवाब से ही सही सलाह मिलेगी।</p>
-
-      <div class="field rupee">
-        <label data-i18n="ie_income">महीने की आमदनी (कुल)</label>
-        <input type="number" id="ie-income" min="0" data-testid="ie-income-input"/>
-      </div>
-
-      <h2 style="font-size:18px;margin-top:18px;margin-bottom:6px" data-i18n="ie_exp_title">खर्च (हर महीने)</h2>
-      <div class="field-grid">
-        <div class="field rupee"><label data-i18n="ie_rent">किराया / मकान</label><input type="number" id="ie-rent" min="0" data-testid="ie-rent-input"/><div class="field-err" id="err-ie-rent"></div></div>
-        <div class="field rupee"><label data-i18n="ie_grocery">राशन / सामान</label><input type="number" id="ie-grocery" min="0" data-testid="ie-grocery-input"/><div class="field-err" id="err-ie-grocery"></div></div>
-        <div class="field rupee"><label data-i18n="ie_medicine">दवाई / इलाज</label><input type="number" id="ie-medicine" min="0" data-testid="ie-medicine-input"/><div class="field-err" id="err-ie-medicine"></div></div>
-        <div class="field rupee"><label data-i18n="ie_education">पढ़ाई / स्कूल</label><input type="number" id="ie-education" min="0" data-testid="ie-education-input"/><div class="field-err" id="err-ie-education"></div></div>
-        <div class="field rupee"><label data-i18n="ie_mobile">मोबाइल / बिजली</label><input type="number" id="ie-mobile-bill" min="0" data-testid="ie-mobile-input"/><div class="field-err" id="err-ie-mobile"></div></div>
-        <div class="field rupee"><label data-i18n="ie_gaon">गाँव भेजना</label><input type="number" id="ie-gaon" min="0" data-testid="ie-gaon-input"/><div class="field-err" id="err-ie-gaon"></div></div>
-      </div>
-      <div class="field rupee">
-        <label data-i18n="ie_other">और कोई खर्च</label>
-        <input type="number" id="ie-other" min="0" data-testid="ie-other-input"/>
-        <div class="field-err" id="err-ie-other"></div>
-      </div>
-
-      <div class="field">
-        <label data-i18n="ie_tenure">कितने महीने में चुकाना चाहते हैं?</label>
-        <input type="number" id="ie-tenure" min="1" max="240" value="12" data-testid="ie-tenure-input"/>
-        <div class="help" data-i18n="ie_tenure_help">सामान्यतः 6–60 महीने।</div>
-      </div>
-
-      <div class="btn-row">
-        <button class="btn btn-primary" id="btn-calc" data-testid="ie-calc-btn">
-          <span data-i18n="ie_calc">हिसाब लगाएँ</span>
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M13 5l7 7-7 7"/></svg>
-        </button>
-      </div>
-      <div class="field-err" id="err-ie-total" style="margin-top:10px"></div>
-    </div>
-  </section>
-
-  <!-- ─── 11. RESULT ─────────────────────────────── -->
-  <section class="screen" id="s-result" data-testid="screen-result">
-    <div class="bubble" id="result-bubble">
-      <span class="status-badge" id="result-badge"></span>
-      <h2 id="result-title" style="margin-top:14px"></h2>
-      <p class="lead" id="result-message"></p>
-
-      <div class="money-list">
-        <div class="money-row"><span class="k" data-i18n="r_income">आमदनी</span><span class="v" id="r-income"></span></div>
-        <div class="money-row"><span class="k" data-i18n="r_expense">खर्च</span><span class="v" id="r-expense"></span></div>
-        <div class="money-row"><span class="k" data-i18n="r_savings">बचत</span><span class="v" id="r-savings"></span></div>
-        <div class="money-row"><span class="k" data-i18n="r_emi">अनुमानित EMI</span><span class="v" id="r-emi"></span></div>
-        <div class="money-row"><span class="k" data-i18n="r_after_emi">EMI के बाद बचत</span><span class="v" id="r-after-emi"></span></div>
-        <div class="money-row"><span class="k" data-i18n="r_interest">कुल ब्याज</span><span class="v" id="r-interest"></span></div>
-        <div class="money-row"><span class="k" data-i18n="r_payable">कुल चुकाना</span><span class="v" id="r-payable"></span></div>
-        <div class="money-row"><span class="k" data-i18n="r_safe">सुरक्षित अधिकतम लोन</span><span class="v green" id="r-safe"></span></div>
-      </div>
-
-      <div class="btn-row" id="result-actions"></div>
-    </div>
-  </section>
-
-  <!-- ─── 12. AFTER GREEN (high-interest, can pay) ─────────────────────────────── -->
-  <section class="screen" id="s-after-green" data-testid="screen-after-green">
-    <div class="bubble">
-      <h2 data-i18n="ag_title">अच्छी बात है — आप ब्याज दे सकते हैं</h2>
-      <p class="lead" data-i18n="ag_sub">तो फिर ब्याज क्यों नहीं दिया? क्या पैसों की कहीं और ज़रूरत है?</p>
-      <div class="yn-row">
-        <button class="yn-btn" data-go-after-green="yes" data-testid="ag-yes-btn">
-          <span class="em">💡</span><span data-i18n="ag_yes">हाँ, नया लोन चाहिए</span>
-        </button>
-        <button class="yn-btn" data-go-after-green="no" data-testid="ag-no-btn">
-          <span class="em">❓</span><span data-i18n="ag_no">कुछ और बात है</span>
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── 13. AFTER RED/ORANGE → NEW INCOME? ─────────────────────────────── -->
-  <section class="screen" id="s-newincome" data-testid="screen-newincome">
-    <div class="bubble warm">
-      <h2 data-i18n="ni_title">अब आप समझे — ऐसे में पैसे चुकाना मुश्किल है</h2>
-      <p class="lead" data-i18n="ni_sub">बताइए — क्या आपके पास कोई नई आमदनी का तरीका है? (कोई नया काम, साथ का काम, मेहनताना)</p>
-      <div class="yn-row">
-        <button class="yn-btn" data-go-newincome="yes" data-testid="ni-yes-btn">
-          <span class="em">✅</span><span data-i18n="ni_yes">हाँ, है</span>
-        </button>
-        <button class="yn-btn" data-go-newincome="no" data-testid="ni-no-btn">
-          <span class="em">😞</span><span data-i18n="ni_no">नहीं, कोई और रास्ता नहीं</span>
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── 14. LENDER SPOKEN ─────────────────────────────── -->
-  <section class="screen" id="s-lender" data-testid="screen-lender">
-    <div class="bubble">
-      <h2 data-i18n="ld_title">क्या जिनसे पैसे लिए थे, उनसे बात की?</h2>
-      <p data-i18n="ld_sub">कभी-कभी पुराने रिश्ते से ही समाधान निकल आता है।</p>
-      <div class="yn-row">
-        <button class="yn-btn" data-go-lender="yes" data-testid="ld-yes-btn">
-          <span class="em">📞</span><span data-i18n="ld_yes">हाँ, बात की है</span>
-        </button>
-        <button class="yn-btn" data-go-lender="no" data-testid="ld-no-btn">
-          <span class="em">🙅</span><span data-i18n="ld_no">अभी तक नहीं</span>
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── 15. LENDER PROMPT (no → talk first) ─────────────────────────────── -->
-  <section class="screen" id="s-lender-prompt" data-testid="screen-lender-prompt">
-    <div class="bubble warm">
-      <h2 data-i18n="lp_title">पहले उनसे बात कीजिए</h2>
-      <p class="lead" data-i18n="lp_body">पहले जिनसे पैसे लिए थे, उनसे अपनी तकलीफ बताइए। उनसे विकल्प पूछिए — किस्त छोटी हो सकती है, समय बढ़ सकता है। अगर बात न बने, तब किसी NGO से मिलिए।</p>
-      <div class="btn-row">
-        <button class="btn btn-primary" data-go="s-ngo" data-testid="lp-ngo-btn">
-          <span data-i18n="lp_ngo_btn">NGO का संपर्क देखें</span>
-        </button>
-        <button class="btn btn-ghost" data-go="s-endgrace" data-testid="lp-skip-btn">
-          <span data-i18n="lp_skip">समझ गया</span>
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── 16. NGO REFERRAL ─────────────────────────────── -->
-  <section class="screen" id="s-ngo" data-testid="screen-ngo">
-    <div class="bubble teal">
-      <h2 data-i18n="ngo_title">अकेले मत जूझिए — मदद उपलब्ध है</h2>
-      <p class="lead" data-i18n="ngo_body">M3M फ़ाउंडेशन ज़रूरतमंद परिवारों की वित्तीय और आजीविका में मदद करता है। इनसे जल्द संपर्क कीजिए।</p>
-      <div class="ngo-card">
-        <h3 data-i18n="ngo_name">M3M Foundation</h3>
-        <p style="color:var(--ink-soft);font-size:14px" data-i18n="ngo_sub">CSR arm of M3M India — financial inclusion, livelihood, women empowerment</p>
-        <div class="ngo-lines">
-          <a href="https://m3mfoundation.org" target="_blank" rel="noopener" data-testid="ngo-website">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20"/></svg>
-            m3mfoundation.org
-          </a>
-          <a href="tel:+911244827888" data-testid="ngo-phone">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.95.36 1.88.7 2.77a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.31-1.27a2 2 0 0 1 2.11-.45c.89.34 1.82.57 2.77.7A2 2 0 0 1 22 16.92z"/></svg>
-            +91 124 482 7888
-          </a>
-          <a href="mailto:info@m3mfoundation.org" data-testid="ngo-email">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-            info@m3mfoundation.org
-          </a>
+    <!-- ─── 4. NO LOAN — WHAT DO YOU WANT? ─────────────────────────────── -->
+    <section class="screen" id="s-no-loan-choice" data-testid="screen-no-loan-choice">
+      <div class="bubble">
+        <h2 data-i18n="nlc_title">आप क्या जानना चाहते हैं?</h2>
+        <p data-i18n="nlc_sub">दो रास्ते हैं।</p>
+        <div class="opt-list">
+          <button class="opt-row" data-nlc="max" data-testid="nlc-max-btn">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 3v18h18M7 14l4-4 4 4 5-5" />
+              </svg></span>
+            <span class="body">
+              <span class="title" data-i18n="nlc_max">मैं अधिकतम कितना लोन ले सकता हूँ?</span>
+              <span class="sub" data-i18n="nlc_max_sub">अपनी बचत के हिसाब से जानें</span>
+            </span>
+          </button>
+          <button class="opt-row" data-nlc="check" data-testid="nlc-check-btn">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="11" cy="11" r="8" />
+                <path d="m21 21-4.35-4.35" />
+              </svg></span>
+            <span class="body">
+              <span class="title" data-i18n="nlc_check">यह लोन लेना सुरक्षित है?</span>
+              <span class="sub" data-i18n="nlc_check_sub">एक खास रकम और ब्याज जाँचें</span>
+            </span>
+          </button>
         </div>
       </div>
-      <div class="callout-info">
-        <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-        <div data-i18n="ngo_note">यह जानकारी सिर्फ़ सूचना के लिए है। संपर्क संख्या बदल सकती है।</div>
-      </div>
-      <div class="btn-row">
-        <button class="btn btn-ghost" data-go="s-endgrace" data-testid="ngo-end-btn">
-          <span data-i18n="end_restart_grace">शुक्रिया, समझ गया</span>
-        </button>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- ─── 17. WARNING NOTE (RED → can't take more) ─────────────────────────────── -->
-  <section class="screen" id="s-warning" data-testid="screen-warning">
-    <div class="bubble danger">
-      <div class="callout-warn">
-        <div class="ic">!</div>
+    <!-- ─── 5. SATISFIED GATE ─────────────────────────────── -->
+    <section class="screen" id="s-satisfied" data-testid="screen-satisfied">
+      <div class="bubble warm">
+        <h2 data-i18n="sat_title">क्या आप अपने मौजूदा लोन से संतुष्ट हैं?</h2>
+        <p class="lead" data-i18n="sat_sub">कोई भी जवाब सही है। बस सच्चाई से बताइए — मैं आपकी मदद के लिए हूँ।</p>
+        <div class="yn-row">
+          <button class="yn-btn" data-go="s-helpopen" data-testid="sat-yes-btn">
+            <span class="em">😊</span><span data-i18n="sat_yes">हाँ, संतुष्ट हूँ</span>
+          </button>
+          <button class="yn-btn" data-go="s-unhappy" data-testid="sat-no-btn">
+            <span class="em">😕</span><span data-i18n="sat_no">नहीं, समस्या है</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── 6. SATISFIED → ANY OPEN QUESTION ─────────────────────────────── -->
+    <section class="screen" id="s-helpopen" data-testid="screen-helpopen">
+      <div class="bubble good">
+        <h2 data-i18n="open_title">क्या मैं और कोई मदद कर सकता हूँ?</h2>
+        <p data-i18n="open_sub">कोई भी सवाल लिखें — पैसों, बैंक, ब्याज, बचत — कुछ भी। हम कोशिश करेंगे।</p>
+        <div class="field">
+          <textarea id="open-q" rows="4" data-i18n-placeholder="open_ph" placeholder="आप क्या जानना चाहते हैं?"
+            data-testid="open-question-textarea"></textarea>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" id="btn-open-submit" data-testid="open-submit-btn">
+            <span data-i18n="open_submit">भेजें</span>
+          </button>
+          <button class="btn btn-ghost" data-go="s-endgrace" data-testid="open-skip-btn">
+            <span data-i18n="open_skip">अभी छोड़ें</span>
+          </button>
+        </div>
+        <div class="btn-row" style="margin-top:4px">
+          <button class="btn btn-teal" id="btn-open-new-loan" data-testid="open-new-loan-btn">
+            <span data-i18n="open_new_loan">नया लोन लेना है →</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── 7. END GRACEFUL ─────────────────────────────── -->
+    <section class="screen" id="s-endgrace" data-testid="screen-endgrace">
+      <div class="bubble good">
+        <h2 data-i18n="end_title">सुन कर बहुत खुशी हुई 🙏</h2>
+        <p class="lead" data-i18n="end_body">हम पर भरोसा दिखाने के लिए बहुत शुक्रिया। मैं आपका दोस्त हूँ — कभी भी मदद
+          चाहिए, बिना झिझक इस ऐप पर आइए।</p>
+        <div class="btn-row">
+          <button class="btn btn-ghost" data-go="s-welcome" data-testid="end-restart-btn">
+            <span data-i18n="end_restart">शुरू से शुरू करें</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── 8. UNHAPPY → CHOOSE REASON ─────────────────────────────── -->
+    <section class="screen" id="s-unhappy" data-testid="screen-unhappy">
+      <div class="bubble">
+        <h2 data-i18n="un_title">किस बात से नाखुश हैं?</h2>
+        <p data-i18n="un_sub">एक चुनिए — हम उसी पर बात करते हैं।</p>
+        <div class="opt-list">
+          <button class="opt-row" data-set-branch="high_interest" data-testid="branch-high-interest">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 1v22M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 1 1 0 7H6" />
+              </svg></span>
+            <span class="body">
+              <span class="title" data-i18n="un_high">ज़्यादा ब्याज देना पड़ रहा है</span>
+              <span class="sub" data-i18n="un_high_sub">Higher interest rate</span>
+            </span>
+          </button>
+          <button class="opt-row" data-set-branch="cant_pay_emi" data-testid="branch-cant-pay">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M12 8v4M12 16h.01" />
+              </svg></span>
+            <span class="body">
+              <span class="title" data-i18n="un_emi">किस्त/EMI भर नहीं पा रहा</span>
+              <span class="sub" data-i18n="un_emi_sub">Cannot service EMI</span>
+            </span>
+          </button>
+          <button class="opt-row" data-set-branch="principal_issue" data-testid="branch-principal">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M3 3v18h18M7 14l4-4 4 4 5-5" />
+              </svg></span>
+            <span class="body">
+              <span class="title" data-i18n="un_prin">ब्याज तो दे रहा, मूल खत्म नहीं हो रहा</span>
+              <span class="sub" data-i18n="un_prin_sub">Servicing interest but principal stuck</span>
+            </span>
+          </button>
+          <button class="opt-row" data-set-branch="need_more_money" data-testid="branch-need-more">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 5v14M5 12h14" />
+              </svg></span>
+            <span class="body">
+              <span class="title" data-i18n="un_more">और पैसों की ज़रूरत है</span>
+              <span class="sub" data-i18n="un_more_sub">Need more money</span>
+            </span>
+          </button>
+          <button class="opt-row" data-set-branch="others" data-testid="branch-others">
+            <span class="ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M9 9a3 3 0 0 1 6 0c0 2-3 3-3 5M12 17h.01" />
+              </svg></span>
+            <span class="body">
+              <span class="title" data-i18n="un_others">अन्य — बचत है फिर भी परेशानी है</span>
+              <span class="sub" data-i18n="un_others_sub">मुझे किसी से बात करनी है</span>
+            </span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── 9. HIGH-INTEREST PROBE ─────────────────────────────── -->
+    <!-- ─── 10. INCOME + EXPENSES (LOOP 1 input) ─────────────────────────────── -->
+    <section class="screen" id="s-incexp" data-testid="screen-incexp">
+      <div class="bubble">
+        <h2 data-i18n="ie_title">आपकी आमदनी और खर्च</h2>
+        <p data-i18n="ie_sub">हर महीने का अनुमान बताइए। सही जवाब से ही सही सलाह मिलेगी।</p>
+
+        <div class="field rupee">
+          <label data-i18n="ie_income">महीने की आमदनी (कुल)</label>
+          <input type="number" id="ie-income" min="0" data-testid="ie-income-input" />
+        </div>
+
+        <h2 style="font-size:18px;margin-top:18px;margin-bottom:6px" data-i18n="ie_exp_title">खर्च (हर महीने)</h2>
+        <div class="field-grid">
+          <div class="field rupee"><label data-i18n="ie_rent">किराया / मकान</label><input type="number" id="ie-rent"
+              min="0" data-testid="ie-rent-input" />
+            <div class="field-err" id="err-ie-rent"></div>
+          </div>
+          <div class="field rupee"><label data-i18n="ie_grocery">राशन / सामान</label><input type="number"
+              id="ie-grocery" min="0" data-testid="ie-grocery-input" />
+            <div class="field-err" id="err-ie-grocery"></div>
+          </div>
+          <div class="field rupee"><label data-i18n="ie_medicine">दवाई / इलाज</label><input type="number"
+              id="ie-medicine" min="0" data-testid="ie-medicine-input" />
+            <div class="field-err" id="err-ie-medicine"></div>
+          </div>
+          <div class="field rupee"><label data-i18n="ie_education">पढ़ाई / स्कूल</label><input type="number"
+              id="ie-education" min="0" data-testid="ie-education-input" />
+            <div class="field-err" id="err-ie-education"></div>
+          </div>
+          <div class="field rupee"><label data-i18n="ie_mobile">मोबाइल / बिजली</label><input type="number"
+              id="ie-mobile-bill" min="0" data-testid="ie-mobile-input" />
+            <div class="field-err" id="err-ie-mobile"></div>
+          </div>
+          <div class="field rupee"><label data-i18n="ie_gaon">गाँव भेजना</label><input type="number" id="ie-gaon"
+              min="0" data-testid="ie-gaon-input" />
+            <div class="field-err" id="err-ie-gaon"></div>
+          </div>
+        </div>
+        <div class="field rupee">
+          <label data-i18n="ie_other">और कोई खर्च</label>
+          <input type="number" id="ie-other" min="0" data-testid="ie-other-input" />
+          <div class="field-err" id="err-ie-other"></div>
+        </div>
+
+        <div class="field">
+          <label data-i18n="ie_tenure">कितने महीने में चुकाना चाहते हैं?</label>
+          <input type="number" id="ie-tenure" min="1" max="240" value="12" data-testid="ie-tenure-input" />
+          <div class="help" data-i18n="ie_tenure_help">सामान्यतः 6–60 महीने।</div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-primary" id="btn-calc" data-testid="ie-calc-btn">
+            <span data-i18n="ie_calc">हिसाब लगाएँ</span>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+              <path d="M5 12h14M13 5l7 7-7 7" />
+            </svg>
+          </button>
+        </div>
+        <div class="field-err" id="err-ie-total" style="margin-top:10px"></div>
+      </div>
+    </section>
+
+    <!-- ─── 11. RESULT ─────────────────────────────── -->
+    <section class="screen" id="s-result" data-testid="screen-result">
+      <div class="bubble" id="result-bubble">
+        <span class="status-badge" id="result-badge"></span>
+        <h2 id="result-title" style="margin-top:14px"></h2>
+        <p class="lead" id="result-message"></p>
+
+        <div class="money-list">
+          <div class="money-row"><span class="k" data-i18n="r_income">आमदनी</span><span class="v" id="r-income"></span>
+          </div>
+          <div class="money-row"><span class="k" data-i18n="r_expense">खर्च</span><span class="v" id="r-expense"></span>
+          </div>
+          <div class="money-row"><span class="k" data-i18n="r_savings">बचत</span><span class="v" id="r-savings"></span>
+          </div>
+          <div class="money-row"><span class="k" data-i18n="r_emi">अनुमानित EMI</span><span class="v" id="r-emi"></span>
+          </div>
+          <div class="money-row"><span class="k" data-i18n="r_after_emi">EMI के बाद बचत</span><span class="v"
+              id="r-after-emi"></span></div>
+          <div class="money-row"><span class="k" data-i18n="r_interest">कुल ब्याज</span><span class="v"
+              id="r-interest"></span></div>
+          <div class="money-row"><span class="k" data-i18n="r_payable">कुल चुकाना</span><span class="v"
+              id="r-payable"></span></div>
+          <div class="money-row"><span class="k" data-i18n="r_safe">सुरक्षित अधिकतम लोन</span><span class="v green"
+              id="r-safe"></span></div>
+        </div>
+
+        <!-- New-loan eligibility panel — shown only when existing loans were analysed -->
+        <div id="r-new-loan-panel" style="display:none">
+          <div class="section-rule"></div>
+          <div class="money-list">
+            <div class="money-row"><span class="k" data-i18n="r_savings_after_emis">सभी किस्तों के बाद बचत</span><span class="v" id="r-savings-after-emis"></span></div>
+            <div class="money-row"><span class="k" data-i18n="r_new_loan_cap">नया लोन ले सकते हैं</span><span class="v" id="r-new-loan-cap"></span></div>
+            <div class="money-row"><span class="k" data-i18n="r_kul_jama">कुल चुकाने की क्षमता</span><span class="v" id="r-kul-jama"></span></div>
+          </div>
+        </div>
+
+        <div class="btn-row" id="result-actions"></div>
+      </div>
+    </section>
+
+    <!-- ─── 12. AFTER GREEN (high-interest, can pay) ─────────────────────────────── -->
+    <section class="screen" id="s-after-green" data-testid="screen-after-green">
+      <div class="bubble">
+        <h2 data-i18n="ag_title">अच्छी बात है — आप ब्याज दे सकते हैं</h2>
+        <p class="lead" data-i18n="ag_sub">तो फिर ब्याज क्यों नहीं दिया? क्या पैसों की कहीं और ज़रूरत है?</p>
+        <div class="yn-row">
+          <button class="yn-btn" data-go-after-green="yes" data-testid="ag-yes-btn">
+            <span class="em">💡</span><span data-i18n="ag_yes">हाँ, नया लोन चाहिए</span>
+          </button>
+          <button class="yn-btn" data-go-after-green="no" data-testid="ag-no-btn">
+            <span class="em">❓</span><span data-i18n="ag_no">कुछ और बात है</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── 13. AFTER RED/ORANGE → NEW INCOME? ─────────────────────────────── -->
+    <section class="screen" id="s-newincome" data-testid="screen-newincome">
+      <div class="bubble warm">
+        <h2 data-i18n="ni_title">अब आप समझे — ऐसे में पैसे चुकाना मुश्किल है</h2>
+        <p class="lead" data-i18n="ni_sub">बताइए — क्या आपके पास कोई नई आमदनी का तरीका है? (कोई नया काम, साथ का काम,
+          मेहनताना)</p>
+        <div class="yn-row">
+          <button class="yn-btn" data-go-newincome="yes" data-testid="ni-yes-btn">
+            <span class="em">✅</span><span data-i18n="ni_yes">हाँ, है</span>
+          </button>
+          <button class="yn-btn" data-go-newincome="no" data-testid="ni-no-btn">
+            <span class="em">😞</span><span data-i18n="ni_no">नहीं, कोई और रास्ता नहीं</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── 14. LENDER SPOKEN ─────────────────────────────── -->
+    <section class="screen" id="s-lender" data-testid="screen-lender">
+      <div class="bubble">
+        <h2 data-i18n="ld_title">क्या जिनसे पैसे लिए थे, उनसे बात की?</h2>
+        <p data-i18n="ld_sub">कभी-कभी पुराने रिश्ते से ही समाधान निकल आता है।</p>
+        <div class="yn-row">
+          <button class="yn-btn" data-go-lender="yes" data-testid="ld-yes-btn">
+            <span class="em">📞</span><span data-i18n="ld_yes">हाँ, बात की है</span>
+          </button>
+          <button class="yn-btn" data-go-lender="no" data-testid="ld-no-btn">
+            <span class="em">🙅</span><span data-i18n="ld_no">अभी तक नहीं</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── 15. LENDER PROMPT (no → talk first) ─────────────────────────────── -->
+    <section class="screen" id="s-lender-prompt" data-testid="screen-lender-prompt">
+      <div class="bubble warm">
+        <h2 data-i18n="lp_title">पहले उनसे बात कीजिए</h2>
+        <p class="lead" data-i18n="lp_body">पहले जिनसे पैसे लिए थे, उनसे अपनी तकलीफ बताइए। उनसे विकल्प पूछिए — किस्त
+          छोटी हो सकती है, समय बढ़ सकता है। अगर बात न बने, तब किसी NGO से मिलिए।</p>
+        <div class="btn-row">
+          <button class="btn btn-primary" data-go="s-ngo" data-testid="lp-ngo-btn">
+            <span data-i18n="lp_ngo_btn">NGO का संपर्क देखें</span>
+          </button>
+          <button class="btn btn-ghost" data-go="s-endgrace" data-testid="lp-skip-btn">
+            <span data-i18n="lp_skip">समझ गया</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── 16. NGO REFERRAL ─────────────────────────────── -->
+    <section class="screen" id="s-ngo" data-testid="screen-ngo">
+      <div class="bubble teal">
+        <h2 data-i18n="ngo_title">अकेले मत जूझिए — मदद उपलब्ध है</h2>
+        <p class="lead" data-i18n="ngo_body">M3M फ़ाउंडेशन ज़रूरतमंद परिवारों की वित्तीय और आजीविका में मदद करता है।
+          इनसे जल्द संपर्क कीजिए।</p>
+        <div class="ngo-card">
+          <h3 data-i18n="ngo_name">M3M Foundation</h3>
+          <p style="color:var(--ink-soft);font-size:14px" data-i18n="ngo_sub">CSR arm of M3M India — financial
+            inclusion, livelihood, women empowerment</p>
+          <div class="ngo-lines">
+            <a href="https://m3mfoundation.org" target="_blank" rel="noopener" data-testid="ngo-website">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10" />
+                <path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20" />
+              </svg>
+              m3mfoundation.org
+            </a>
+            <a href="tel:+911244827888" data-testid="ngo-phone">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path
+                  d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.95.36 1.88.7 2.77a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.31-1.27a2 2 0 0 1 2.11-.45c.89.34 1.82.57 2.77.7A2 2 0 0 1 22 16.92z" />
+              </svg>
+              +91 124 482 7888
+            </a>
+            <a href="mailto:info@m3mfoundation.org" data-testid="ngo-email">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z" />
+                <polyline points="22,6 12,13 2,6" />
+              </svg>
+              info@m3mfoundation.org
+            </a>
+          </div>
+        </div>
+        <div class="callout-info">
+          <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 16v-4M12 8h.01" />
+          </svg>
+          <div data-i18n="ngo_note">यह जानकारी सिर्फ़ सूचना के लिए है। संपर्क संख्या बदल सकती है।</div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-ghost" data-go="s-endgrace" data-testid="ngo-end-btn">
+            <span data-i18n="end_restart_grace">शुक्रिया, समझ गया</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── 17. WARNING NOTE (RED → can't take more) ─────────────────────────────── -->
+    <section class="screen" id="s-warning" data-testid="screen-warning">
+      <div class="bubble danger">
+        <div class="callout-warn">
+          <div class="ic">!</div>
+          <div>
+            <div class="title" data-i18n="warn_title">पैसा उठाने का सबसे पहला उसूल</div>
+            <div data-i18n="warn_body">अगर ब्याज तक भी नहीं दे पाएँगे तो उधार मत लीजिए। आप फँस जाएँगे।</div>
+          </div>
+        </div>
+        <p class="lead" data-i18n="warn_now">अभी आपकी आमदनी में और लोन लेना सही नहीं होगा।</p>
+        <div class="btn-row">
+          <button class="btn btn-teal" data-go="s-ngo" data-testid="warn-ngo-btn">
+            <span data-i18n="warn_ngo">मदद के लिए NGO देखें</span>
+          </button>
+          <button class="btn btn-ghost" data-go="s-endgrace" data-testid="warn-end-btn">
+            <span data-i18n="warn_end">समझ गया</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── 18. PAYOFF MONTHS RESULT (principal issue) ─────────────────────────────── -->
+    <section class="screen" id="s-payoff" data-testid="screen-payoff">
+      <div class="bubble">
+        <span class="status-badge" id="payoff-badge"></span>
+        <h2 style="margin-top:14px" data-i18n="po_title">आपकी मौजूदा बचत से चुकाने में लगेगा</h2>
+        <div class="result-num" id="payoff-num">—</div>
+        <p class="lead" id="payoff-msg"></p>
+        <h2 style="font-size:20px;margin-top:18px" data-i18n="po_ok">क्या यह समय-सीमा आपके लिए सही है?</h2>
+        <div class="yn-row">
+          <button class="yn-btn" data-go-payoff="yes" data-testid="po-yes-btn">
+            <span class="em">👍</span><span data-i18n="po_yes">हाँ, ठीक है</span>
+          </button>
+          <button class="yn-btn" data-go-payoff="no" data-testid="po-no-btn">
+            <span class="em">⏱️</span><span data-i18n="po_no">नहीं, बदलना चाहता हूँ</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── 19. PAYOFF PACE ─────────────────────────────── -->
+    <section class="screen" id="s-payoff-pace" data-testid="screen-payoff-pace">
+      <div class="bubble">
+        <h2 data-i18n="pp_title">क्या आप जल्दी चुकाना चाहते हैं या देर से?</h2>
+        <div class="yn-row">
+          <button class="yn-btn" data-go-pace="fast" data-testid="pp-fast-btn">
+            <span class="em">⚡</span><span data-i18n="pp_fast">जल्दी चुकाना</span>
+          </button>
+          <button class="yn-btn" data-go-pace="slow" data-testid="pp-slow-btn">
+            <span class="em">🐢</span><span data-i18n="pp_slow">देर से चुकाना</span>
+          </button>
+        </div>
+        <div class="field" style="margin-top:18px">
+          <label data-i18n="pp_months">नया समय (महीने)</label>
+          <input type="number" id="pace-months" min="1" max="240" value="24" data-testid="pp-months-input" />
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" id="btn-pace-calc" data-testid="pp-calc-btn">
+            <span data-i18n="pp_calc">फिर से हिसाब लगाएँ</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── 20. NEW LOAN — details ─────────────────────────────── -->
+    <section class="screen" id="s-new" data-testid="screen-new">
+      <div class="bubble">
+        <h2 data-i18n="nl_title">नया लोन — कुछ बातें</h2>
+        <p data-i18n="nl_sub">सही जगह से सही लोन लें — यही पहली समझदारी है।</p>
+
+        <div class="field rupee">
+          <label data-i18n="nl_amount">कितना लोन चाहिए?</label>
+          <input type="number" id="nl-amount" min="0" data-testid="nl-amount-input" />
+          <div class="field-err" id="err-nl-amount"></div>
+        </div>
+        <div class="field-grid">
+          <div class="field">
+            <label data-i18n="nl_rate">ब्याज दर (% सालाना)<span class="req">*</span></label>
+            <input type="number" id="nl-rate" min="0" step="0.5" placeholder="18" required
+              data-testid="nl-rate-input" />
+            <div class="field-err" id="err-nl-rate"></div>
+          </div>
+          <div class="field">
+            <label data-i18n="nl_purpose">किसलिए चाहिए?</label>
+            <select id="nl-purpose" data-testid="nl-purpose-select"></select>
+          </div>
+        </div>
+        <div class="field">
+          <label data-i18n="nl_source">कहाँ से लेना है?</label>
+          <select id="nl-source" data-testid="nl-source-select"></select>
+        </div>
+
+        <div id="nl-recommend-box" class="callout-info" style="display:none" data-testid="nl-recommend">
+          <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3 7h7l-5.5 4.5 2 7-6.5-4.5-6.5 4.5 2-7L2 9h7z" />
+          </svg>
+          <div id="nl-recommend-text"></div>
+        </div>
+
+        <div class="btn-row">
+          <button class="btn btn-primary" id="btn-new-next" data-testid="nl-next-btn">
+            <span data-i18n="reg_continue">आगे बढ़ें</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── 21. NEW LOAN — savings mode input ─────────────────────────────── -->
+    <section class="screen" id="s-new-savings" data-testid="screen-new-savings">
+      <div class="bubble">
+        <h2 data-i18n="ns_title">अपनी बचत बताइए</h2>
+        <p data-i18n="ns_sub">हर महीने जो बच जाता है, उसी से हम सुरक्षित अधिकतम लोन निकालेंगे।</p>
+        <div class="field rupee">
+          <label data-i18n="ns_savings">महीने की बचत</label>
+          <input type="number" id="ns-savings" min="0" data-testid="ns-savings-input" />
+        </div>
+        <div class="field-grid">
+          <div class="field">
+            <label data-i18n="ns_rate">ब्याज दर (% सालाना)<span class="req">*</span></label>
+            <input type="number" id="ns-rate" min="0" step="0.5" value="14" required data-testid="ns-rate-input" />
+            <div class="field-err" id="err-ns-rate"></div>
+          </div>
+          <div class="field">
+            <label data-i18n="ns_months">कितने महीने में चुकाना है?</label>
+            <input type="number" id="ns-months" min="1" max="240" value="24" data-testid="ns-months-input" />
+          </div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" id="btn-ns-calc" data-testid="ns-calc-btn">
+            <span data-i18n="ns_calc">अधिकतम लोन देखें</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── 23. NEW LOAN — savings result ─────────────────────────────── -->
+    <section class="screen" id="s-new-savings-result" data-testid="screen-new-savings-result">
+      <div class="bubble good">
+        <span class="status-badge green" data-i18n="r_safe_badge">सुरक्षित सीमा</span>
+        <h2 style="margin-top:14px" data-i18n="nsr_title">आपकी बचत से अधिकतम सुरक्षित लोन</h2>
+        <div class="result-num" id="nsr-num">₹—</div>
+        <p class="lead" id="nsr-emi"></p>
+        <div class="callout-info">
+          <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M12 16v-4M12 8h.01" />
+          </svg>
+          <div data-i18n="nsr_note">यह केवल सलाह है। आपातकाल के लिए बचत का कुछ हिस्सा अलग रखें।</div>
+        </div>
+        <div class="btn-row">
+          <button class="btn btn-primary" data-go="s-direct" data-testid="nsr-talk-btn">
+            <span data-i18n="dc_talk">सीधे बात कीजिए</span>
+          </button>
+          <button class="btn btn-ghost" data-go="s-endgrace" data-testid="nsr-end-btn">
+            <span data-i18n="end_restart_grace">शुक्रिया, समझ गया</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ─── 24. DIRECT CONTACT (M3M / WhatsApp) ─────────────────────────────── -->
+    <section class="screen" id="s-direct" data-testid="screen-direct">
+      <div class="bubble teal">
+        <h2 data-i18n="dc_title">क्या मैं सीधे आपकी मदद कर सकता हूँ?</h2>
+        <p class="lead" data-i18n="dc_body">अगर आप चाहें, हम सीधे बात कर सकते हैं — एक काउंसलर आपकी समस्या समझेगा और
+          बैंक/NGO के साथ रास्ता निकालेगा।</p>
+        <div class="callout-info">
+          <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M12 2l3 7h7l-5.5 4.5 2 7-6.5-4.5-6.5 4.5 2-7L2 9h7z" />
+          </svg>
+          <div data-i18n="dc_token">टोकन के तौर पर ₹100 — अगर हम आपकी समस्या हल नहीं कर पाए, तो पैसा वापस। यह सिर्फ़
+            इसलिए ताकि सच्ची ज़रूरत वाले लोग ही संपर्क करें।</div>
+        </div>
+        <div class="btn-row">
+          <a class="btn btn-teal"
+            href="https://wa.me/911244827888?text=Namaste%2C%20DARAS%20app%20se%20baat%20karni%20hai" target="_blank"
+            rel="noopener" data-testid="dc-whatsapp-btn">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+              <path
+                d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.16 5.335 5.495 0 12.05 0c3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99 0-3.951-.5-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z" />
+            </svg>
+            WhatsApp
+          </a>
+          <button class="btn btn-ghost" data-go="s-endgrace" data-testid="dc-skip-btn">
+            <span data-i18n="dc_skip">बाद में</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-brand">
+        <img src="/api/Logo.webp" alt="Daras Global" class="footer-logo">
         <div>
-          <div class="title" data-i18n="warn_title">पैसा उठाने का सबसे पहला उसूल</div>
-          <div data-i18n="warn_body">अगर ब्याज तक भी नहीं दे पाएँगे तो उधार मत लीजिए। आप फँस जाएँगे।</div>
+          <div data-i18n="ft_brand">दारस DARAS — आपका वित्तीय मित्र</div>
+          <div class="footer-tag">INSIGHT &nbsp;·&nbsp; STRATEGY &nbsp;·&nbsp; GROWTH</div>
         </div>
       </div>
-      <p class="lead" data-i18n="warn_now">अभी आपकी आमदनी में और लोन लेना सही नहीं होगा।</p>
-      <div class="btn-row">
-        <button class="btn btn-teal" data-go="s-ngo" data-testid="warn-ngo-btn">
-          <span data-i18n="warn_ngo">मदद के लिए NGO देखें</span>
-        </button>
-        <button class="btn btn-ghost" data-go="s-endgrace" data-testid="warn-end-btn">
-          <span data-i18n="warn_end">समझ गया</span>
-        </button>
-      </div>
+      <div class="small-disc" data-i18n="ft_disc">यह ऐप केवल जानकारी और दिशा-निर्देश के लिए है। किसी भी वित्तीय निर्णय
+        से पहले अपने सलाहकार से ज़रूर मिलें।</div>
     </div>
-  </section>
 
-  <!-- ─── 18. PAYOFF MONTHS RESULT (principal issue) ─────────────────────────────── -->
-  <section class="screen" id="s-payoff" data-testid="screen-payoff">
-    <div class="bubble">
-      <span class="status-badge" id="payoff-badge"></span>
-      <h2 style="margin-top:14px" data-i18n="po_title">आपकी मौजूदा बचत से चुकाने में लगेगा</h2>
-      <div class="result-num" id="payoff-num">—</div>
-      <p class="lead" id="payoff-msg"></p>
-      <h2 style="font-size:20px;margin-top:18px" data-i18n="po_ok">क्या यह समय-सीमा आपके लिए सही है?</h2>
-      <div class="yn-row">
-        <button class="yn-btn" data-go-payoff="yes" data-testid="po-yes-btn">
-          <span class="em">👍</span><span data-i18n="po_yes">हाँ, ठीक है</span>
-        </button>
-        <button class="yn-btn" data-go-payoff="no" data-testid="po-no-btn">
-          <span class="em">⏱️</span><span data-i18n="po_no">नहीं, बदलना चाहता हूँ</span>
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── 19. PAYOFF PACE ─────────────────────────────── -->
-  <section class="screen" id="s-payoff-pace" data-testid="screen-payoff-pace">
-    <div class="bubble">
-      <h2 data-i18n="pp_title">क्या आप जल्दी चुकाना चाहते हैं या देर से?</h2>
-      <div class="yn-row">
-        <button class="yn-btn" data-go-pace="fast" data-testid="pp-fast-btn">
-          <span class="em">⚡</span><span data-i18n="pp_fast">जल्दी चुकाना</span>
-        </button>
-        <button class="yn-btn" data-go-pace="slow" data-testid="pp-slow-btn">
-          <span class="em">🐢</span><span data-i18n="pp_slow">देर से चुकाना</span>
-        </button>
-      </div>
-      <div class="field" style="margin-top:18px">
-        <label data-i18n="pp_months">नया समय (महीने)</label>
-        <input type="number" id="pace-months" min="1" max="240" value="24" data-testid="pp-months-input"/>
-      </div>
-      <div class="btn-row">
-        <button class="btn btn-primary" id="btn-pace-calc" data-testid="pp-calc-btn">
-          <span data-i18n="pp_calc">फिर से हिसाब लगाएँ</span>
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── 20. NEW LOAN — details ─────────────────────────────── -->
-  <section class="screen" id="s-new" data-testid="screen-new">
-    <div class="bubble">
-      <h2 data-i18n="nl_title">नया लोन — कुछ बातें</h2>
-      <p data-i18n="nl_sub">सही जगह से सही लोन लें — यही पहली समझदारी है।</p>
-
-      <div class="field rupee">
-        <label data-i18n="nl_amount">कितना लोन चाहिए?</label>
-        <input type="number" id="nl-amount" min="0" data-testid="nl-amount-input"/>
-        <div class="field-err" id="err-nl-amount"></div>
-      </div>
-      <div class="field-grid">
-        <div class="field">
-          <label data-i18n="nl_rate">ब्याज दर (% सालाना)<span class="req">*</span></label>
-          <input type="number" id="nl-rate" min="0" step="0.5" placeholder="18" required data-testid="nl-rate-input"/>
-          <div class="field-err" id="err-nl-rate"></div>
-        </div>
-        <div class="field">
-          <label data-i18n="nl_purpose">किसलिए चाहिए?</label>
-          <select id="nl-purpose" data-testid="nl-purpose-select"></select>
-        </div>
-      </div>
-      <div class="field">
-        <label data-i18n="nl_source">कहाँ से लेना है?</label>
-        <select id="nl-source" data-testid="nl-source-select"></select>
-      </div>
-
-      <div id="nl-recommend-box" class="callout-info" style="display:none" data-testid="nl-recommend">
-        <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4.5 2 7-6.5-4.5-6.5 4.5 2-7L2 9h7z"/></svg>
-        <div id="nl-recommend-text"></div>
-      </div>
-
-      <div class="btn-row">
-        <button class="btn btn-primary" id="btn-new-next" data-testid="nl-next-btn">
-          <span data-i18n="reg_continue">आगे बढ़ें</span>
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── 21. NEW LOAN — savings mode input ─────────────────────────────── -->
-  <section class="screen" id="s-new-savings" data-testid="screen-new-savings">
-    <div class="bubble">
-      <h2 data-i18n="ns_title">अपनी बचत बताइए</h2>
-      <p data-i18n="ns_sub">हर महीने जो बच जाता है, उसी से हम सुरक्षित अधिकतम लोन निकालेंगे।</p>
-      <div class="field rupee">
-        <label data-i18n="ns_savings">महीने की बचत</label>
-        <input type="number" id="ns-savings" min="0" data-testid="ns-savings-input"/>
-      </div>
-      <div class="field-grid">
-        <div class="field">
-          <label data-i18n="ns_rate">ब्याज दर (% सालाना)<span class="req">*</span></label>
-          <input type="number" id="ns-rate" min="0" step="0.5" value="14" required data-testid="ns-rate-input"/>
-          <div class="field-err" id="err-ns-rate"></div>
-        </div>
-        <div class="field">
-          <label data-i18n="ns_months">कितने महीने में चुकाना है?</label>
-          <input type="number" id="ns-months" min="1" max="240" value="24" data-testid="ns-months-input"/>
-        </div>
-      </div>
-      <div class="btn-row">
-        <button class="btn btn-primary" id="btn-ns-calc" data-testid="ns-calc-btn">
-          <span data-i18n="ns_calc">अधिकतम लोन देखें</span>
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── 23. NEW LOAN — savings result ─────────────────────────────── -->
-  <section class="screen" id="s-new-savings-result" data-testid="screen-new-savings-result">
-    <div class="bubble good">
-      <span class="status-badge green" data-i18n="r_safe_badge">सुरक्षित सीमा</span>
-      <h2 style="margin-top:14px" data-i18n="nsr_title">आपकी बचत से अधिकतम सुरक्षित लोन</h2>
-      <div class="result-num" id="nsr-num">₹—</div>
-      <p class="lead" id="nsr-emi"></p>
-      <div class="callout-info">
-        <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>
-        <div data-i18n="nsr_note">यह केवल सलाह है। आपातकाल के लिए बचत का कुछ हिस्सा अलग रखें।</div>
-      </div>
-      <div class="btn-row">
-        <button class="btn btn-primary" data-go="s-direct" data-testid="nsr-talk-btn">
-          <span data-i18n="dc_talk">सीधे बात कीजिए</span>
-        </button>
-        <button class="btn btn-ghost" data-go="s-endgrace" data-testid="nsr-end-btn">
-          <span data-i18n="end_restart_grace">शुक्रिया, समझ गया</span>
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── 24. DIRECT CONTACT (M3M / WhatsApp) ─────────────────────────────── -->
-  <section class="screen" id="s-direct" data-testid="screen-direct">
-    <div class="bubble teal">
-      <h2 data-i18n="dc_title">क्या मैं सीधे आपकी मदद कर सकता हूँ?</h2>
-      <p class="lead" data-i18n="dc_body">अगर आप चाहें, हम सीधे बात कर सकते हैं — एक काउंसलर आपकी समस्या समझेगा और बैंक/NGO के साथ रास्ता निकालेगा।</p>
-      <div class="callout-info">
-        <svg class="ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l3 7h7l-5.5 4.5 2 7-6.5-4.5-6.5 4.5 2-7L2 9h7z"/></svg>
-        <div data-i18n="dc_token">टोकन के तौर पर ₹100 — अगर हम आपकी समस्या हल नहीं कर पाए, तो पैसा वापस। यह सिर्फ़ इसलिए ताकि सच्ची ज़रूरत वाले लोग ही संपर्क करें।</div>
-      </div>
-      <div class="btn-row">
-        <a class="btn btn-teal" href="https://wa.me/911244827888?text=Namaste%2C%20DARAS%20app%20se%20baat%20karni%20hai" target="_blank" rel="noopener" data-testid="dc-whatsapp-btn">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.16 5.335 5.495 0 12.05 0c3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99 0-3.951-.5-5.688-1.448L.057 24zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
-          WhatsApp
-        </a>
-        <button class="btn btn-ghost" data-go="s-endgrace" data-testid="dc-skip-btn">
-          <span data-i18n="dc_skip">बाद में</span>
-        </button>
-      </div>
-    </div>
-  </section>
-
-  <!-- Footer -->
-  <div class="footer">
-    <div class="footer-brand">
-      <img src="/api/Logo.png" alt="Daras Global" class="footer-logo">
-      <div>
-        <div data-i18n="ft_brand">दारस DARAS — आपका वित्तीय मित्र</div>
-        <div class="footer-tag">INSIGHT &nbsp;·&nbsp; STRATEGY &nbsp;·&nbsp; GROWTH</div>
-      </div>
-    </div>
-    <div class="small-disc" data-i18n="ft_disc">यह ऐप केवल जानकारी और दिशा-निर्देश के लिए है। किसी भी वित्तीय निर्णय से पहले अपने सलाहकार से ज़रूर मिलें।</div>
-    <div style="margin-top:10px">
-      <a href="/privacy" style="color:var(--ink-faint);font-size:12px;text-decoration:none;border-bottom:1px dashed var(--line)" data-i18n="ft_privacy">गोपनीयता नीति</a>
-    </div>
   </div>
 
-</div>
-
-<script src="/static/user.js?v=1"></script>
+  <script src="/static/user-lang.js?v=2"></script>
+  <script src="/static/user-data.js?v=2"></script>
+  <script src="/static/user-core.js?v=2"></script>
+  <script src="/static/user-ui.js?v=2"></script>
+  <script src="/static/user-flows.js?v=2"></script>
+  <script src="/static/user-persist.js?v=2"></script>
 </body>
+
 </html>

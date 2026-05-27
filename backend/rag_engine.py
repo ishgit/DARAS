@@ -22,7 +22,7 @@ log = logging.getLogger(__name__)
 
 # ── Paths ────────────────────────────────────────────────────────────────────
 _DIR = os.path.dirname(os.path.abspath(__file__))
-VECTOR_DB_PATH = os.path.join(_DIR, "vector_db")
+VECTOR_DB_PATH = os.environ.get("VECTOR_DB_PATH", os.path.join(_DIR, "vector_db"))
 KNOWLEDGE_DIR = os.path.join(_DIR, "knowledge_base")
 
 # ── Lazy-init ChromaDB ───────────────────────────────────────────────────────
@@ -55,6 +55,11 @@ def _get_collection():
             embedding_function=embed_fn,
             metadata={"hnsw:space": "cosine"},
         )
+
+        if _collection.count() == 0:
+            log.info("[DARAS-RAG] Empty collection — auto-indexing knowledge base on startup")
+            index_directory()
+
         log.info(
             f"[DARAS-RAG] ChromaDB ready — {_collection.count()} chunks indexed"
         )

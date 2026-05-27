@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<meta name="theme-color" content="#0B1B3F"/>
+<title>Financial Literacy — दारस DARAS</title>
+<meta name="description" content="Learn about safe borrowing, loan types, warning signs, and financial terms in simple language.">
+<link rel="icon" type="image/png" href="/api/favicon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Manrope:wght@400;500;600;700&family=Hind:wght@400;600;700&family=Noto+Sans+Bengali:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/static/pages.css?v=2">
+</head>
+<body>
+<div class="bg-deco"></div>
+<div class="app">
+
+  <!-- Topbar -->
+  <div class="topbar">
+    <a href="/api/" class="brand">
+      <div class="brand-mark"><img src="/api/Logo.webp" alt="Daras"></div>
+      <div>
+        दारस DARAS
+        <small><span data-hi>आपका वित्तीय मित्र</span><span data-bn>আপনার আর্থিক বন্ধু</span><span data-en>Your Financial Friend</span></small>
+      </div>
+    </a>
+    <div class="lang-switch">
+      <button class="lang-btn on" data-lang="hi" onclick="setLang('hi')">हिं</button>
+      <button class="lang-btn" data-lang="bn" onclick="setLang('bn')">বাং</button>
+      <button class="lang-btn" data-lang="en" onclick="setLang('en')">EN</button>
+    </div>
+  </div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-label" data-hi>वित्तीय साक्षरता</div>
+    <div class="hero-label" data-bn>আর্থিক সাক্ষরতা</div>
+    <div class="hero-label" data-en>Financial Literacy</div>
+
+    <h1 data-hi>समझदारी से उधार लें, सुरक्षित बढ़ें</h1>
+    <h1 data-bn>বুদ্ধিমানের মতো ধার নিন, নিরাপদে বাড়ুন</h1>
+    <h1 data-en>Borrow Smart, Grow Safely</h1>
+
+    <p data-hi>जब बुनियादी ज़रूरतों के लिए भी लोन लेना पड़े, तो वित्तीय जागरूकता ज़रूरी हो जाती है। <strong>सही लोन चुनना</strong> — वित्तीय स्थिरता और जीवनभर के कर्ज़ में फ़र्क़ कर सकता है।</p>
+    <p data-bn>যখন মৌলিক প্রয়োজনেও ঋণ নিতে হয়, তখন আর্থিক সচেতনতা অপরিহার্য হয়ে পড়ে। <strong>সঠিক ঋণ বেছে নেওয়া</strong> — আর্থিক স্থিতিশীলতা আর আজীবন ঋণের মধ্যে পার্থক্য গড়তে পারে।</p>
+    <p data-en>When even basic needs require a loan, financial awareness becomes essential. <strong>Choosing the right loan</strong> can mean the difference between financial stability and a lifetime of debt.</p>
+  </div>
+
+  <!-- Section: Problem Statement -->
+  <div class="section">
+    <div class="section-icon" style="background:#FEF2F2">📋</div>
+    <h2 data-hi>समस्या क्या है?</h2>
+    <h2 data-bn>সমস্যাটা কী?</h2>
+    <h2 data-en>The Problem</h2>
+
+    <p data-hi>कई कम आमदनी वाले परिवार आपातकाल, शिक्षा, शादी, खेती के नुकसान, बीमारी, या छोटा कारोबार शुरू करने के लिए उधार लेते हैं। लेकिन <strong>ग़लत स्रोत चुनने से:</strong></p>
+    <p data-bn>অনেক কম আয়ের পরিবার জরুরি অবস্থা, শিক্ষা, বিয়ে, কৃষি ক্ষতি, অসুস্থতা বা ছোট ব্যবসা শুরু করতে ধার করে। কিন্তু <strong>ভুল উৎস বেছে নিলে:</strong></p>
+    <p data-en>Many low-income families borrow money during emergencies, education needs, marriages, farming losses, medical crises, or to start small businesses. But <strong>choosing the wrong source can:</strong></p>
+
+    <ul class="data-list">
+      <li><span data-hi>परिवार कर्ज़ के जाल में फँस सकते हैं</span><span data-bn>পরিবার ঋণের জালে আটকে যেতে পারে</span><span data-en>Trap families in debt</span></li>
+      <li><span data-hi>ब्याज का बोझ बढ़ सकता है</span><span data-bn>সুদের বোঝা বাড়তে পারে</span><span data-en>Increase interest burden</span></li>
+      <li><span data-hi>शोषण हो सकता है</span><span data-bn>শোষণ হতে পারে</span><span data-en>Lead to exploitation</span></li>
+      <li><span data-hi>भविष्य के वित्तीय अवसर ख़राब हो सकते हैं</span><span data-bn>ভবিষ্যতের আর্থিক সুযোগ নষ্ট হতে পারে</span><span data-en>Damage future financial opportunities</span></li>
+    </ul>
+  </div>
+
+  <!-- Section: Before Taking Any Loan -->
+  <div class="section">
+    <div class="section-icon" style="background:#E6EEFF">✅</div>
+    <h2 data-hi>कोई भी लोन लेने से पहले — ये सवाल पूछें</h2>
+    <h2 data-bn>যেকোনো ঋণ নেওয়ার আগে — এই প্রশ্নগুলো করুন</h2>
+    <h2 data-en>Before Taking Any Loan — Ask These Questions</h2>
+
+    <ul class="checklist">
+      <li><span data-hi>क्या मैं हर महीने चुका सकता हूँ?</span><span data-bn>আমি কি প্রতি মাসে শোধ করতে পারব?</span><span data-en>Can I repay monthly?</span></li>
+      <li><span data-hi>कुल ब्याज कितना होगा?</span><span data-bn>মোট সুদ কত হবে?</span><span data-en>What is total interest?</span></li>
+      <li><span data-hi>कोई छुपा हुआ जुर्माना (penalty) तो नहीं?</span><span data-bn>কোনো লুকানো জরিমানা (penalty) নেই তো?</span><span data-en>Is there any hidden penalty?</span></li>
+      <li><span data-hi>कुछ गिरवी (collateral) रखना पड़ेगा?</span><span data-bn>কিছু গচ্ছিত (collateral) রাখতে হবে?</span><span data-en>Is collateral involved?</span></li>
+      <li><span data-hi>कर्ज़ देने वाला रजिस्टर्ड/क़ानूनी है?</span><span data-bn>ঋণদাতা নিবন্ধিত/আইনসঙ্গত কি?</span><span data-en>Is the lender registered and legal?</span></li>
+    </ul>
+  </div>
+
+  <!-- Section: Warning Signs -->
+  <div class="section">
+    <div class="section-icon" style="background:#FEF2F2">🚨</div>
+    <h2 data-hi>ख़तरनाक लोन की पहचान — Warning Signs</h2>
+    <h2 data-bn>বিপজ্জনক ঋণের চিহ্ন — Warning Signs</h2>
+    <h2 data-en>Warning Signs of Dangerous Loans</h2>
+
+    <ul class="checklist warn-list">
+      <li><span data-hi>बहुत ज़्यादा हफ़्तेवार ब्याज</span><span data-bn>অত্যন্ত বেশি সাপ্তাহিক সুদ</span><span data-en>Very high weekly interest</span></li>
+      <li><span data-hi>ज़मीन गिरवी रखने का दबाव</span><span data-bn>জমি বন্ধক রাখার চাপ</span><span data-en>Pressure to mortgage land</span></li>
+      <li><span data-hi>खाली काग़ज़ पर हस्ताक्षर</span><span data-bn>খালি কাগজে স্বাক্ষর</span><span data-en>Blank paper signatures</span></li>
+      <li><span data-hi>सिर्फ़ मौखिक समझौता — कोई लिखित नहीं</span><span data-bn>শুধু মৌখিক চুক্তি — কোনো লিখিত নেই</span><span data-en>Verbal-only agreements</span></li>
+      <li><span data-hi>रोज़ाना वसूली का उत्पीड़न</span><span data-bn>প্রতিদিন আদায়ের হয়রানি</span><span data-en>Daily harassment for repayment</span></li>
+    </ul>
+
+    <div class="callout-danger" style="margin-top:14px">
+      <div class="cw-icon">🛑</div>
+      <div class="cw-text">
+        <span data-hi>"हर आसान लोन अच्छा लोन नहीं होता — समझदारी से उधार लें, सुरक्षित बढ़ें।"</span>
+        <span data-bn>"প্রতিটি সহজ ঋণ ভালো ঋণ নয় — বুদ্ধিমানের মতো ধার নিন, নিরাপদে বাড়ুন।"</span>
+        <span data-en>"Not every easy loan is a good loan — Borrow Smart, Grow Safely."</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Section: Build Good Credit -->
+  <div class="section">
+    <div class="section-icon" style="background:#D9F5E3">📈</div>
+    <h2 data-hi>अच्छा क्रेडिट धीरे-धीरे बनाएँ</h2>
+    <h2 data-bn>ভালো ক্রেডিট ধীরে ধীরে তৈরি করুন</h2>
+    <h2 data-en>Build Good Credit Slowly</h2>
+
+    <ul class="checklist">
+      <li><span data-hi>बैंक में खाता खोलें</span><span data-bn>ব্যাংকে অ্যাকাউন্ট খুলুন</span><span data-en>Open a bank account</span></li>
+      <li><span data-hi>नियमित बचत करें</span><span data-bn>নিয়মিত সঞ্চয় করুন</span><span data-en>Use savings regularly</span></li>
+      <li><span data-hi>समय पर लोन चुकाएँ</span><span data-bn>সময়মতো ঋণ পরিশোধ করুন</span><span data-en>Repay on time</span></li>
+      <li><span data-hi>एक साथ कई लोन न लें</span><span data-bn>একসাথে একাধিক ঋণ নেবেন না</span><span data-en>Avoid multiple loans</span></li>
+      <li><span data-hi>आधार/PAN लिंकेज बनाए रखें</span><span data-bn>আধার/PAN লিংকেজ বজায় রাখুন</span><span data-en>Maintain Aadhaar/PAN linkage</span></li>
+    </ul>
+  </div>
+
+  <!-- Section: Situation-wise Best Option -->
+  <div class="section">
+    <div class="section-icon" style="background:#FFF1E4">🎯</div>
+    <h2 data-hi>स्थिति के अनुसार सबसे अच्छा विकल्प</h2>
+    <h2 data-bn>পরিস্থিতি অনুযায়ী সেরা বিকল্প</h2>
+    <h2 data-en>Choose Based on Your Situation</h2>
+
+    <div class="cmp-table-wrap">
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th><span data-hi>ज़रूरत</span><span data-bn>প্রয়োজন</span><span data-en>Need</span></th>
+            <th><span data-hi>सबसे अच्छा विकल्प</span><span data-bn>সেরা বিকল্প</span><span data-en>Best Option</span></th>
+            <th><span data-hi>बचें</span><span data-bn>এড়িয়ে চলুন</span><span data-en>Avoid</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr><td><span data-hi>मेडिकल इमरजेंसी</span><span data-bn>মেডিকেল জরুরি</span><span data-en>Medical emergency</span></td><td><span data-hi>गोल्ड लोन / SHG / सरकारी सहायता</span><span data-bn>গোল্ড লোন / SHG / সরকারি সহায়তা</span><span data-en>Gold loan / SHG / Govt support</span></td><td><span data-hi>ज़्यादा ब्याज वाले साहूकार</span><span data-bn>বেশি সুদের সহুকার</span><span data-en>High-interest moneylenders</span></td></tr>
+          <tr><td><span data-hi>छोटी दुकान शुरू करना</span><span data-bn>ছোট দোকান শুরু করা</span><span data-en>Starting small shop</span></td><td><span data-hi>मुद्रा लोन / माइक्रोफ़ाइनेंस</span><span data-bn>মুদ্রা লোন / মাইক্রোফাইন্যান্স</span><span data-en>Mudra Loan / Microfinance</span></td><td><span data-hi>अनौपचारिक कर्ज़दाता</span><span data-bn>অনানুষ্ঠানিক ঋণদাতা</span><span data-en>Informal lenders</span></td></tr>
+          <tr><td><span data-hi>पढ़ाई</span><span data-bn>পড়াশোনা</span><span data-en>Education</span></td><td><span data-hi>शिक्षा लोन</span><span data-bn>শিক্ষা ঋণ</span><span data-en>Education loan</span></td><td><span data-hi>शोषणकारी कर्ज़दाता</span><span data-bn>শোষণমূলক ঋণদাতা</span><span data-en>Exploitative lenders</span></td></tr>
+          <tr><td><span data-hi>शादी का खर्च</span><span data-bn>বিয়ের খরচ</span><span data-en>Marriage expenses</span></td><td><span data-hi>सरकारी सहायता + बचत</span><span data-bn>সরকারি সহায়তা + সঞ্চয়</span><span data-en>Govt assistance + savings</span></td><td><span data-hi>बड़ा निजी कर्ज़</span><span data-bn>বড় ব্যক্তিগত ঋণ</span><span data-en>Large private debt</span></td></tr>
+          <tr><td><span data-hi>रोज़ का गुज़ारा</span><span data-bn>দৈনিক বেঁচে থাকা</span><span data-en>Daily survival</span></td><td><span data-hi>SHG / कल्याण सहायता</span><span data-bn>SHG / কল্যাণ সহায়তা</span><span data-en>SHGs / Welfare support</span></td><td><span data-hi>लंबी अवधि का अनौपचारिक कर्ज़</span><span data-bn>দীর্ঘমেয়াদি অনানুষ্ঠানিক ঋণ</span><span data-en>Long-term informal debt</span></td></tr>
+          <tr><td><span data-hi>खेती की ज़रूरत</span><span data-bn>কৃষির প্রয়োজন</span><span data-en>Farming needs</span></td><td><span data-hi>सहकारी बैंक</span><span data-bn>সমবায় ব্যাংক</span><span data-en>Cooperative bank</span></td><td><span data-hi>अपंजीकृत कर्ज़दाता</span><span data-bn>অনিবন্ধিত ঋণদাতা</span><span data-en>Unregistered lenders</span></td></tr>
+          <tr><td><span data-hi>महिला उद्यमिता</span><span data-bn>নারী উদ্যোক্তা</span><span data-en>Women entrepreneurship</span></td><td><span data-hi>SHG / मुद्रा</span><span data-bn>SHG / মুদ্রা</span><span data-en>SHGs / Mudra</span></td><td><span data-hi>ज़्यादा ब्याज वाली NBFC</span><span data-bn>বেশি সুদের NBFC</span><span data-en>High-interest NBFCs</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Section: Source Comparison -->
+  <div class="section">
+    <div class="section-icon" style="background:#DDF0FB">⚖️</div>
+    <h2 data-hi>कर्ज़ के स्रोतों की तुलना</h2>
+    <h2 data-bn>ঋণের উৎসের তুলনা</h2>
+    <h2 data-en>Comparison of Financing Sources</h2>
+
+    <div class="cmp-table-wrap">
+      <table class="cmp-table">
+        <thead>
+          <tr>
+            <th><span data-hi>स्रोत</span><span data-bn>উৎস</span><span data-en>Source</span></th>
+            <th><span data-hi>आसानी</span><span data-bn>সহজতা</span><span data-en>Ease</span></th>
+            <th><span data-hi>ब्याज</span><span data-bn>সুদ</span><span data-en>Interest</span></th>
+            <th><span data-hi>जोखिम</span><span data-bn>ঝুঁকি</span><span data-en>Risk</span></th>
+            <th><span data-hi>सबसे अच्छा</span><span data-bn>সেরা</span><span data-en>Best For</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><span data-hi>साहूकार / ज़मींदार</span><span data-bn>সহুকার / জমিদার</span><span data-en>Moneylenders</span></td>
+            <td><span data-hi>बहुत आसान</span><span data-bn>অতি সহজ</span><span data-en>Very Easy</span></td>
+            <td><span class="risk-badge danger"><span data-hi>बहुत ज़्यादा</span><span data-bn>অনেক বেশি</span><span data-en>Very High</span></span></td>
+            <td><span class="risk-badge danger"><span data-hi>बहुत ख़तरनाक</span><span data-bn>অত্যন্ত ঝুঁকিপূর্ণ</span><span data-en>Very Risky</span></span></td>
+            <td><span data-hi>केवल आपातकाल</span><span data-bn>শুধু জরুরি অবস্থা</span><span data-en>Emergency only</span></td>
+          </tr>
+          <tr>
+            <td><span data-hi>दोस्त / रिश्तेदार</span><span data-bn>বন্ধু / আত্মীয়</span><span data-en>Friends & Family</span></td>
+            <td><span data-hi>आसान</span><span data-bn>সহজ</span><span data-en>Easy</span></td>
+            <td><span class="risk-badge safe"><span data-hi>कम / शून्य</span><span data-bn>কম / শূন্য</span><span data-en>Low / None</span></span></td>
+            <td><span class="risk-badge caution"><span data-hi>मध्यम</span><span data-bn>মধ্যম</span><span data-en>Medium</span></span></td>
+            <td><span data-hi>छोटी ज़रूरत</span><span data-bn>ছোট প্রয়োজন</span><span data-en>Short-term</span></td>
+          </tr>
+          <tr>
+            <td><span data-hi>गोल्ड लोन</span><span data-bn>গোল্ড লোন</span><span data-en>Gold Loan</span></td>
+            <td><span data-hi>मध्यम</span><span data-bn>মধ্যম</span><span data-en>Moderate</span></td>
+            <td><span class="risk-badge caution"><span data-hi>मध्यम</span><span data-bn>মধ্যম</span><span data-en>Medium</span></span></td>
+            <td><span class="risk-badge caution"><span data-hi>मध्यम</span><span data-bn>মধ্যম</span><span data-en>Medium</span></span></td>
+            <td><span data-hi>मेडिकल / इमरजेंसी</span><span data-bn>মেডিকেল / জরুরি</span><span data-en>Medical / Emergency</span></td>
+          </tr>
+          <tr>
+            <td><span data-hi>SHG (स्वयं सहायता समूह)</span><span data-bn>SHG (স্বনির্ভর গোষ্ঠী)</span><span data-en>Self Help Groups</span></td>
+            <td><span data-hi>मध्यम</span><span data-bn>মধ্যম</span><span data-en>Moderate</span></td>
+            <td><span class="risk-badge safe"><span data-hi>कम</span><span data-bn>কম</span><span data-en>Low</span></span></td>
+            <td><span class="risk-badge safe"><span data-hi>कम</span><span data-bn>কম</span><span data-en>Low</span></span></td>
+            <td><span data-hi>महिलाएँ, छोटी ज़रूरत</span><span data-bn>মহিলারা, ছোট প্রয়োজন</span><span data-en>Women, small needs</span></td>
+          </tr>
+          <tr>
+            <td><span data-hi>माइक्रोफ़ाइनेंस (MFI)</span><span data-bn>মাইক্রোফাইন্যান্স (MFI)</span><span data-en>Microfinance (MFI)</span></td>
+            <td><span data-hi>मध्यम</span><span data-bn>মধ্যম</span><span data-en>Moderate</span></td>
+            <td><span class="risk-badge caution"><span data-hi>मध्यम</span><span data-bn>মধ্যম</span><span data-en>Medium</span></span></td>
+            <td><span class="risk-badge caution"><span data-hi>मध्यम</span><span data-bn>মধ্যম</span><span data-en>Medium</span></span></td>
+            <td><span data-hi>छोटा बिज़नेस</span><span data-bn>ছোট ব্যবসা</span><span data-en>Small business</span></td>
+          </tr>
+          <tr>
+            <td><span data-hi>सहकारी बैंक</span><span data-bn>সমবায় ব্যাংক</span><span data-en>Cooperative Bank</span></td>
+            <td><span data-hi>मध्यम</span><span data-bn>মধ্যম</span><span data-en>Moderate</span></td>
+            <td><span class="risk-badge safe"><span data-hi>कम</span><span data-bn>কম</span><span data-en>Lower</span></span></td>
+            <td><span class="risk-badge safe"><span data-hi>कम</span><span data-bn>কম</span><span data-en>Low</span></span></td>
+            <td><span data-hi>किसान, ग्रामीण</span><span data-bn>কৃষক, গ্রামীণ</span><span data-en>Farmers, rural</span></td>
+          </tr>
+          <tr>
+            <td><span data-hi>NBFC</span><span data-bn>NBFC</span><span data-en>NBFC</span></td>
+            <td><span data-hi>मध्यम</span><span data-bn>মধ্যম</span><span data-en>Moderate</span></td>
+            <td><span class="risk-badge caution"><span data-hi>मध्यम-ऊँचा</span><span data-bn>মধ্যম-উচ্চ</span><span data-en>Medium-High</span></span></td>
+            <td><span class="risk-badge caution"><span data-hi>मध्यम</span><span data-bn>মধ্যম</span><span data-en>Medium</span></span></td>
+            <td><span data-hi>छोटे व्यापारी</span><span data-bn>ছোট ব্যবসায়ী</span><span data-en>Small traders</span></td>
+          </tr>
+          <tr>
+            <td><span data-hi>बैंक लोन</span><span data-bn>ব্যাংক ঋণ</span><span data-en>Bank Loan</span></td>
+            <td><span data-hi>कठिन</span><span data-bn>কঠিন</span><span data-en>Difficult</span></td>
+            <td><span class="risk-badge safe"><span data-hi>सबसे कम</span><span data-bn>সবচেয়ে কম</span><span data-en>Lowest</span></span></td>
+            <td><span class="risk-badge safe"><span data-hi>सबसे सुरक्षित</span><span data-bn>সবচেয়ে নিরাপদ</span><span data-en>Safest</span></span></td>
+            <td><span data-hi>दीर्घकालिक विकास</span><span data-bn>দীর্ঘমেয়াদি উন্নয়ন</span><span data-en>Long-term growth</span></td>
+          </tr>
+          <tr>
+            <td><span data-hi>सरकारी योजनाएँ</span><span data-bn>সরকারি প্রকল্প</span><span data-en>Govt Schemes</span></td>
+            <td><span data-hi>मध्यम</span><span data-bn>মধ্যম</span><span data-en>Moderate</span></td>
+            <td><span class="risk-badge safe"><span data-hi>बहुत कम</span><span data-bn>অনেক কম</span><span data-en>Very Low</span></span></td>
+            <td><span class="risk-badge safe"><span data-hi>बहुत सुरक्षित</span><span data-bn>অত্যন্ত নিরাপদ</span><span data-en>Very Safe</span></span></td>
+            <td><span data-hi>बिज़नेस, शिक्षा</span><span data-bn>ব্যবসা, শিক্ষা</span><span data-en>Business, education</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="text-align:center;margin-top:8px">
+      <a href="/schemes" style="color:var(--terra);font-weight:600;text-decoration:none;font-size:14px">
+        <span data-hi>📋 सभी सरकारी योजनाएँ विस्तार से देखें →</span>
+        <span data-bn>📋 সব সরকারি প্রকল্প বিস্তারিত দেখুন →</span>
+        <span data-en>📋 View all government schemes in detail →</span>
+      </a>
+    </p>
+  </div>
+
+  <!-- Section: Glossary -->
+  <div class="section">
+    <div class="section-icon" style="background:#FEF3C7">📖</div>
+    <h2 data-hi>शब्दकोश — ज़रूरी शब्द सरल भाषा में</h2>
+    <h2 data-bn>শব্দকোষ — প্রয়োজনীয় শব্দ সরল ভাষায়</h2>
+    <h2 data-en>Glossary — Financial Terms in Simple Language</h2>
+
+    <dl>
+      <div class="glossary-item">
+        <dt>EMI</dt>
+        <dd data-hi>Equal Monthly Installment — हर महीने चुकाने की एक निश्चित किस्त। इसमें मूलधन और ब्याज दोनों शामिल होते हैं।</dd>
+        <dd data-bn>Equal Monthly Installment — প্রতি মাসে পরিশোধ করার একটি নির্দিষ্ট কিস্তি। এতে আসল টাকা ও সুদ দুটোই অন্তর্ভুক্ত।</dd>
+        <dd data-en>Equal Monthly Installment — A fixed monthly payment that includes both principal and interest.</dd>
+      </div>
+
+      <div class="glossary-item">
+        <dt data-hi>गिरवी / Collateral</dt>
+        <dt data-bn>গচ্ছিত / Collateral</dt>
+        <dt data-en>Collateral</dt>
+        <dd data-hi>कुछ चीज़ जमा करना (जैसे सोना, ज़मीन) ताकि कर्ज़दाता को भरोसा हो कि आप पैसे लौटाएँगे।</dd>
+        <dd data-bn>কিছু জিনিস জমা রাখা (যেমন সোনা, জমি) যাতে ঋণদাতা আস্থা পায় যে আপনি টাকা ফেরত দেবেন।</dd>
+        <dd data-en>Something you pledge (like gold, land) so the lender trusts that you'll repay.</dd>
+      </div>
+
+      <div class="glossary-item">
+        <dt>CIBIL / Credit Score</dt>
+        <dd data-hi>आपका उधार लेने का रिपोर्ट कार्ड — 300 से 900 तक। ज़्यादा स्कोर = बैंक से लोन मिलना आसान।</dd>
+        <dd data-bn>আপনার ধার নেওয়ার রিপোর্ট কার্ড — ৩০০ থেকে ৯০০ পর্যন্ত। বেশি স্কোর = ব্যাংক থেকে ঋণ পাওয়া সহজ।</dd>
+        <dd data-en>Your borrowing report card — score from 300 to 900. Higher score = easier to get bank loans.</dd>
+      </div>
+
+      <div class="glossary-item">
+        <dt>NBFC</dt>
+        <dd data-hi>Non-Banking Financial Company — बैंक जैसी कंपनी, पर बैंक नहीं। ब्याज बैंक से ज़्यादा हो सकता है, पर लोन जल्दी मिलता है।</dd>
+        <dd data-bn>Non-Banking Financial Company — ব্যাংকের মতো কোম্পানি, কিন্তু ব্যাংক নয়। সুদ ব্যাংকের চেয়ে বেশি হতে পারে, তবে ঋণ দ্রুত পাওয়া যায়।</dd>
+        <dd data-en>Non-Banking Financial Company — Like a bank but isn't one. Interest may be higher, but loans are faster.</dd>
+      </div>
+
+      <div class="glossary-item">
+        <dt>SHG</dt>
+        <dd data-hi>Self Help Group (स्वयं सहायता समूह) — 10-20 महिलाओं का समूह जो मिलकर बचत करती हैं और एक-दूसरे को कम ब्याज पर कर्ज़ देती हैं।</dd>
+        <dd data-bn>Self Help Group (স্বনির্ভর গোষ্ঠী) — ১০-২০ মহিলার দল যারা একসাথে সঞ্চয় করে এবং একে অপরকে কম সুদে ঋণ দেয়।</dd>
+        <dd data-en>Self Help Group — A group of 10-20 women who save together and lend to each other at low interest.</dd>
+      </div>
+
+      <div class="glossary-item">
+        <dt data-hi>माइक्रोफ़ाइनेंस / Microfinance</dt>
+        <dt data-bn>মাইক্রোফাইন্যান্স / Microfinance</dt>
+        <dt data-en>Microfinance</dt>
+        <dd data-hi>छोटे लोन देने वाली संस्था — ग़रीब और कम आमदनी वालों के लिए। बैंक से आसान, पर ब्याज थोड़ा ज़्यादा।</dd>
+        <dd data-bn>ছোট ঋণ দেওয়ার প্রতিষ্ঠান — গরিব ও কম আয়ের মানুষদের জন্য। ব্যাংকের চেয়ে সহজ, তবে সুদ একটু বেশি।</dd>
+        <dd data-en>Small lending institution for the poor & low-income groups. Easier than banks but slightly higher interest.</dd>
+      </div>
+
+      <div class="glossary-item">
+        <dt data-hi>ब्याज दर / Interest Rate</dt>
+        <dt data-bn>সুদের হার / Interest Rate</dt>
+        <dt data-en>Interest Rate</dt>
+        <dd data-hi>आपने जो उधार लिया, उसके ऊपर आपको कितना अतिरिक्त देना होगा। आमतौर पर % सालाना में बताया जाता है।</dd>
+        <dd data-bn>আপনি যা ধার নিয়েছেন তার উপর আপনাকে কত অতিরিক্ত দিতে হবে। সাধারণত % বার্ষিক হিসাবে বলা হয়।</dd>
+        <dd data-en>The extra amount you pay on top of what you borrowed. Usually expressed as % per annum.</dd>
+      </div>
+
+      <div class="glossary-item">
+        <dt data-hi>मूलधन / Principal</dt>
+        <dt data-bn>আসল / Principal</dt>
+        <dt data-en>Principal</dt>
+        <dd data-hi>असली रकम जो आपने उधार ली — बिना ब्याज के।</dd>
+        <dd data-bn>আসল টাকা যা আপনি ধার নিয়েছেন — সুদ ছাড়া।</dd>
+        <dd data-en>The original amount you borrowed — without interest.</dd>
+      </div>
+
+      <div class="glossary-item">
+        <dt data-hi>अवधि / Tenure</dt>
+        <dt data-bn>মেয়াদ / Tenure</dt>
+        <dt data-en>Tenure</dt>
+        <dd data-hi>लोन चुकाने का कुल समय — महीनों या सालों में।</dd>
+        <dd data-bn>ঋণ পরিশোধ করার মোট সময় — মাস বা বছরে।</dd>
+        <dd data-en>Total time to repay the loan — in months or years.</dd>
+      </div>
+    </dl>
+  </div>
+
+  <a href="/api/" class="back-link">
+    <span>←</span>
+    <span data-hi>वापस जाएं</span>
+    <span data-bn>ফিরে যান</span>
+    <span data-en>Go Back</span>
+  </a>
+
+</div>
+
+<script src="/static/pages.js?v=2"></script>
+</body>
+</html>

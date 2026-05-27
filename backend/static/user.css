@@ -172,6 +172,7 @@ html[lang="hi"] .bubble h2,html[lang="bn"] .bubble h2{font-family:inherit;font-w
 .money-row .v.red{color:var(--red)}
 .money-row .v.green{color:var(--green)}
 .money-row .v.orange{color:var(--orange)}
+.section-rule{border:none;border-top:1px dashed var(--line);margin:14px 0 0}
 
 /* Callouts */
 .callout-warn{background:linear-gradient(135deg,#FEF3C7,#FDE68A);border:2px solid #F59E0B;border-radius:20px;padding:20px;margin:16px 0;color:#78350F;font-weight:600;display:flex;gap:14px;align-items:flex-start}
@@ -203,6 +204,10 @@ html[lang="hi"] .ngo-card h3,html[lang="bn"] .ngo-card h3{font-family:inherit}
 .footer-brand > div > div:first-child{font-family:'Fraunces',serif;font-size:14px;font-weight:600;color:var(--terra-dark);letter-spacing:-.01em}
 html[lang="hi"] .footer-brand > div > div:first-child,html[lang="bn"] .footer-brand > div > div:first-child{font-family:'Hind',sans-serif;font-weight:700}
 .footer-tag{font-family:'Manrope',sans-serif;font-size:10px;font-weight:700;color:var(--electric);letter-spacing:.18em;margin-top:1px}
+
+/* Page navigation pills (welcome screen) */
+.nav-pill{display:inline-flex;align-items:center;padding:8px 16px;font-size:13px;font-weight:600;color:var(--ink-soft);background:var(--paper);border:1.5px solid var(--line);border-radius:999px;text-decoration:none;transition:all .2s ease;box-shadow:0 2px 6px rgba(11,27,63,.04)}
+.nav-pill:hover{background:var(--terra-soft);color:var(--terra-dark);border-color:var(--electric);transform:translateY(-1px);box-shadow:0 4px 12px rgba(30,64,175,.12)}
 
 /* Decorative top illustration */
 .illus{display:flex;justify-content:center;margin:-6px 0 18px;position:relative}
