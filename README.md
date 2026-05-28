@@ -322,5 +322,3 @@ DARAS V3/
 
 दारस ऐप के पीछे की तकनीकी दिमाग़।
 Concept को कोड में बदलने वाली — from a Hindi-first UX vision to a full-stack RAG-powered web app built for the people who need it most.
-
-She designed the product, wrote the backend, shaped the financial engine, and shipped it — all driven by the belief that financial literacy should be accessible in every language, to every Indian.
